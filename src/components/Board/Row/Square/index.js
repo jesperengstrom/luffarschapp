@@ -4,12 +4,12 @@ import React from 'react';
 import './styles.css';
 
 function Square(props) {
-    let status = props.boardState[props.squareId] ? "checked" : "";
+    let status = props.boardState[props.squareObj.id] ? "checked" : "";
     return (
         <div 
             className={`square ${status}`} 
-            id={'square-' + props.squareId}
-            onClick={()=>props.onClick(props.squareId)}>
+            id={props.squareObj.id}
+            onClick={()=>props.onClick(props.squareObj)}>
         </div>
     )
 }
