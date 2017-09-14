@@ -1,0 +1,15 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+}
+
+.container {
+    flex-direction: column;
+    width: 100%;
+}

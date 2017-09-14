@@ -1,0 +1,10 @@
+.square {
+    width: 25px;
+    height: 25px;
+    margin: 1px;
+    border: 1px solid black
+}
+
+.checked {
+    background-color: blue;
+}
