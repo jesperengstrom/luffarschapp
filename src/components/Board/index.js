@@ -31,7 +31,6 @@ class Board extends React.Component{
     checkWon = (squareObj) =>{
         let won = false;
         if (this.wonHorizontal(squareObj)){
-            console.log('testing hor')
             won = true;
         }
         else if (this.wonVertical(squareObj)){
@@ -58,16 +57,12 @@ class Board extends React.Component{
                 points++;
             } else break;
         }
-        console.log('hor', points)
         return points > 4;
     }
 
     wonVertical(squareObj) {
         let points = 1;
         for (let i = 1; i <= 4; i++) {
-            // console.log('testing', 'x' + squareObj.x + 'y' + (squareObj.y + i))
-            // console.log('is present?', this.state.currentBoard['x' + squareObj.x + 'y' + (squareObj.y + i)])
-            // console.log(this.state.currentBoard)
             if (this.state.currentBoard['x' + squareObj.x + 'y' + (squareObj.y + i)]) {
                 points++;
             } else break;
@@ -77,16 +72,37 @@ class Board extends React.Component{
                 points++;
             } else break;
         }
-        console.log('ver', points);
         return points > 4;
     }
 
-    wonDiagonalBottomLeft(sq){
-        return false;
+    wonDiagonalBottomRight(squareObj){
+        let points = 1; //if this gets up to 5 we win
+        for (let i = 1; i <= 4; i++) { //so testing 4 more in each direction
+            if (this.state.currentBoard['x' + (squareObj.x + i) + 'y' + (squareObj.y + i)]){
+                points++;
+            } else break;
+        }
+        for (let i = 1; i <= 4; i++) {
+            if (this.state.currentBoard['x' + (squareObj.x - i) + 'y' + (squareObj.y - i)]) {
+                points++;
+            } else break;
+        }
+        return points > 4;
     }
 
-    wonDiagonalBottomRight(sq){
-        return false;
+    wonDiagonalBottomLeft(squareObj){
+        let points = 1; //if this gets up to 5 we win
+        for (let i = 1; i <= 4; i++) { //so testing 4 more in each direction
+            if (this.state.currentBoard['x' + (squareObj.x - i) + 'y' + (squareObj.y + i)]){
+                points++;
+            } else break;
+        }
+        for (let i = 1; i <= 4; i++) {
+            if (this.state.currentBoard['x' + (squareObj.x + i) + 'y' + (squareObj.y - i)]) {
+                points++;
+            } else break;
+        }
+        return points > 4;
     }
 
     
