@@ -11,10 +11,8 @@ export const boardSize = {x: 10, y:10};
 
 //class
 class Board extends React.Component{
-    state = {
-        currentBoard: {},
-        turn: 'blue'
-    };
+    
+    state = {currentBoard: {}, turn: 'blue'};
 
     /**
      * squareObj = {x: x, y: y}
@@ -72,7 +70,8 @@ class Board extends React.Component{
                 })
             )){ 
             //if any of the above... win
-            alert('you won!')
+            alert(this.state.turn + ' won!')
+            this.setState({currentBoard: {}, turn: 'blue'});
         } else { 
             //didn't win, switching turn
             this.setState({turn: this.state.turn === 'blue' ? 'red' : 'blue'})
@@ -83,13 +82,16 @@ class Board extends React.Component{
     checkWinDirections = (firstDirection, secondDirection) =>{
         let points = 1; //if this gets up to 5 we win
         for (let i = 1; i <= 4; i++) { //so testing 4 more steps in each direction
-            if (this.state.currentBoard[firstDirection(i)]){
+
+            if (this.state.currentBoard[firstDirection(i)] === this.state.turn){
                 points++;
+                console.log(this.state.turn + ' first direction hit at ' + firstDirection(i) + ' totalling points ' + points )
             } else break;
         }
         for (let i = 1; i <= 4; i++) {
-            if (this.state.currentBoard[secondDirection(i)]) {
+            if (this.state.currentBoard[secondDirection(i)] === this.state.turn) {
                 points++;
+                console.log(this.state.turn +  'second direction hit at ' + secondDirection(i) + ' totalling points ' + points)
             } else break;
         }
         return points > 4;
@@ -108,6 +110,7 @@ class Board extends React.Component{
             }
         return(
             <div className="board flex">
+                <p>{this.state.turn}:s tur att spela </p>
                 {rows}
             </div>
         )
