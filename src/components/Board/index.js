@@ -21,94 +21,73 @@ class Board extends React.Component{
         if (this.state.currentBoard[squareObj.id]) {
             alert(squareObj.id + ' already taken!')
         } else {
-            //new obj w object assign
+            //object copy + overwriting w new values
             let newBoardState = Object.assign({}, this.state.currentBoard, {[squareObj.id]: true})
             //setting state as clicked + callback ANONYMOUS so we can send params
             this.setState({currentBoard: newBoardState}, ()=>this.checkWon(squareObj))
         }
     }
 
+    /**
+     * since the calculation for checking directions are similar but with minor differences i'm passing
+     * them to the looper function as anonymous functions
+     */
     checkWon = (squareObj) =>{
         let won = false;
-        if (this.wonHorizontal(squareObj)){
-            won = true;
-        }
-        else if (this.wonVertical(squareObj)){
-            won = true;
-        }
-        else if (this.wonDiagonalBottomLeft(squareObj)){
-            won = true;
-        }
-        else if (this.wonDiagonalBottomRight(squareObj)){
+        //check win horizontal
+        if (this.checkWinDirections(
+                ((i)=>{
+                    return 'x' + (squareObj.x + i) + 'y' + squareObj.y; //check right
+                }), 
+                ((i)=>{
+                    return 'x' + (squareObj.x - i) + 'y' + squareObj.y; //check left
+                })) ||
+            //check win vertical
+            this.checkWinDirections(
+               ((i) =>{
+                   return 'x' + squareObj.x + 'y' + (squareObj.y + i); //check up
+               }),
+               ((i)=>{
+                    return 'x' + squareObj.x + 'y' + (squareObj.y - i); //check down
+               })) ||
+               //check win diagonal from bottom right
+            this.checkWinDirections(
+                ((i)=>{
+                    return 'x' + (squareObj.x - i) + 'y' + (squareObj.y + i); //left up
+                }), 
+                ((i)=>{
+                    return 'x' + (squareObj.x + i) + 'y' + (squareObj.y - i); //right down
+                })) ||
+                //check win diagonal bottom left
+            this.checkWinDirections(
+                ((i)=>{
+                    return 'x' + (squareObj.x + i) + 'y' + (squareObj.y + i); //right up
+                }), 
+                ((i)=>{
+                    return 'x' + (squareObj.x - i) + 'y' + (squareObj.y - i); //left down
+                })
+            )){
             won = true;
         }
         if (won) {alert('you won!')}
     }
 
-    wonHorizontal(squareObj){
+    //looping function for trying out my directions
+    checkWinDirections = (firstDirection, secondDirection) =>{
         let points = 1; //if this gets up to 5 we win
-        for (let i = 1; i <= 4; i++) { //so testing 4 more in each direction
-            if (this.state.currentBoard['x' + (squareObj.x + i) + 'y' + squareObj.y]){
+        for (let i = 1; i <= 4; i++) { //so testing 4 more steps in each direction
+            if (this.state.currentBoard[firstDirection(i)]){
                 points++;
             } else break;
         }
         for (let i = 1; i <= 4; i++) {
-            if (this.state.currentBoard['x' + (squareObj.x - i) + 'y' + squareObj.y]) {
+            if (this.state.currentBoard[secondDirection(i)]) {
                 points++;
             } else break;
         }
         return points > 4;
     }
 
-    wonVertical(squareObj) {
-        let points = 1;
-        for (let i = 1; i <= 4; i++) {
-            if (this.state.currentBoard['x' + squareObj.x + 'y' + (squareObj.y + i)]) {
-                points++;
-            } else break;
-        }
-        for (let i = 1; i <= 5; i++) {
-            if (this.state.currentBoard['x' + squareObj.x + 'y' + (squareObj.y - i)]) {
-                points++;
-            } else break;
-        }
-        return points > 4;
-    }
-
-    wonDiagonalBottomRight(squareObj){
-        let points = 1; //if this gets up to 5 we win
-        for (let i = 1; i <= 4; i++) { //so testing 4 more in each direction
-            if (this.state.currentBoard['x' + (squareObj.x + i) + 'y' + (squareObj.y + i)]){
-                points++;
-            } else break;
-        }
-        for (let i = 1; i <= 4; i++) {
-            if (this.state.currentBoard['x' + (squareObj.x - i) + 'y' + (squareObj.y - i)]) {
-                points++;
-            } else break;
-        }
-        return points > 4;
-    }
-
-    wonDiagonalBottomLeft(squareObj){
-        let points = 1; //if this gets up to 5 we win
-        for (let i = 1; i <= 4; i++) { //so testing 4 more in each direction
-            if (this.state.currentBoard['x' + (squareObj.x - i) + 'y' + (squareObj.y + i)]){
-                points++;
-            } else break;
-        }
-        for (let i = 1; i <= 4; i++) {
-            if (this.state.currentBoard['x' + (squareObj.x + i) + 'y' + (squareObj.y - i)]) {
-                points++;
-            } else break;
-        }
-        return points > 4;
-    }
-
-    
-    checkSquare = (squareObj, won)=> {
-
-    }
 
     render(){
         let rows = [];
