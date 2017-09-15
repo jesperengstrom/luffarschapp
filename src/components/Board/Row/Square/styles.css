@@ -5,6 +5,10 @@
     border: 1px solid black
 }
 
-.checked {
+.blue {
     background-color: blue;
+}
+
+.red {
+    background-color: red;
 }

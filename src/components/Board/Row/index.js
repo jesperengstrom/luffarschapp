@@ -11,16 +11,16 @@ function Row(props){
     
     for (let i = 1; i <= boardSize.x; i++) {
         let squareObj = {
-                            x: i, 
-                            y: props.row, 
-                            id: 'x' + i + 'y' + props.row
+                        x: i, 
+                        y: props.row, 
+                        id: 'x' + i + 'y' + props.row
                         }
 
         squares.push(<Square 
                         onClick={props.onClick} 
                         key={squareObj.id} 
                         squareObj={squareObj}
-                        boardState={props.boardState}>
+                        currentBoard={props.currentBoard}>
                     </Square>)
     }
 

@@ -4,10 +4,14 @@ import React from 'react';
 import './styles.css';
 
 function Square(props) {
-    let status = props.boardState[props.squareObj.id] ? "checked" : "";
+    //if the prop exists it's value is a color --> applying that class
+    let squareColor = props.currentBoard[props.squareObj.id] ? 
+        props.currentBoard[props.squareObj.id]  : 
+        "";
+
     return (
         <div 
-            className={`square ${status}`} 
+            className={`square ${squareColor}`} 
             id={props.squareObj.id}
             onClick={()=>props.onClick(props.squareObj)}>
         </div>
