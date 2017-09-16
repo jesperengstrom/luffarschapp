@@ -1,7 +1,7 @@
 import React from 'react';
 
 //CSS
-import './styles.css';
+import './Square.css';
 
 function Square(props) {
     //if the prop exists it's value is a color --> applying that class

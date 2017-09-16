@@ -1,10 +1,13 @@
 import React from 'react';
 
 //components
-import Square from './Square';
+import Square from './Square/Square';
+
+//CSS
+import './Row.css' 
 
 //vars
-import { boardSize } from '../index';
+import { boardSize } from '../Board';
 
 function Row(props){
     let squares = [];
@@ -25,7 +28,7 @@ function Row(props){
     }
 
     return (
-        <div id={'row-' + props.row} className="flex board-row">
+        <div id={'row-' + props.row} className="flex flex-row">
             {squares}
         </div>
     )

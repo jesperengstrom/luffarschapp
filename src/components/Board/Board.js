@@ -1,10 +1,10 @@
 import React from 'react';
 
 //components
-import Row from './Row';
+import Row from './Row/Row';
 
 //CSS
-import './styles.css' 
+import './Board.css' 
 
 //vars
 export const boardSize = {x: 10, y:10};
@@ -70,7 +70,7 @@ class Board extends React.Component{
                 })
             )){ 
             //if any of the above... win
-            alert(this.state.turn + ' won!')
+            alert(this.state.turn + ' vann!')
             this.setState({currentBoard: {}, turn: 'blue'});
         } else { 
             //didn't win, switching turn
@@ -109,7 +109,7 @@ class Board extends React.Component{
                         </Row>)
             }
         return(
-            <div className="board flex">
+            <div className="flex flex-column align-center">
                 <p>{this.state.turn}:s tur att spela </p>
                 {rows}
             </div>

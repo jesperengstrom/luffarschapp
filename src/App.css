@@ -9,7 +9,26 @@ body {
     display: flex;
 }
 
-.container {
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-column {
     flex-direction: column;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.full-width {
     width: 100%;
+}
+
+.half-width {
+    width: 50%;
+}
+
+.quarter-width {
+    width: 25%;
 }
