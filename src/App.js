@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from './firebase';
 
 //Modules
 import SignIn from './components/SignIn/SignIn';
@@ -11,12 +12,33 @@ import './App.css';
 class App extends Component {
   state = ({user: ''})
 
-  render() {
+  componentDidMount(){
+    firebase.auth()
+    .onAuthStateChanged(user =>{
+      this.setState({user: this.createSmallerUserObject(user)})
+    })
+  }
+
+  refreshUser = (user) =>{
+    this.setState({user : this.createSmallerUserObject(user)})
+  }
+
+  createSmallerUserObject = (user) =>{
+    return !user ? null : 
+    {
+      displayName: user.displayName, 
+      email: user.email, 
+      uid: user.uid
+    };
+  }
+
+  render(){
+
     const firstPage = this.state.user ? 
-      <MyPage/> : 
+      <MyPage user={this.state.user}/> : 
       <div className="flex flex-row">
         <FrontPage/>
-        <SignIn/>
+        <SignIn refreshUser={this.refreshUser}/>
       </div>;
 
     return (

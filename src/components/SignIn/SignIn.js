@@ -8,6 +8,7 @@ class SignIn extends React.Component{
     state = {
         email: '',
         password: '',
+        error: '',
         showSignup: false
     }
 
@@ -17,7 +18,31 @@ class SignIn extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('logged in as', this.state.email, this.state.password)
+        firebase.auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then(user=>{
+            console.log('signed in!', user)
+        })
+        .catch(error =>{
+            let message = '';
+            switch(error.code) {
+                case "auth/wrong-password":
+                    message = "Du har angett fel lösenord";
+                    break;
+                case "auth/invalid-email":
+                    message = "Du har angett en felaktig mejladress";
+                    break;
+                case "auth/user-not-found":
+                    message = "Användaren finns inte";
+                    break;
+                case "auth/user-disabled":
+                    message = "kontot är avstängt";
+                    break;
+                default: 
+                    message = "Något gick fel, försök igen"
+            }
+            this.setState({error : message})
+        })
     }
 
     toggleSignup = () => {
@@ -46,19 +71,21 @@ class SignIn extends React.Component{
                     value={this.state.password} 
                     placeholder="Minst 6 tecken"
                     required/>
+                {this.state.error && <p>{this.state.error}</p>}
                 <input type="submit" value="Logga in"/>
-                <a style={{cursor: 'pointer'}} onClick={this.toggleSignup}>Registrera dig</a>
+                <a style={{cursor: 'pointer'}} onClick={this.toggleSignup}>Registrera ett konto</a>
             </form>
 
         return(
         <div className="flex flex-column half-width align-center">
             {!this.state.showSignup ? 
                 signin :
-                <SignUp toggleSignup={this.toggleSignup} />
+                <SignUp refreshUser={this.props.refreshUser} toggleSignup={this.toggleSignup} />
             }
         </div>
         )
     }
 }
+
 
 export default SignIn;
