@@ -38,9 +38,6 @@ class SignIn extends React.Component{
         firebase.database()
         .ref('users/' + uid + '/online')
         .set(true)
-        .then((result)=>{
-            console.log(result)
-        })
         .catch(error=>{
             console.log(error);
         });

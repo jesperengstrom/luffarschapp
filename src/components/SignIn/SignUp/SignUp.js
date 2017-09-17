@@ -55,7 +55,6 @@ class SignUp extends React.Component{
         firebase.database().ref('users/' + user.uid)
         .set({
             displayName: user.displayName,
-            email: user.email, 
             uid: user.uid,
             online: true
         })

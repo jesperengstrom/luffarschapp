@@ -24,7 +24,7 @@ class MyPage extends React.Component{
                 <p>Välkommen {this.props.user.email}</p>
 
                 <a onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</a>
-                <UserList/>
+                <UserList user={this.props.user}/>
                 <Board>
                 </Board>
             </div>
