@@ -13,15 +13,19 @@ class App extends Component {
   state = ({user: ''})
 
   componentDidMount(){
+    this.userAuthListener();
+  }
+
+  userAuthListener = () =>{
     firebase.auth()
     .onAuthStateChanged(user =>{
       this.setState({user: this.createSmallerUserObject(user)})
     })
   }
 
-  refreshUser = (user) =>{
-    this.setState({user : this.createSmallerUserObject(user)})
-  }
+  // refreshUser = (user) =>{
+  //   this.setState({user : this.createSmallerUserObject(user)})
+  // }
 
   createSmallerUserObject = (user) =>{
     return !user ? null : 
@@ -33,7 +37,6 @@ class App extends Component {
   }
 
   render(){
-
     const firstPage = this.state.user ? 
       <MyPage user={this.state.user}/> : 
       <div className="flex flex-row">
@@ -50,3 +53,6 @@ class App extends Component {
 }
 
 export default App;
+
+
+// Finns sätt att se användaren som precis loggade ut?

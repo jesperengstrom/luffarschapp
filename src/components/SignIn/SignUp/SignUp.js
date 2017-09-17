@@ -17,28 +17,7 @@ class SignUp extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({disabledSubmit: true})
-        console.log(this.checkDisplayNameAvailability(val => {return val}))
-        if (this.checkDisplayNameAvailability(val => {return val})) { 
-            console.log('im past name check!')
-            firebase.auth()     
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(user =>{
-                console.log('user created', user)
-
-                user.updateProfile({displayName: this.state.displayName})
-                .then(()=>{
-                    let user = firebase.auth().currentUser;
-                    this.props.refreshUser(user); //need to update app state with displayname
-                    this.storeUser(user); //storing user in realtime db
-                }, error => {
-                    this.setState({ error: error, disabledSubmit: false })
-                });
-            })
-            .catch(error =>{
-                this.setState({error: this.handleError(error), disabledSubmit:false})
-            })
-        }
+        this.setState({disabledSubmit: true}, this.checkDisplayNameAvailability)
     }
 
     checkDisplayNameAvailability = (fn) =>{
@@ -48,9 +27,27 @@ class SignUp extends React.Component{
         .then(snapshot =>{
             if (snapshot.val()){
                 this.setState({error: "Användarnamnet är upptaget", disabledSubmit: false})
-                console.log(fn);
-                fn(false)
-            } fn(true)
+            } else this.createUser(); //available --> create user
+        })
+    }
+
+    createUser = () =>{
+        firebase.auth()     
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(user =>{
+            console.log('user created', user)
+            user.updateProfile({displayName: this.state.displayName})
+            .then(()=>{
+                let user = firebase.auth().currentUser;
+                //displayname is added after creation, do we need to update state here??
+                // this.props.refreshUser(user); 
+                this.storeUser(user); //storing user in realtime db
+            }, error => {
+                this.setState({ error: error, disabledSubmit: false })
+            });
+        })
+        .catch(error =>{
+            this.setState({error: this.handleError(error), disabledSubmit:false})
         })
     }
 
@@ -59,7 +56,8 @@ class SignUp extends React.Component{
         .set({
             displayName: user.displayName,
             email: user.email, 
-            uid: user.uid
+            uid: user.uid,
+            online: true
         })
     }
 
