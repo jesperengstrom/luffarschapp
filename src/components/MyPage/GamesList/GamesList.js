@@ -1,6 +1,7 @@
 import React from 'react';
 
-function GamesList({games}){
+function GamesList({games, removeGame}){
+
     function translateGameStatus(status){
         switch(status){
             case 'gotRequest':
@@ -28,11 +29,17 @@ function GamesList({games}){
                     return <tr key={'games-tr-' + key}>
                                 <td>{games[key].opponentName}</td>
                                 <td>{translateGameStatus(games[key].myStatus)}</td>
-                                <td>{games[key].myStatus === 'gotRequest' &&
-                                    <div key={'btns' + key}>
-                                        <button key={'btn' + key}>Acceptera</button>
-                                        <button>Tacka nej</button>
-                                    </div>}
+                                <td>
+                                    {
+                                        games[key].myStatus === 'gotRequest' &&
+                                        <button>Acceptera</button>
+                                    }
+                                    {
+                                        games[key].myStatus === 'gotRequest' || 'sentRequest' ?
+                                        <button 
+                                        onClick={()=>removeGame(key, games[key].opponentUid)}>Ta bort
+                                        </button> : ''
+                                    }
                                 </td>
                             </tr>;
                 })}

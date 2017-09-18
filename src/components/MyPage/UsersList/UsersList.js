@@ -1,6 +1,15 @@
 import React from 'react';
 
-function UsersList({user, users, challengePlayer}){
+function UsersList({user, users, challengePlayer, games}){
+
+    function aldreadyHasGame(user){
+        let res = false;
+        for (let key in games){
+            if (games[key].opponentName === user) res = true;
+        }
+        return res;
+    };
+
     return(
         <section className="flex flex-column half-width">
             <h4>Inloggade spelare</h4>
@@ -26,9 +35,10 @@ function UsersList({user, users, challengePlayer}){
                     <td>{users[key].displayName}</td>
                     <td>{users[key].online ? '(Online)' : ''}</td>
                     <td>
+                        {aldreadyHasGame(users[key].displayName) === false && 
                         <button 
                             onClick={()=>challengePlayer(users[key])}>Utmana
-                        </button>
+                        </button>}
                     </td>
                 </tr>;
             })}

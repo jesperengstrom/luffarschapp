@@ -71,13 +71,33 @@ class MyPage extends React.Component{
         .then(snapshot=>{   //update user games
             const addGameToUser = {};
             addGameToUser['users/' + this.props.user.uid + '/games/' + snapshot.key] = 
-                {myStatus: 'sentRequest', opponentName: opponent.displayName}
+                {
+                    myStatus: 'sentRequest', 
+                    opponentName: opponent.displayName,
+                    opponentUid: opponent.uid
+                }
 
             addGameToUser['users/' + opponent.uid + '/games/' + snapshot.key] = 
-                {myStatus: 'gotRequest', opponentName: this.props.user.displayName}
+                {
+                    myStatus: 'gotRequest', 
+                    opponentName: this.props.user.displayName, 
+                    opponentUid: this.props.user.uid
+                }
 
-            firebase.database().ref().update(addGameToUser);
+            firebase.database().ref().update(addGameToUser)
+            .catch(error=>console.log(error))
         })
+        .catch(error=>console.log(error))
+    }
+
+    removeGame = (game, opponent) => {
+        const removeGames = {};
+        removeGames['games/' + game] = null; //remove from 'games'
+        removeGames['users/' + opponent + '/games/' + game] = null; //remove from opponent's games
+        removeGames['users/' + this.props.user.uid + '/games/' + game] = null //remove from my games
+
+        firebase.database().ref()
+        .update(removeGames)
         .catch(error=>console.log(error))
     }
 
@@ -92,10 +112,13 @@ class MyPage extends React.Component{
                     <UsersList 
                         users={this.state.users} 
                         user={this.props.user} 
-                        challengePlayer={this.challengePlayer}/>
+                        challengePlayer={this.challengePlayer}
+                        games={this.state.games}/>
+                        
                     <GamesList 
                         games={this.state.games}
-                        user={this.props.user}/>
+                        user={this.props.user}
+                        removeGame={this.removeGame}/>
                 </div>
                 <Board>
                 </Board>
