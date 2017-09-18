@@ -3,7 +3,8 @@ import firebase from './../../firebase';
 
 //modules
 import Board from './../Board/Board';
-import UserList from './UserList/UserList';
+import UsersList from './UsersList/UsersList';
+import GamesList from './GamesList/GamesList';
 
 class MyPage extends React.Component{
 
@@ -24,7 +25,10 @@ class MyPage extends React.Component{
                 <p>Välkommen {this.props.user.email}</p>
 
                 <a onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</a>
-                <UserList user={this.props.user}/>
+                <div className="flex flex-row full-width">
+                    <UsersList user={this.props.user}/>
+                    <GamesList user={this.props.user}/>
+                </div>
                 <Board>
                 </Board>
             </div>
