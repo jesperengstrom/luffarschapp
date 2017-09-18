@@ -8,6 +8,39 @@ import GamesList from './GamesList/GamesList';
 
 class MyPage extends React.Component{
 
+    state = 
+        {
+            users: '',
+            games: ''
+        }
+
+    componentDidMount(){
+        this.fetchUsers();
+        this.fetchGames();
+    }
+
+    componentWillUnmount() {
+        firebase.database().ref('users').off();
+        firebase.database().ref('users/' + this.props.user.uid + '/games/').off();
+    }
+
+    fetchUsers = () => {
+        firebase.database().ref('users')
+        .orderByChild('online')
+        .equalTo(true)
+        .limitToFirst(30)
+        .on('value', (snapshot)=>{
+            this.setState({users: snapshot.val()}); //remove player's games from state!
+        });
+    }
+
+    fetchGames = () => {
+        firebase.database().ref('users/' + this.props.user.uid + '/games/')
+        .on('value', snapshot=>{
+            this.setState({games: snapshot.val()});
+        });
+    }
+
     signOut = () =>{
         firebase.database() //setting online=false before really signing out
         .ref('users/' + this.props.user.uid + '/online')
@@ -18,6 +51,36 @@ class MyPage extends React.Component{
         });
     }
 
+    //kolla att inte spelare redan är utmanad!!!
+    challengePlayer = (opponent) =>{
+        firebase.database().ref('games') //push game to 'games'
+        .push({ 
+                active: false,
+                players: {
+                    [this.props.user.uid]: {
+                        displayName: this.props.user.displayName,
+                        turn: false
+                    },
+                    [opponent.uid]: {
+                        displayName: opponent.displayName,
+                        turn: true
+                    }
+                }
+            }
+        )
+        .then(snapshot=>{   //update user games
+            const addGameToUser = {};
+            addGameToUser['users/' + this.props.user.uid + '/games/' + snapshot.key] = 
+                {myStatus: 'sentRequest', opponentName: opponent.displayName}
+
+            addGameToUser['users/' + opponent.uid + '/games/' + snapshot.key] = 
+                {myStatus: 'gotRequest', opponentName: this.props.user.displayName}
+
+            firebase.database().ref().update(addGameToUser);
+        })
+        .catch(error=>console.log(error))
+    }
+
     render(){
         return (
             <div className="flex flex-column full-width">
@@ -26,8 +89,13 @@ class MyPage extends React.Component{
 
                 <a onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</a>
                 <div className="flex flex-row full-width">
-                    <UsersList user={this.props.user}/>
-                    <GamesList user={this.props.user}/>
+                    <UsersList 
+                        users={this.state.users} 
+                        user={this.props.user} 
+                        challengePlayer={this.challengePlayer}/>
+                    <GamesList 
+                        games={this.state.games}
+                        user={this.props.user}/>
                 </div>
                 <Board>
                 </Board>

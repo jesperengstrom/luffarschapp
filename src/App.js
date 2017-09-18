@@ -57,4 +57,4 @@ export default App;
 
 // Finns sätt att se användaren som precis loggade ut?
 // måste det man ska spara i databasen reflekteras i state?
-
+//Hur blir man utloggad automatiskt?
