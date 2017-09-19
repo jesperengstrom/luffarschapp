@@ -20,12 +20,15 @@ class App extends Component {
     firebase.auth()
     .onAuthStateChanged(user =>{
       this.setState({user: this.createSmallerUserObject(user)})
-    })
+    }, (error => {
+      console.log(error);
+    }))
   }
 
-  // refreshUser = (user) =>{
-  //   this.setState({user : this.createSmallerUserObject(user)})
-  // }
+  //needed when we submit username after user is created
+  refreshUser = (user) =>{
+    this.setState({user : this.createSmallerUserObject(user)})
+  }
 
   createSmallerUserObject = (user) =>{
     return !user ? null : 
@@ -58,3 +61,4 @@ export default App;
 // Finns sätt att se användaren som precis loggade ut?
 // måste det man ska spara i databasen reflekteras i state?
 //Hur blir man utloggad automatiskt?
+//motståndaren kan redigera sitt spel / sina resultat?

@@ -1,0 +1,26 @@
+//firebase rules
+{
+    "rules": {
+        "users": {
+            //need to check username availability from outside
+            ".read": "true",
+            "$uid": {
+                //only change oneself's user data
+                ".write": "$uid === auth.uid",
+                "games": {
+                    //...but all users can challenge other users
+                    ".write": "auth != null"
+                }
+            },
+            ".indexOn": ["displayName", "online"]
+        },
+        "games": {
+            "$gameId": {
+                //you can change a game of your key is present in players, OR, if the game does not exist, you supply the players of which one is yourself
+                ".write": "(auth != null && data.child('players/' + auth.uid).exists()) || (auth != null && !data.exists() && newData.hasChildren(['players/' + auth.uid]))",
+                //you can read a game if you're one of the players.
+                ".read": "data.child('players/' + auth.uid).exists()"
+            }
+        }
+    }
+}

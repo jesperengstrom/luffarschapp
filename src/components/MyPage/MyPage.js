@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import firebase from './../../firebase';
 
 //modules
@@ -10,8 +11,9 @@ class MyPage extends React.Component{
 
     state = 
         {
-            users: '',
-            games: ''
+            users: null,
+            games: null,
+            error: null
         }
 
     componentDidMount(){
@@ -31,14 +33,18 @@ class MyPage extends React.Component{
         .limitToFirst(30)
         .on('value', (snapshot)=>{
             this.setState({users: snapshot.val()}); //remove player's games from state!
-        });
+        }, (error => {
+            console.log(error);
+        }));
     }
 
     fetchGames = () => {
         firebase.database().ref('users/' + this.props.user.uid + '/games/')
         .on('value', snapshot=>{
             this.setState({games: snapshot.val()});
-        });
+        }, (error => {
+            console.log(error);
+        }));
     }
 
     signOut = () =>{
@@ -85,9 +91,9 @@ class MyPage extends React.Component{
                 }
 
             firebase.database().ref().update(addGameToUser)
-            .catch(error=>console.log(error))
+            .catch(error => console.log(error))
         })
-        .catch(error=>console.log(error))
+        .catch(error => console.log(error))
     }
 
     removeGame = (game, opponent) => {
@@ -98,14 +104,14 @@ class MyPage extends React.Component{
 
         firebase.database().ref()
         .update(removeGames)
-        .catch(error=>console.log(error))
+        .catch(error => console.log(error));
     }
 
     render(){
         return (
             <div className="flex flex-column full-width">
                 <p>Min sida</p>
-                <p>Välkommen {this.props.user.email}</p>
+                <p>Välkommen {this.props.user.displayName}</p>
 
                 <a onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</a>
                 <div className="flex flex-row full-width">
@@ -126,5 +132,7 @@ class MyPage extends React.Component{
         )
     }
 }
+
+MyPage.propTypes = {user: PropTypes.object }
 
 export default MyPage;

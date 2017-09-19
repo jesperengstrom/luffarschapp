@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function UsersList({user, users, challengePlayer, games}){
 
@@ -47,5 +48,12 @@ function UsersList({user, users, challengePlayer, games}){
         </section>
     );
 }
+
+UsersList.propTypes = {
+    user: PropTypes.object.isRequired,
+    users: PropTypes.object, 
+    challengePlayer: PropTypes.func.isRequired, 
+    games: PropTypes.object
+};
 
 export default UsersList;

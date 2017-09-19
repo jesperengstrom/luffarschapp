@@ -39,8 +39,8 @@ class SignUp extends React.Component{
             user.updateProfile({displayName: this.state.displayName})
             .then(()=>{
                 let user = firebase.auth().currentUser;
-                //displayname is added after creation, do we need to update state here??
-                // this.props.refreshUser(user); 
+                //displayname is added after creation, we need to update state here
+                this.props.refreshUser(user); 
                 this.storeUser(user); //storing user in realtime db
             }, error => {
                 this.setState({ error: error, disabledSubmit: false })

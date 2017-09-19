@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function GamesList({games, removeGame}){
 
@@ -48,6 +49,11 @@ function GamesList({games, removeGame}){
         </section>
     );
 }
+
+GamesList.propTypes = {
+    games: PropTypes.object, 
+    removeGame: PropTypes.func.isRequired
+};
 
 
 export default GamesList;
