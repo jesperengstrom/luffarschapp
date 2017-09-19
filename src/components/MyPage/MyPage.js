@@ -41,14 +41,44 @@ class MyPage extends React.Component{
 
     fetchGames = () => {
         firebase.database().ref('users/' + this.props.user.uid + '/games/')
-        .on('value', snapshot=>{
-            this.setState({games: snapshot.val()});
+        .on('value', snapshot =>{
+            let gamesArr = []; //making an array of this snapshot
+
+            !snapshot.val() ? 
+            this.setState({games: null})
+            :
+            snapshot.forEach(key =>{
+                let obj = Object.assign({}, key.val(), {gameId: key.key})
+                gamesArr.push(obj);
+            })
+            this.setState({games: gamesArr});
+
         }, (error => {
             console.log(error);
         }));
     }
 
-    signOut = () =>{
+    //looping through player's games to get more info
+    loopGames = (games) => {
+
+
+        // let gamesArr = Object.keys(games);
+        // let newArr = [];
+        // for (let i = 0; i < gamesArr.length; i++) {
+        //     firebase.database().ref('games/' + gamesArr[i] + '/players/' + this.props.user.uid)
+        //     .once('value', snapshot => {
+        //         newArr.push(snapshot.val());
+        //         //need to include the game id also
+        //         newArr[i].gameId = gamesArr[i];
+        //         //when fetch is finished the length is equal to old array
+        //         if (newArr.length === gamesArr.length){ 
+        //             this.setState({games: newArr});
+        //         }
+        //     })
+        // }
+    }
+
+    signOut = () => {
         firebase.database() //setting online=false before really signing out
         .ref('users/' + this.props.user.uid + '/online')
         .set(false)
@@ -58,38 +88,27 @@ class MyPage extends React.Component{
         });
     }
 
-    //kolla att inte spelare redan är utmanad!!!
-    challengePlayer = (opponent) =>{
+    challengePlayer = (opponent) => {
         firebase.database().ref('games') //push game to 'games'
         .push({ 
-                active: false,
                 players: {
-                    [this.props.user.uid]: {
-                        displayName: this.props.user.displayName,
-                        turn: false
-                    },
-                    [opponent.uid]: {
-                        displayName: opponent.displayName,
-                        turn: true
-                    }
+                    [this.props.user.uid]: false,
+                    [opponent.uid]: true
                 }
             }
         )
-        .then(snapshot=>{   //update user games
+        .then(snapshot => {   //update user games
             const addGameToUser = {};
-            addGameToUser['users/' + this.props.user.uid + '/games/' + snapshot.key] = 
-                {
-                    myStatus: 'sentRequest', 
-                    opponentName: opponent.displayName,
-                    opponentUid: opponent.uid
-                }
-
-            addGameToUser['users/' + opponent.uid + '/games/' + snapshot.key] = 
-                {
-                    myStatus: 'gotRequest', 
-                    opponentName: this.props.user.displayName, 
-                    opponentUid: this.props.user.uid
-                }
+            addGameToUser['users/' + this.props.user.uid + '/games/' + snapshot.key] = {
+                status: 'sentReq',
+                opponentName: opponent.displayName,
+                opponentUid: opponent.uid
+            };
+            addGameToUser['users/' + opponent.uid + '/games/' + snapshot.key] = {
+                status: 'gotReq',
+                opponentName: this.props.user.displayName,
+                opponentUid: this.props.user.uid
+            };
 
             firebase.database().ref().update(addGameToUser)
             .catch(error => console.log(error))
@@ -98,16 +117,15 @@ class MyPage extends React.Component{
     }
 
     acceptGame = (game) => {
-        firebase.database().ref('games/' + game + '/active')
-        .set(true)
-        .then(()=> this.setState({activeGame:game}))
-        .catch(error=>{
-            console.log(error)
-        })
+        const acceptGame = {};
+        acceptGame['users/' + this.props.user.uid + '/games/' + game.gameId + '/status/'] = 'playing';
+        acceptGame['users/' + game.opponentUid + '/games/' + game.gameId + '/status/'] = 'waiting';
+        firebase.database().ref().update(acceptGame)
+        .then(() => this.setState({activeGame:game}))
+        .catch(error => console.log(error));
     }
 
     hideGame = () => {
-        console.log('hidegame!')
         this.setState({activeGame: null})
     }
 

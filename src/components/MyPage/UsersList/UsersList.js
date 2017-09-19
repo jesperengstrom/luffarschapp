@@ -5,9 +5,9 @@ function UsersList({user, users, challengePlayer, games}){
 
     function aldreadyHasGame(user){
         let res = false;
-        for (let key in games){
-            if (games[key].opponentName === user) res = true;
-        }
+        games && games.forEach(game =>{
+            if (game.opponentName === user) res = true;
+        });
         return res;
     };
 
@@ -53,7 +53,7 @@ UsersList.propTypes = {
     user: PropTypes.object.isRequired,
     users: PropTypes.object, 
     challengePlayer: PropTypes.func.isRequired, 
-    games: PropTypes.object
+    games: PropTypes.array
 };
 
 export default UsersList;

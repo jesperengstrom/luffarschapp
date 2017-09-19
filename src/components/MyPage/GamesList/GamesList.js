@@ -5,10 +5,14 @@ function GamesList({games, removeGame, acceptGame}){
 
     function translateGameStatus(status){
         switch(status){
-            case 'gotRequest':
+            case 'gotReq':
                 return 'Spelaren har utmanat dig';
-            case 'sentRequest':
+            case 'sentReq':
                 return 'Väntar på att motståndaren ska acceptera';
+            case 'waiting':
+                return 'motståndaren spelar...';
+            case 'playing':
+                return 'Din tur att spela';
             default: 
                 return 'Oklar status'; 
         }
@@ -26,19 +30,19 @@ function GamesList({games, removeGame, acceptGame}){
                     </tr>
                 </thead>
                 <tbody>
-                {games && Object.keys(games).map(key=>{
-                    return <tr key={'games-tr-' + key}>
-                                <td>{games[key].opponentName}</td>
-                                <td>{translateGameStatus(games[key].myStatus)}</td>
+                {games && games.map(game => {
+                    return <tr key={'games-tr-' + game.gameId}>
+                                <td>{game.opponentName}</td>
+                                <td>{translateGameStatus(game.status)}</td>
                                 <td>
                                     {
-                                        games[key].myStatus === 'gotRequest' &&
-                                        <button onClick={()=>acceptGame(key)}>Acceptera</button>
+                                        game.status === 'gotReq' &&
+                                        <button onClick={()=>acceptGame(game)}>Acceptera</button>
                                     }
                                     {
-                                        games[key].myStatus === 'gotRequest' || 'sentRequest' ?
+                                        game.status === 'gotReq' || 'sentReq' ?
                                         <button 
-                                        onClick={()=>removeGame(key, games[key].opponentUid)}>Ta bort
+                                        onClick={()=>removeGame(game.gameId, game.opponentUid)}>Ta bort
                                         </button> : ''
                                     }
                                 </td>
@@ -51,7 +55,7 @@ function GamesList({games, removeGame, acceptGame}){
 }
 
 GamesList.propTypes = {
-    games: PropTypes.object, 
+    games: PropTypes.array, 
     removeGame: PropTypes.func.isRequired,
     acceptGame: PropTypes.func.isRequired
 };
