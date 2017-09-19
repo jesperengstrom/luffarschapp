@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function GamesList({games, removeGame, acceptGame}){
+function GamesList({games, removeGame, acceptGame, showGame}){
 
     function translateGameStatus(status){
         switch(status){
@@ -37,13 +37,18 @@ function GamesList({games, removeGame, acceptGame}){
                                 <td>
                                     {
                                         game.status === 'gotReq' &&
-                                        <button onClick={()=>acceptGame(game)}>Acceptera</button>
+                                        <button onClick={() => acceptGame(game)}>Acceptera</button>
                                     }
                                     {
-                                        game.status === 'gotReq' || 'sentReq' ?
+                                        (game.status === 'gotReq' || game.status === 'sentReq') ?
                                         <button 
-                                        onClick={()=>removeGame(game.gameId, game.opponentUid)}>Ta bort
+                                        onClick={() => removeGame(game.gameId, game.opponentUid)}>Ta bort
                                         </button> : ''
+                                    }
+                                    {
+                                        game.status === 'playing' &&
+                                        <button onClick={() => showGame(game)}>Spela
+                                        </button>
                                     }
                                 </td>
                             </tr>;
@@ -57,7 +62,8 @@ function GamesList({games, removeGame, acceptGame}){
 GamesList.propTypes = {
     games: PropTypes.array, 
     removeGame: PropTypes.func.isRequired,
-    acceptGame: PropTypes.func.isRequired
+    acceptGame: PropTypes.func.isRequired,
+    showGame: PropTypes.func.isRequired
 };
 
 

@@ -58,26 +58,6 @@ class MyPage extends React.Component{
         }));
     }
 
-    //looping through player's games to get more info
-    loopGames = (games) => {
-
-
-        // let gamesArr = Object.keys(games);
-        // let newArr = [];
-        // for (let i = 0; i < gamesArr.length; i++) {
-        //     firebase.database().ref('games/' + gamesArr[i] + '/players/' + this.props.user.uid)
-        //     .once('value', snapshot => {
-        //         newArr.push(snapshot.val());
-        //         //need to include the game id also
-        //         newArr[i].gameId = gamesArr[i];
-        //         //when fetch is finished the length is equal to old array
-        //         if (newArr.length === gamesArr.length){ 
-        //             this.setState({games: newArr});
-        //         }
-        //     })
-        // }
-    }
-
     signOut = () => {
         firebase.database() //setting online=false before really signing out
         .ref('users/' + this.props.user.uid + '/online')
@@ -121,12 +101,16 @@ class MyPage extends React.Component{
         acceptGame['users/' + this.props.user.uid + '/games/' + game.gameId + '/status/'] = 'playing';
         acceptGame['users/' + game.opponentUid + '/games/' + game.gameId + '/status/'] = 'waiting';
         firebase.database().ref().update(acceptGame)
-        .then(() => this.setState({activeGame:game}))
+        .then(() => this.showGame(game))
         .catch(error => console.log(error));
     }
 
     hideGame = () => {
         this.setState({activeGame: null})
+    }
+
+    showGame = (game) => {
+        this.setState({activeGame: game})
     }
 
     removeGame = (game, opponent) => {
@@ -150,6 +134,7 @@ class MyPage extends React.Component{
                 {this.state.activeGame ? 
                     <Board 
                         game={this.state.activeGame}
+                        user={this.props.user}
                         hideGame={this.hideGame}/> 
                         :
                     <div className="flex flex-row full-width">
@@ -163,6 +148,7 @@ class MyPage extends React.Component{
                             games={this.state.games}
                             user={this.props.user}
                             acceptGame={this.acceptGame}
+                            showGame={this.showGame}
                             removeGame={this.removeGame}/>
                     </div>
                 }

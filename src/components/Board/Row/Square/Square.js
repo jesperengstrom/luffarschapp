@@ -5,9 +5,9 @@ import './Square.css';
 
 function Square(props) {
     //if the prop exists it's value is a color --> applying that class
-    let squareColor = props.currentBoard[props.squareObj.id] ? 
-        props.currentBoard[props.squareObj.id]  : 
-        "";
+    let squareColor = props.board[props.squareObj.id] ? 
+        props.board[props.squareObj.id]  : 
+        '';
 
     return (
         <div 

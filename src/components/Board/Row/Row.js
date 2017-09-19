@@ -4,7 +4,7 @@ import React from 'react';
 import Square from './Square/Square';
 
 //CSS
-import './Row.css' 
+import './Row.css';
 
 //vars
 import { boardSize } from '../Board';
@@ -17,13 +17,13 @@ function Row(props){
                         x: i, 
                         y: props.row, 
                         id: 'x' + i + 'y' + props.row
-                        }
+                        };
 
         squares.push(<Square 
                         onClick={props.onClick} 
                         key={squareObj.id} 
                         squareObj={squareObj}
-                        currentBoard={props.currentBoard}>
+                        board={props.board}>
                     </Square>)
     }
 
