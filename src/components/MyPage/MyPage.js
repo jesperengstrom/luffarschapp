@@ -13,7 +13,8 @@ class MyPage extends React.Component{
         {
             users: null,
             games: null,
-            error: null
+            error: null,
+            activeGame: null
         }
 
     componentDidMount(){
@@ -96,6 +97,20 @@ class MyPage extends React.Component{
         .catch(error => console.log(error))
     }
 
+    acceptGame = (game) => {
+        firebase.database().ref('games/' + game + '/active')
+        .set(true)
+        .then(()=> this.setState({activeGame:game}))
+        .catch(error=>{
+            console.log(error)
+        })
+    }
+
+    hideGame = () => {
+        console.log('hidegame!')
+        this.setState({activeGame: null})
+    }
+
     removeGame = (game, opponent) => {
         const removeGames = {};
         removeGames['games/' + game] = null; //remove from 'games'
@@ -114,20 +129,25 @@ class MyPage extends React.Component{
                 <p>Välkommen {this.props.user.displayName}</p>
 
                 <a onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</a>
-                <div className="flex flex-row full-width">
-                    <UsersList 
-                        users={this.state.users} 
-                        user={this.props.user} 
-                        challengePlayer={this.challengePlayer}
-                        games={this.state.games}/>
-                        
-                    <GamesList 
-                        games={this.state.games}
-                        user={this.props.user}
-                        removeGame={this.removeGame}/>
-                </div>
-                <Board>
-                </Board>
+                {this.state.activeGame ? 
+                    <Board 
+                        game={this.state.activeGame}
+                        hideGame={this.hideGame}/> 
+                        :
+                    <div className="flex flex-row full-width">
+                        <UsersList 
+                            users={this.state.users} 
+                            user={this.props.user} 
+                            challengePlayer={this.challengePlayer}
+                            games={this.state.games}/>
+                            
+                        <GamesList 
+                            games={this.state.games}
+                            user={this.props.user}
+                            acceptGame={this.acceptGame}
+                            removeGame={this.removeGame}/>
+                    </div>
+                }
             </div>
         )
     }

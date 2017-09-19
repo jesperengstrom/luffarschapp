@@ -110,6 +110,7 @@ class Board extends React.Component{
             }
         return(
             <div className="flex flex-column align-center">
+                <button onClick={this.props.hideGame}>Tillbaka till menyn</button>
                 <p>{this.state.turn}:s tur att spela </p>
                 {rows}
             </div>
