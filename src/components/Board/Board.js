@@ -16,13 +16,15 @@ class Board extends React.Component{
     constructor(props) {
         super(props)
         this.isActive = firebase.database().ref('games/' + this.props.game.gameId + '/active');
+        this.newBoard = {};
     }
     
     state = {
         yourTurn: null,
         loading: true,
         board: {}, 
-        turn: 'blue',
+        turn: null,
+        icon: '',
         error: ''
     };
 
@@ -37,12 +39,23 @@ class Board extends React.Component{
             let yourTurn = snapshot.child('/players/' + this.props.user.uid).val();
             //check if we have a board
             let board = snapshot.child('board').exists() ? snapshot.child('board').val() : {};
+            //even/odd numbers give the player same icons in view but is never sent to db
+            let turn = snapshot.child('turn').val();
+
             this.setState(
                 {
                     yourTurn: yourTurn, 
                     board: board,
-                    loading: false
-                })
+                    loading: false,
+                    turn: turn,
+                    icon: {
+                        [this.props.user.uid]: turn % 2 === 0 ? 'x' : 'o',
+                        [this.props.game.opponentUid]: turn % 2 === 0 ? 'o' : 'x'
+                     },
+                    error: yourTurn ? '' : this.state.error 
+                }
+            )
+            console.log('I have ' + this.state.icon[this.props.user.uid] + ' opponent have ' +  this.state.icon[this.props.game.opponentUid]);
         }, (error => {
             console.log(error)
             this.setState({error: "Spelplanen kunde inte laddas"})
@@ -52,7 +65,11 @@ class Board extends React.Component{
     /**
      * squareObj = {x: x, y: y}
      */
-    handleClick = (squareObj) =>{ 
+    handleClick = (squareObj) =>{
+        //storing new board obj in constructor for the moment
+        //fetching uid from auth to prevent cheating
+        this.newBoard = Object.assign({}, this.state.board, {[squareObj.id]: firebase.auth().currentUser.uid})
+
         //already clicked square
         if (this.state.board[squareObj.id]) {
             return false;
@@ -61,12 +78,17 @@ class Board extends React.Component{
             if (!this.state.yourTurn) {
                 this.setState({error: 'Du måste vänta på din tur!'})
             } else {
-                //game is active = clickable
+                //is game active = clickable?
                 this.isActive.once('value', snapshot => {
                     if (!snapshot.val()) {
+                        //no...
                         this.setState({error: 'Ett drag i taget!'})
                     }
                     if  (snapshot.val()) {
+                        //yes... 
+                        //rendering new board to this user before db, to prevent lagging feeling.
+                        //MOVE???!
+                        // this.setState({board: this.newBoard})
                         //then lock game to prevent multiclicking
                         this.isActive.set(false)
                         .then(() => {
@@ -80,22 +102,28 @@ class Board extends React.Component{
     }
 
     updateGame = (squareObj) => {
-        //new board obj, fetching uid from auth to prevent cheating
-        let newBoard = Object.assign({}, this.state.board, {[squareObj.id]: firebase.auth().currentUser.uid})
-
         if (this.iWon(squareObj)) {
             //won -> update & wrap up game
-
+            console.log('win!');
         } else {
-            //no win -> update & switch turns
-            const updateBoard = {};
-            updateBoard['games/' + this.props.game.gameId + '/board'] = newBoard;
-            updateBoard['games/' + this.props.game.gameId + '/players/' + this.props.user.uid] = false;
-            updateBoard['games/' + this.props.game.gameId + '/players/' + this.props.game.opponentUid] = true;
-            updateBoard['games/' + this.props.game.gameId + '/active'] = true;
+            //no win -> update & switch turns etc
+            const updatedBoard = {
+                active: true,
+                turn: this.state.turn + 1,
+                board: this.newBoard,
+                players: {
+                    [this.props.user.uid]: false,
+                    [this.props.game.opponentUid]: true
+                }
+            };
+            // updateBoard['games/' + this.props.game.gameId + '/board'] = newBoard;
+            // updateBoard['games/' + this.props.game.gameId + '/players/' + this.props.user.uid] = false;
+            // updateBoard['games/' + this.props.game.gameId + '/players/' + this.props.game.opponentUid] = true;
+            // updateBoard['games/' + this.props.game.gameId + '/active'] = true;
+            // updateBoard['games/' + this.props.game.gameId + '/turn'] = this.state.turn + 1;
 
-            firebase.database().ref()
-            .update(updateBoard)
+            firebase.database().ref('games/' + this.props.game.gameId)
+            .set(updatedBoard)
             .then(()=>{
                 //notify users on myPage
                 const updatePlayers = {};
@@ -156,25 +184,26 @@ class Board extends React.Component{
             //if any of the above... win
             return true;
         } else { 
-            //didn't win, switching turn
+            //didn't win
             return false
         }
     }
 
     //looping logic for stepping in different directions
     checkWinDirections = (firstDirection, secondDirection) =>{
+        const usersQuare = firebase.auth().currentUser.uid;
         let points = 1; //if this gets up to 5 we win
         for (let i = 1; i <= 4; i++) { //so testing 4 more steps in each direction
 
-            if (this.state.board[firstDirection(i)] === this.state.turn){
+            if (this.state.board[firstDirection(i)] === usersQuare){
                 points++;
-                console.log(this.state.turn + ' first direction hit at ' + firstDirection(i) + ' totalling points ' + points )
+                console.log(usersQuare + ' first direction hit at ' + firstDirection(i) + ' totalling points ' + points )
             } else break;
         }
         for (let i = 1; i <= 4; i++) {
-            if (this.state.board[secondDirection(i)] === this.state.turn) {
+            if (this.state.board[secondDirection(i)] === usersQuare) {
                 points++;
-                console.log(this.state.turn +  'second direction hit at ' + secondDirection(i) + ' totalling points ' + points)
+                console.log(usersQuare + ' second direction hit at ' + secondDirection(i) + ' totalling points ' + points)
             } else break;
         }
         return points > 4;
@@ -191,6 +220,7 @@ class Board extends React.Component{
         let rows = [];
             for (let i = 1; i <= boardSize.y; i++){
                 rows.push(<Row 
+                            icon={this.state.icon}
                             board={this.state.board} 
                             onClick={this.handleClick} 
                             key={'row' + i} 

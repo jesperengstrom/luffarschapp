@@ -10,7 +10,7 @@ import './Row.css';
 //vars
 import { boardSize } from '../Board';
 
-function Row({board, row, onClick}){
+function Row({board, row, onClick, icon}){
     let squares = [];
     
     for (let i = 1; i <= boardSize.x; i++) {
@@ -24,7 +24,8 @@ function Row({board, row, onClick}){
                         onClick={onClick} 
                         key={squareObj.id} 
                         squareObj={squareObj}
-                        board={board}>
+                        board={board}
+                        icon={icon}>
                     </Square>);
     }
 
@@ -39,6 +40,7 @@ Row.propTypes = {
     onClick: PropTypes.func.isRequired,
     row: PropTypes.number.isRequired,
     board: PropTypes.object,
+    icon: PropTypes.string
 };
 
 export default Row;

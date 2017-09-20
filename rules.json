@@ -24,3 +24,8 @@
         }
     }
 }
+
+
+"turn": {
+    ".validate": "newData.val() == (data.val() + 1) || (!data.exists() && newData.val() == 1)"
+}

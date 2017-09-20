@@ -72,6 +72,7 @@ class MyPage extends React.Component{
         firebase.database().ref('games') //push game to 'games'
         .push({ 
                 active: true,
+                turn: 1,
                 players: {
                     [this.props.user.uid]: false,
                     [opponent.uid]: true
