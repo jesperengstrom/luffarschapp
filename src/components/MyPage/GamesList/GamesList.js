@@ -46,9 +46,10 @@ function GamesList({games, removeGame, acceptGame, showGame}){
                                         </button> : ''
                                     }
                                     {
-                                        game.status === 'playing' &&
-                                        <button onClick={() => showGame(game)}>Spela
-                                        </button>
+                                        game.status === 'playing' || game.status === 'waiting' ?
+                                        <button onClick={() => showGame(game)}>
+                                            {game.status === 'playing' ? 'Spela' : 'Till spelet'}
+                                        </button> : ''
                                     }
                                 </td>
                             </tr>;

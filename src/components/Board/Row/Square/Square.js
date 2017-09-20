@@ -1,21 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 //CSS
 import './Square.css';
 
-function Square(props) {
+function Square({board, onClick, squareObj}) {
     //if the prop exists it's value is a color --> applying that class
-    let squareColor = props.board[props.squareObj.id] ? 
-        props.board[props.squareObj.id]  : 
+    let squareColor = board[squareObj.id] ? 
+        board[squareObj.id]  : 
         '';
 
     return (
         <div 
             className={`square ${squareColor}`} 
-            id={props.squareObj.id}
-            onClick={()=>props.onClick(props.squareObj)}>
+            id={squareObj.id}
+            onClick={()=>onClick(squareObj)}>
         </div>
-    )
+    );
 }
+
+Square.propTypes = {
+    board: PropTypes.object,
+    onClick: PropTypes.func.isRequired,
+    squareObj: PropTypes.object.isRequired
+};
 
 export default Square;

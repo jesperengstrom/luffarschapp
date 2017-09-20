@@ -58,6 +58,7 @@ class SignUp extends React.Component{
             uid: user.uid,
             online: true
         })
+        .catch(error => console.log(error))
     }
 
     handleError = (error) =>{

@@ -71,6 +71,7 @@ class MyPage extends React.Component{
     challengePlayer = (opponent) => {
         firebase.database().ref('games') //push game to 'games'
         .push({ 
+                active: true,
                 players: {
                     [this.props.user.uid]: false,
                     [opponent.uid]: true

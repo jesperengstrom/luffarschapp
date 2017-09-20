@@ -16,8 +16,8 @@
         },
         "games": {
             "$gameId": {
-                //you can change a game of your key is present in players, OR, if the game does not exist, you supply the players of which one is yourself
-                ".write": "(auth != null && data.child('players/' + auth.uid).exists()) || (auth != null && !data.exists() && newData.hasChildren(['players/' + auth.uid]))",
+                //you can change a game 1) if your uid is set to true, 2) if the game does not exist AND you supply the players of which one is yourself, 3) if you remove the game AND one of the players is you
+                ".write": "(auth != null && data.child('players/' + auth.uid).val() == true) || (auth != null && newData.val() == null) || (auth != null && !data.exists() && newData.hasChildren(['players/' + auth.uid]))",
                 //you can read a game if you're one of the players.
                 ".read": "data.child('players/' + auth.uid).exists()"
             }
