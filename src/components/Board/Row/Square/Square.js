@@ -24,7 +24,7 @@ Square.propTypes = {
     board: PropTypes.object,
     onClick: PropTypes.func.isRequired,
     squareObj: PropTypes.object.isRequired,
-    icon: PropTypes.object.isRequired
+    icon: PropTypes.any.isRequired
 };
 
 export default Square;

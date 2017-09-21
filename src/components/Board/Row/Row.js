@@ -40,7 +40,7 @@ Row.propTypes = {
     onClick: PropTypes.func.isRequired,
     row: PropTypes.number.isRequired,
     board: PropTypes.object,
-    icon: PropTypes.string
+    icon: PropTypes.any.isRequired
 };
 
 export default Row;

@@ -23,7 +23,6 @@ class Board extends React.Component{
         yourTurn: null,
         loading: true,
         board: {}, 
-        turn: null,
         icon: '',
         error: ''
     };
@@ -36,26 +35,24 @@ class Board extends React.Component{
         firebase.database().ref('games/' + this.props.game.gameId)
         .on('value', snapshot => {
             //double check user turn
-            let yourTurn = snapshot.child('/players/' + this.props.user.uid).val();
+            const yourTurn = snapshot.child('/players/' + this.props.user.uid + '/turn').val();
             //check if we have a board
-            let board = snapshot.child('board').exists() ? snapshot.child('board').val() : {};
-            //even/odd numbers give the player same icons in view but is never sent to db
-            let turn = snapshot.child('turn').val();
+            const board = snapshot.child('board').exists() ? snapshot.child('board').val() : {};
+            //assign icons to users
+            const gameIcons = {
+                [this.props.user.uid]: snapshot.child('/players/' + this.props.user.uid + '/icon').val(),
+                [this.props.game.opponentUid]: snapshot.child('/players/' + this.props.game.opponentUid + '/icon').val()
+            }
 
             this.setState(
                 {
                     yourTurn: yourTurn, 
                     board: board,
                     loading: false,
-                    turn: turn,
-                    icon: {
-                        [this.props.user.uid]: turn % 2 === 0 ? 'x' : 'o',
-                        [this.props.game.opponentUid]: turn % 2 === 0 ? 'o' : 'x'
-                     },
+                    icon: this.state.icon ? this.state.icon : gameIcons,
                     error: yourTurn ? '' : this.state.error 
                 }
             )
-            console.log('I have ' + this.state.icon[this.props.user.uid] + ' opponent have ' +  this.state.icon[this.props.game.opponentUid]);
         }, (error => {
             console.log(error)
             this.setState({error: "Spelplanen kunde inte laddas"})
@@ -88,7 +85,7 @@ class Board extends React.Component{
                         //yes... 
                         //rendering new board to this user before db, to prevent lagging feeling.
                         //MOVE???!
-                        // this.setState({board: this.newBoard})
+                        this.setState({board: this.newBoard})
                         //then lock game to prevent multiclicking
                         this.isActive.set(false)
                         .then(() => {
@@ -107,23 +104,15 @@ class Board extends React.Component{
             console.log('win!');
         } else {
             //no win -> update & switch turns etc
-            const updatedBoard = {
-                active: true,
-                turn: this.state.turn + 1,
-                board: this.newBoard,
-                players: {
-                    [this.props.user.uid]: false,
-                    [this.props.game.opponentUid]: true
-                }
-            };
-            // updateBoard['games/' + this.props.game.gameId + '/board'] = newBoard;
-            // updateBoard['games/' + this.props.game.gameId + '/players/' + this.props.user.uid] = false;
-            // updateBoard['games/' + this.props.game.gameId + '/players/' + this.props.game.opponentUid] = true;
-            // updateBoard['games/' + this.props.game.gameId + '/active'] = true;
-            // updateBoard['games/' + this.props.game.gameId + '/turn'] = this.state.turn + 1;
+            const updatedBoard = {};
+            updatedBoard['games/' + this.props.game.gameId + '/active'] = true;
+            updatedBoard['games/' + this.props.game.gameId + '/board'] = this.newBoard;
+            updatedBoard['games/' + this.props.game.gameId + '/players/' + this.props.user.uid + '/turn'] = false;
+            updatedBoard['games/' + this.props.game.gameId + '/players/' + this.props.game.opponentUid + '/turn'] = true;
+            
 
-            firebase.database().ref('games/' + this.props.game.gameId)
-            .set(updatedBoard)
+            firebase.database().ref()
+            .update(updatedBoard)
             .then(()=>{
                 //notify users on myPage
                 const updatePlayers = {};
@@ -138,10 +127,6 @@ class Board extends React.Component{
 
         }
     }
-
-            // //updating board state
-            // this.setState({board: boardUpdate}, ()=>this.checkWon(squareObj)) //check if we won
-
 
     /**
      * since the calculation for checking steps/directions are similar but with minor differences 
@@ -211,7 +196,7 @@ class Board extends React.Component{
 
 
     render(){
-        let turn = <p>Du spelar mot {this.props.game.opponentName}.  
+        let turnInfo = <p>Du spelar mot {this.props.game.opponentName}.  
             {this.state.yourTurn && 
             this.state.yourTurn ? 
             ' Din tur att spela.' : 
@@ -231,7 +216,7 @@ class Board extends React.Component{
             <div className="flex flex-column align-center">
                 <button onClick={this.props.hideGame}>Tillbaka till menyn</button>
                 {this.state.error ? <p style={{color:"red"}}>{this.state.error}</p> : null}
-                {turn}
+                {turnInfo}
                 {this.state.loading ? 'Laddar...' : rows}
             </div>
         )
