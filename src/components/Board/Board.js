@@ -108,7 +108,7 @@ class Board extends React.Component{
             //won -> update & close game
             const winBoard = {}
             winBoard['games/' + this.props.game.gameId + '/board'] = this.newBoard;
-            //db rule only allow your own uid here
+            //db rules only allow your own uid as value here
             winBoard['games/' + this.props.game.gameId + '/won'] = this.props.user.uid;
             firebase.database().ref()
             .update(winBoard)
@@ -211,7 +211,6 @@ class Board extends React.Component{
         return points > 4;
     }
 
-
     render(){
         let rows = [];
             for (let i = 1; i <= boardSize.y; i++){
@@ -244,6 +243,5 @@ class Board extends React.Component{
         )
     }
 }
-
 
 export default Board;

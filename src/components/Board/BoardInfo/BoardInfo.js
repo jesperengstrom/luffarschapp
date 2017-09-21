@@ -4,29 +4,37 @@ import PropTypes from 'prop-types';
 //CSS
 import './BoardInfo.css';
 
-function BoardInfo(props) {
+function BoardInfo({won, lost, icon, opponent, user, yourTurn}) {
     // var ongoing = false;
 
     function ongoing() {
-        if (props.won) return 'vann';
-        if (props.lost) return 'förlorade';
+        if (won) return 'vann';
+        if (lost) return 'förlorade';
         return false;
     };
 
     return (
         <div className="board-info">
             <div className="flex flex-row">
-                <div className={`square ${props.icon[props.user.uid]}`}></div>
+                <div className={`square ${icon[user.uid]}`}></div>
                 <span>= Du</span>
-                <div className={`square ${props.icon[props.opponent.uid]}`}></div>
-                <span>= {props.opponent.name}</span>
+                <div className={`square ${icon[opponent.uid]}`}></div>
+                <span>= {opponent.name}</span>
             </div>
-            {ongoing() ? <p>Du {ongoing()} mot {props.opponent.name}!</p>  :
-            <p>{props.yourTurn ? 'Din ' : 'Motståndarens '} tur</p>
+            {ongoing() ? <p>Du {ongoing()} mot {opponent.name}!</p>  :
+            <p>{yourTurn ? 'Din ' : 'Motståndarens '} tur</p>
             }
         </div>
     );
 }
 
-BoardInfo.propTypes = {};
+BoardInfo.propTypes = {
+    won: PropTypes.bool.isRequired,
+    lost: PropTypes.bool.isRequired,
+    icon: PropTypes.object.isRequired,
+    opponent: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    yourTurn: PropTypes.bool.isRequired
+};
+
 export default BoardInfo;

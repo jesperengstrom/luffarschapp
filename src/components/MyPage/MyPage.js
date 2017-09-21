@@ -9,13 +9,14 @@ import GamesList from './GamesList/GamesList';
 
 class MyPage extends React.Component{
 
-    state = 
-        {
+    state = {
             users: null,
             games: null,
             error: null,
-            activeGame: null
-        }
+            activeGame: null,
+            loadingUsers: true,
+            loadingGames: true,
+        };
 
     componentDidMount(){
         this.fetchUsers();
@@ -33,7 +34,8 @@ class MyPage extends React.Component{
         .equalTo(true)
         .limitToFirst(30)
         .on('value', (snapshot)=>{
-            this.setState({users: snapshot.val()}); //remove player's games from state!
+            this.setState({users: snapshot.val(), loadingUsers: false}); //remove player's games from state!
+
         }, (error => {
             console.log(error);
         }));
@@ -45,16 +47,15 @@ class MyPage extends React.Component{
             let gamesArr = []; //making an array of this snapshot
 
             !snapshot.val() ? 
-            this.setState({games: null})
+            this.setState({games: null, loadingGames: false})
             :
             snapshot.forEach(key =>{
                 let obj = Object.assign({}, key.val(), {gameId: key.key})
                 gamesArr.push(obj);
             })
-            this.setState({games: gamesArr});
+            this.setState({games: gamesArr, loadingGames: false});
 
-        }, (error => {
-            console.log(error);
+        }, (error => {console.log(error);
         }));
     }
 
@@ -132,10 +133,10 @@ class MyPage extends React.Component{
     render(){
         return (
             <div className="flex flex-column full-width">
-                <p>Min sida</p>
-                <p>Välkommen {this.props.user.displayName}</p>
-
-                <a onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</a>
+                <div className="flex flex-row">
+                    <p>Välkommen {this.props.user.displayName}</p>
+                    <p onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</p>
+                </div>
                 {this.state.activeGame ? 
                     <Board 
                         game={this.state.activeGame}
@@ -147,14 +148,16 @@ class MyPage extends React.Component{
                             users={this.state.users} 
                             user={this.props.user} 
                             challengePlayer={this.challengePlayer}
-                            games={this.state.games}/>
+                            games={this.state.games}
+                            loadingUsers={this.state.loadingUsers}/>
                             
                         <GamesList 
                             games={this.state.games}
                             user={this.props.user}
                             acceptGame={this.acceptGame}
                             showGame={this.showGame}
-                            removeGame={this.removeGame}/>
+                            removeGame={this.removeGame}
+                            loadingGames={this.state.loadingGames}/>
                     </div>
                 }
             </div>
