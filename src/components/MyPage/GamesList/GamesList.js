@@ -13,6 +13,10 @@ function GamesList({games, removeGame, acceptGame, showGame}){
                 return 'motståndaren spelar...';
             case 'playing':
                 return 'Din tur att spela';
+            case 'won':
+                return 'Du vann matchen!';
+            case 'lost':
+                return 'Du förlorade matchen';
             default: 
                 return 'Oklar status'; 
         }
@@ -50,6 +54,10 @@ function GamesList({games, removeGame, acceptGame, showGame}){
                                         <button onClick={() => showGame(game)}>
                                             {game.status === 'playing' ? 'Spela' : 'Till spelet'}
                                         </button> : ''
+                                    }
+                                    {
+                                        (game.status === 'won' || game.status === 'lost') &&
+                                        <button onClick={() => showGame(game)}>Se spelet</button>
                                     }
                                 </td>
                             </tr>;

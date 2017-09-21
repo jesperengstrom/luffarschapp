@@ -3,6 +3,7 @@ import firebase from 'firebase';
 
 //components
 import Row from './Row/Row';
+import BoardInfo from './BoardInfo/BoardInfo';
 
 //CSS
 import './Board.css' 
@@ -24,7 +25,8 @@ class Board extends React.Component{
         loading: true,
         board: {}, 
         icon: '',
-        error: ''
+        error: '',
+        won: null
     };
 
     componentDidMount(){
@@ -36,13 +38,15 @@ class Board extends React.Component{
         .on('value', snapshot => {
             //double check user turn
             const yourTurn = snapshot.child('/players/' + this.props.user.uid + '/turn').val();
-            //check if we have a board
+            //load board if it exists
             const board = snapshot.child('board').exists() ? snapshot.child('board').val() : {};
             //assign icons to users
             const gameIcons = {
                 [this.props.user.uid]: snapshot.child('/players/' + this.props.user.uid + '/icon').val(),
                 [this.props.game.opponentUid]: snapshot.child('/players/' + this.props.game.opponentUid + '/icon').val()
             }
+            //has anyone won?
+            const won = snapshot.child('won').val();
 
             this.setState(
                 {
@@ -50,7 +54,8 @@ class Board extends React.Component{
                     board: board,
                     loading: false,
                     icon: this.state.icon ? this.state.icon : gameIcons,
-                    error: yourTurn ? '' : this.state.error 
+                    error: yourTurn ? '' : this.state.error,
+                    won: won
                 }
             )
         }, (error => {
@@ -68,7 +73,7 @@ class Board extends React.Component{
         this.newBoard = Object.assign({}, this.state.board, {[squareObj.id]: firebase.auth().currentUser.uid})
 
         //already clicked square
-        if (this.state.board[squareObj.id]) {
+        if (this.state.board[squareObj.id] || this.state.won) {
             return false;
         } else {
             //not your turn according to state
@@ -100,32 +105,44 @@ class Board extends React.Component{
 
     updateGame = (squareObj) => {
         if (this.iWon(squareObj)) {
-            //won -> update & wrap up game
-            console.log('win!');
+            //won -> update & close game
+            const winBoard = {}
+            winBoard['games/' + this.props.game.gameId + '/board'] = this.newBoard;
+            //db rule only allow your own uid here
+            winBoard['games/' + this.props.game.gameId + '/won'] = this.props.user.uid;
+            firebase.database().ref()
+            .update(winBoard)
+            .then(() => {
+                this.notifyUserAfterTurn('won', 'lost')
+            })
+            .catch(error => console.log(error))
         } else {
-            //no win -> update & switch turns etc
+            //no win -> update & set active, switch turns etc
             const updatedBoard = {};
             updatedBoard['games/' + this.props.game.gameId + '/active'] = true;
             updatedBoard['games/' + this.props.game.gameId + '/board'] = this.newBoard;
             updatedBoard['games/' + this.props.game.gameId + '/players/' + this.props.user.uid + '/turn'] = false;
             updatedBoard['games/' + this.props.game.gameId + '/players/' + this.props.game.opponentUid + '/turn'] = true;
             
-
             firebase.database().ref()
             .update(updatedBoard)
             .then(()=>{
-                //notify users on myPage
-                const updatePlayers = {};
-                updatePlayers['users/' + this.props.user.uid + '/games/' + this.props.game.gameId + '/status'] = 'waiting';
-                updatePlayers['users/' + this.props.game.opponentUid + '/games/' + this.props.game.gameId + '/status'] = 'playing';
-
-                firebase.database().ref()
-                .update(updatePlayers)
-                .catch(error => {console.log(error)})
+                this.notifyUserAfterTurn('waiting', 'playing');
             })
             .catch(error => console.log(error));
 
         }
+    }
+
+    notifyUserAfterTurn = (notifyMe, notifyOther) => {
+        //notifies users on myPage
+        const updatePlayers = {};
+        updatePlayers['users/' + this.props.user.uid + '/games/' + this.props.game.gameId + '/status'] = notifyMe;
+        updatePlayers['users/' + this.props.game.opponentUid + '/games/' + this.props.game.gameId + '/status'] = notifyOther;
+
+        firebase.database().ref()
+        .update(updatePlayers)
+        .catch(error => {console.log(error)})
     }
 
     /**
@@ -196,12 +213,6 @@ class Board extends React.Component{
 
 
     render(){
-        let turnInfo = <p>Du spelar mot {this.props.game.opponentName}.  
-            {this.state.yourTurn && 
-            this.state.yourTurn ? 
-            ' Din tur att spela.' : 
-            this.props.game.opponentName + 's tur att spela.'}</p>
-
         let rows = [];
             for (let i = 1; i <= boardSize.y; i++){
                 rows.push(<Row 
@@ -214,10 +225,21 @@ class Board extends React.Component{
             }
         return(
             <div className="flex flex-column align-center">
-                <button onClick={this.props.hideGame}>Tillbaka till menyn</button>
+                <button onClick={this.props.hideGame}>Tillbaka till menyn</button>    
                 {this.state.error ? <p style={{color:"red"}}>{this.state.error}</p> : null}
-                {turnInfo}
-                {this.state.loading ? 'Laddar...' : rows}
+                {this.state.loading ? 
+                <p>Laddar...</p> : 
+                <div>
+                    <BoardInfo
+                        won={this.state.won === this.props.user.uid}
+                        lost={this.state.won === this.props.game.opponentUid}
+                        yourTurn={this.state.yourTurn}
+                        user={this.props.user}
+                        opponent={{uid: this.props.game.opponentUid, name: this.props.game.opponentName}}
+                        icon={this.state.icon}/>
+                    {rows}
+                </div>
+                }
             </div>
         )
     }
