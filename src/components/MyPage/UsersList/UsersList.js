@@ -18,7 +18,7 @@ function UsersList({user, users, challengePlayer, games, loadingUsers}){
             <table>
                 <tbody>
                     
-                {loadingUsers ? <tr><td stye={{color: 'lightgrey'}}>Laddar...</td></tr> :
+                {loadingUsers ? <tr><td style={{color: 'lightgrey'}}>Laddar...</td></tr> :
                 
                 users && Object.keys(users)
                 .sort((a, b) =>{ //sorting online first

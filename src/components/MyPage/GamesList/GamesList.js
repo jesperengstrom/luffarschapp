@@ -14,9 +14,9 @@ function GamesList({games, removeGame, acceptGame, showGame, loadingGames}){
             case 'playing':
                 return 'Din tur att spela mot ' + name;
             case 'won':
-                return 'Du vann matchen mot ' + name + '!';
+                return 'Du vann mot ' + name + '!';
             case 'lost':
-                return 'Du förlorade matchen mot ' + name;
+                return 'Du förlorade mot ' + name;
             default: 
                 return 'Oklar status'; 
         }
