@@ -21,8 +21,8 @@ class App extends Component {
     .onAuthStateChanged(user => {
       if (user) {
         //logged in, set state & user online
-        let newUser = this.createSmallerUserObject(user);
-        this.setState({user: newUser}, () => {
+        let loggedInUser = this.createSmallerUserObject(user);
+        this.setState({user: loggedInUser}, () => {
             firebase.database().ref('users/' + this.state.user.uid + '/online')
             .set(true)
             .catch(error => console.log(error));

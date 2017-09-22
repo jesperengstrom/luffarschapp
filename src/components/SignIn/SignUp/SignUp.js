@@ -39,9 +39,7 @@ class SignUp extends React.Component{
             user.updateProfile({displayName: this.state.displayName})
             .then(()=>{
                 let user = firebase.auth().currentUser;
-                //displayname is added after creation, we need to update state here
-                this.props.refreshUser(user); 
-                this.storeUser(user); //storing user in realtime db
+                this.storeUser(user); 
             }, error => {
                 this.setState({ error: error, disabledSubmit: false })
             });
@@ -52,12 +50,18 @@ class SignUp extends React.Component{
         })
     }
 
+    //storing user in realtime db
     storeUser = (user) => {
         firebase.database().ref('users/' + user.uid)
         .set({
             displayName: user.displayName,
             uid: user.uid,
-            online: true
+            online: true,
+            points: 0
+        })
+        .then(() => {
+            //displayname is added after creation, we need to update state here
+            this.props.refreshUser(user); 
         })
         .catch(error => console.log(error))
     }

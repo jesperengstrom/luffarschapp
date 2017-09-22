@@ -10,6 +10,7 @@ import GamesList from './GamesList/GamesList';
 class MyPage extends React.Component{
 
     state = {
+            myScore: null,
             users: null,
             games: null,
             error: null,
@@ -40,7 +41,8 @@ class MyPage extends React.Component{
                 userObj[key.key] = {
                     displayName: snapshot.child(key.key + '/displayName').val(),
                     uid: snapshot.child(key.key + '/uid').val(),
-                    online: snapshot.child(key.key + '/online').val()
+                    online: snapshot.child(key.key + '/online').val(),
+                    points: snapshot.child(key.key + '/points').val()
                 }
             })
             this.setState({users: userObj, loadingUsers: false});
@@ -133,11 +135,17 @@ class MyPage extends React.Component{
         .catch(error => console.log(error));
     }
 
+    updateScore = (score) => {
+        this.setState({myScore: score})
+    }
+
     render(){
         return (
             <div className="flex flex-column full-width">
                 <div className="flex flex-row">
-                    <p>Välkommen {this.props.user.displayName}</p>
+                    <p>Välkommen 
+                        {this.props.user.displayName}
+                        {this.state.myScore && '(' + this.state.myScore + ' poäng)'}</p>
                     <p onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</p>
                 </div>
                 {this.state.activeGame ? 
@@ -152,6 +160,7 @@ class MyPage extends React.Component{
                             user={this.props.user} 
                             challengePlayer={this.challengePlayer}
                             games={this.state.games}
+                            updateScore={this.updateScore}
                             loadingUsers={this.state.loadingUsers}/>
                             
                         <GamesList 

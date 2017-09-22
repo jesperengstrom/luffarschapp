@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function UsersList({user, users, challengePlayer, games, loadingUsers}){
+function UsersList({user, users, challengePlayer, games, updateScore, loadingUsers}){
 
     function aldreadyHasGame(user){
         let res = false;
@@ -23,6 +23,7 @@ function UsersList({user, users, challengePlayer, games, loadingUsers}){
             '' :
             <tr key={'user-tr-' + key}>
                 <td>{users[key].displayName}</td>
+                <td>({users[key].points} poäng)</td>
                 <td>{users[key].online ? '(Online)' : ''}</td>
                 <td>{aldreadyHasGame(users[key].displayName) === false && 
                     <button onClick={()=>challengePlayer(users[key])}>Utmana
@@ -52,6 +53,7 @@ UsersList.propTypes = {
     users: PropTypes.object, 
     challengePlayer: PropTypes.func.isRequired, 
     games: PropTypes.array,
+    updateScore: PropTypes.func.isRequired,
     loadingUsers: PropTypes.bool.isRequired
 };
 
