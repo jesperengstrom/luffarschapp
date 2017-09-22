@@ -23,15 +23,20 @@ class SignIn extends React.Component{
     }
 
     signIn = () => {
-        firebase.auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(user=>{
-            console.log('signed in!', user)
-            this.setUserOnline(user.uid)
+        //setting to session = logout on browser close. NOT WORKING UNLESS i CAN SET ONLINE TO FALSE
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+            return firebase.auth()
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(user=>{
+                console.log('signed in!', user)
+                this.setUserOnline(user.uid)
+            })
+            .catch(error =>{
+                this.handleError(error)
+            })
         })
-        .catch(error =>{
-            this.handleError(error)
-        })
+        .catch(error => {this.handleError(error)})
     }
 
     setUserOnline = (uid) => {

@@ -30,11 +30,20 @@ class MyPage extends React.Component{
 
     fetchUsers = () => {
         firebase.database().ref('users')
-        .orderByChild('online')
-        .equalTo(true)
-        .limitToFirst(30)
+        .orderByChild('online') //online first
+        // .equalTo(true) //display only online?
+        .limitToFirst(30) //limit userlist
         .on('value', (snapshot)=>{
-            this.setState({users: snapshot.val(), loadingUsers: false}); //remove player's games from state!
+            let userObj = {}
+            snapshot.forEach((key)=>{
+                //removing users game from userlist
+                userObj[key.key] = {
+                    displayName: snapshot.child(key.key + '/displayName').val(),
+                    uid: snapshot.child(key.key + '/uid').val(),
+                    online: snapshot.child(key.key + '/online').val()
+                }
+            })
+            this.setState({users: userObj, loadingUsers: false});
 
         }, (error => {
             console.log(error);

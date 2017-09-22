@@ -10,7 +10,7 @@ import MyPage from './components/MyPage/MyPage';
 import './App.css';
 
 class App extends Component {
-  state = ({user: ''})
+  state = {user: ''}
 
   componentDidMount(){
     this.userAuthListener();
@@ -19,7 +19,13 @@ class App extends Component {
   userAuthListener = () =>{
     firebase.auth()
     .onAuthStateChanged(user =>{
-      this.setState({user: this.createSmallerUserObject(user)})
+      if (user) {
+        let newUser = this.createSmallerUserObject(user);
+        this.setState({user: newUser});
+      } else {
+        //logged off, set online to false
+      }
+
     }, (error => {
       console.log(error);
     }))
