@@ -47,7 +47,8 @@ class SignUp extends React.Component{
             });
         })
         .catch(error =>{
-            this.setState({error: this.handleError(error), disabledSubmit:false})
+            let newErr = this.handleError(error)
+            this.setState({error: newErr, disabledSubmit:false})
         })
     }
 

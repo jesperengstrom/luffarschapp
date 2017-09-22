@@ -12,31 +12,35 @@ function UsersList({user, users, challengePlayer, games, loadingUsers}){
         return res;
     };
 
+    function sortPlayers(){
+        let sorted = users && Object.keys(users)
+        .sort((a, b) =>{ //sorting online first
+            return (users[a].online === users[b].online)? 0 : a? 1 : -1;
+        })
+        .map(key=>{
+            //don't return myself
+            return (users[key].uid === user.uid) ? 
+            '' :
+            <tr key={'user-tr-' + key}>
+                <td>{users[key].displayName}</td>
+                <td>{users[key].online ? '(Online)' : ''}</td>
+                <td>{aldreadyHasGame(users[key].displayName) === false && 
+                    <button onClick={()=>challengePlayer(users[key])}>Utmana
+                    </button>}
+                </td>
+            </tr>;
+        });
+        return sorted;
+    }
+
     return(
         <section className="flex flex-column half-width">
-            <h4>Inloggade spelare</h4>
+            <h4>Spelare</h4>
             <table>
                 <tbody>
-                    
-                {loadingUsers ? <tr><td style={{color: 'lightgrey'}}>Laddar...</td></tr> :
-                
-                users && Object.keys(users)
-                .sort((a, b) =>{ //sorting online first
-                    return (users[a].online === users[b].online)? 0 : a? 1 : -1;
-                })
-                .map(key=>{
-                    //don't return myself
-                    return (users[key].uid === user.uid) ? 
-                    '' :
-                    <tr key={'user-tr-' + key}>
-                        <td>{users[key].displayName}</td>
-                        <td>{users[key].online ? '(Online)' : ''}</td>
-                        <td>{aldreadyHasGame(users[key].displayName) === false && 
-                            <button onClick={()=>challengePlayer(users[key])}>Utmana
-                            </button>}
-                        </td>
-                    </tr>;
-                })}
+                {loadingUsers ? 
+                <tr><td style={{color: 'lightgrey'}}>Laddar...</td></tr> :
+                sortPlayers()}
                 </tbody>
             </table>
         </section>

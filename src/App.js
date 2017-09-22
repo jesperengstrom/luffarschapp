@@ -45,7 +45,8 @@ class App extends Component {
 
   //needed when we submit username after user is created
   refreshUser = (user) =>{
-    this.setState({user : this.createSmallerUserObject(user)})
+    let newUser = this.createSmallerUserObject(user);
+    this.setState({user : newUser})
   }
 
   createSmallerUserObject = (user) =>{
@@ -74,9 +75,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-// Finns sätt att se användaren som precis loggade ut?
-// måste det man ska spara i databasen reflekteras i state?
-//Hur blir man utloggad automatiskt?
-//motståndaren kan redigera sitt spel / sina resultat?

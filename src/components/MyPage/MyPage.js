@@ -122,11 +122,11 @@ class MyPage extends React.Component{
         this.setState({activeGame: game})
     }
 
-    removeGame = (game, opponent) => {
+    removeGame = (game) => {
         const removeGames = {};
-        removeGames['games/' + game] = null; //remove from 'games'
-        removeGames['users/' + opponent + '/games/' + game] = null; //remove from opponent's games
-        removeGames['users/' + this.props.user.uid + '/games/' + game] = null //remove from my games
+        removeGames['games/' + game.gameId] = null; //remove from 'games'
+        removeGames['users/' + game.opponentUid + '/games/' + game.gameId] = null; //remove from opponent's games
+        removeGames['users/' + this.props.user.uid + '/games/' + game.gameId] = null //remove from my games
 
         firebase.database().ref()
         .update(removeGames)

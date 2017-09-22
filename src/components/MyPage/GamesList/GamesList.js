@@ -53,7 +53,7 @@ function GamesList({games, removeGame, acceptGame, showGame, loadingGames}){
                                         {innerobj.button1.title}
                                     </button>}
                                     {innerobj.button2 && 
-                                    <button onClick={() => obj.button2.func(game)}>
+                                    <button onClick={() => innerobj.button2.func(game)}>
                                         {innerobj.button2.title}
                                     </button>}
                                 </td>
