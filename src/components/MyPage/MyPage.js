@@ -69,13 +69,7 @@ class MyPage extends React.Component{
     }
 
     signOut = () => {
-        firebase.database() //setting online=false before really signing out
-        .ref('users/' + this.props.user.uid + '/online')
-        .set(false)
-        .then(() => firebase.auth().signOut())
-        .catch(error => {
-            console.log(error);
-        });
+        firebase.auth().signOut();
     }
 
     challengePlayer = (opponent) => {

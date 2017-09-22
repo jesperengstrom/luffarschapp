@@ -10,22 +10,34 @@ import MyPage from './components/MyPage/MyPage';
 import './App.css';
 
 class App extends Component {
-  state = {user: ''}
+  state = {user: null}
 
   componentDidMount(){
     this.userAuthListener();
   }
 
-  userAuthListener = () =>{
+  userAuthListener = () => {
     firebase.auth()
-    .onAuthStateChanged(user =>{
+    .onAuthStateChanged(user => {
       if (user) {
+        //logged in, set state & user online
         let newUser = this.createSmallerUserObject(user);
-        this.setState({user: newUser});
+        this.setState({user: newUser}, () => {
+            firebase.database().ref('users/' + this.state.user.uid + '/online')
+            .set(true)
+            .catch(error => console.log(error));
+        });
       } else {
-        //logged off, set online to false
+        //logged off, set state & online = false
+        firebase.database().ref('users/' + this.state.user.uid + '/online')
+        .set(false)
+        .then(() => {
+          this.setState({user: null})
+        })
+        .catch(error => {
+            console.log(error);
+        });
       }
-
     }, (error => {
       console.log(error);
     }))

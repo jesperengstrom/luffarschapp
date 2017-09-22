@@ -1,4 +1,3 @@
-//firebase rules
 {
     "rules": {
         "users": {
@@ -8,18 +7,29 @@
                 //only change oneself's user data
                 ".write": "$uid === auth.uid",
                 "games": {
-                    //...but all users can challenge other users
+                    //...but a user can challenge all other users
                     ".write": "auth != null"
+                },
+                //allow setting online=false after logging out
+                "online": {
+                    ".write": "auth == null && newData.val() == false"
                 }
             },
             ".indexOn": ["displayName", "online"]
         },
         "games": {
             "$gameId": {
-                //you can change a game 1) if your uid is set to true, 2) if the game does not exist AND you supply the players of which one is yourself, 3) if you remove the game AND one of the players is you
-                ".write": "(auth != null && data.child('players/' + auth.uid).val() == true) || (auth != null && newData.val() == null) || (auth != null && !data.exists() && newData.hasChildren(['players/' + auth.uid]))",
-                //you can read a game if you're one of the players.
-                ".read": "data.child('players/' + auth.uid).exists()"
+                //you can change a game 1) if it's your turn to play 
+                //2) if the game doesn´t exist AND you supply the players of which one is yourself, 
+                //3) if you remove the game AND one of the players was yourself
+                ".write": "(auth != null && data.child('players/' + auth.uid + '/turn').val() == true) || (auth != null && newData.val() == null && data.hasChildren(['players/' + auth.uid])) || (auth != null && !data.exists() && newData.hasChildren(['players/' + auth.uid]))",
+                //you can see a game if you're one of the players.
+                ".read": "data.child('players/' + auth.uid).exists()",
+                //you can only submit yourself as winner
+                "won": {
+                    ".validate": "newData.val() == auth.uid"
+                }
+
             }
         }
     }

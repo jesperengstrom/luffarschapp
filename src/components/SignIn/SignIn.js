@@ -28,24 +28,11 @@ class SignIn extends React.Component{
         .then(() => {
             return firebase.auth()
             .signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(user=>{
-                console.log('signed in!', user)
-                this.setUserOnline(user.uid)
-            })
             .catch(error =>{
                 this.handleError(error)
-            })
+            });
         })
-        .catch(error => {this.handleError(error)})
-    }
-
-    setUserOnline = (uid) => {
-        firebase.database()
-        .ref('users/' + uid + '/online')
-        .set(true)
-        .catch(error=>{
-            console.log(error);
-        });
+        .catch(error => this.handleError(error))
     }
 
     handleError = (error) => {
