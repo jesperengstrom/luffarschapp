@@ -10,7 +10,7 @@ import GamesList from './GamesList/GamesList';
 class MyPage extends React.Component{
 
     state = {
-            myScore: null,
+            myPoints: null,
             users: null,
             games: null,
             error: null,
@@ -45,7 +45,8 @@ class MyPage extends React.Component{
                     points: snapshot.child(key.key + '/points').val()
                 }
             })
-            this.setState({users: userObj, loadingUsers: false});
+            let myPoints = userObj[this.props.user.uid].points;
+            this.setState({users: userObj, myPoints: myPoints, loadingUsers: false});
 
         }, (error => {
             console.log(error);
@@ -135,24 +136,22 @@ class MyPage extends React.Component{
         .catch(error => console.log(error));
     }
 
-    updateScore = (score) => {
-        this.setState({myScore: score})
-    }
-
     render(){
         return (
             <div className="flex flex-column full-width">
                 <div className="flex flex-row">
-                    <p>Välkommen 
-                        {this.props.user.displayName}
-                        {this.state.myScore && '(' + this.state.myScore + ' poäng)'}</p>
+                    <p>Välkommen
+                        { this.props.user.displayName },
+                        { this.state.myPoints !== null ? '(' + this.state.myPoints + ' poäng)' : '' }
+                    </p>
                     <p onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</p>
                 </div>
                 {this.state.activeGame ? 
                     <Board 
                         game={this.state.activeGame}
                         user={this.props.user}
-                        hideGame={this.hideGame}/> 
+                        hideGame={this.hideGame}
+                        myPoints={this.state.myPoints}/> 
                         :
                     <div className="flex flex-row full-width">
                         <UsersList 
@@ -160,7 +159,6 @@ class MyPage extends React.Component{
                             user={this.props.user} 
                             challengePlayer={this.challengePlayer}
                             games={this.state.games}
-                            updateScore={this.updateScore}
                             loadingUsers={this.state.loadingUsers}/>
                             
                         <GamesList 

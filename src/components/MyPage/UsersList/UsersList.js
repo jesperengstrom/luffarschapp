@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function UsersList({user, users, challengePlayer, games, updateScore, loadingUsers}){
+function UsersList({user, users, challengePlayer, games, loadingUsers}){
 
     function aldreadyHasGame(user){
         let res = false;
@@ -53,7 +53,6 @@ UsersList.propTypes = {
     users: PropTypes.object, 
     challengePlayer: PropTypes.func.isRequired, 
     games: PropTypes.array,
-    updateScore: PropTypes.func.isRequired,
     loadingUsers: PropTypes.bool.isRequired
 };
 

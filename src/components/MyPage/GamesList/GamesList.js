@@ -129,7 +129,6 @@ function GamesList({games, removeGame, acceptGame, showGame, loadingGames}){
         }
     };
 
-
     return(        
         <section className="flex flex-column half-width">
             {makeGameTable(gameTableTypes.activeGames)}

@@ -110,6 +110,8 @@ class Board extends React.Component{
             winBoard['games/' + this.props.game.gameId + '/board'] = this.newBoard;
             //db rules only allow your own uid as value here
             winBoard['games/' + this.props.game.gameId + '/won'] = this.props.user.uid;
+            //db rules only allow this ref to be incremented by 1
+            winBoard['users/' + this.props.user.uid + '/points'] = this.props.myPoints + 1; 
             firebase.database().ref()
             .update(winBoard)
             .then(() => {
@@ -199,13 +201,13 @@ class Board extends React.Component{
 
             if (this.state.board[firstDirection(i)] === usersQuare){
                 points++;
-                console.log(usersQuare + ' first direction hit at ' + firstDirection(i) + ' totalling points ' + points )
+                // console.log(usersQuare + ' first direction hit at ' + firstDirection(i) + ' totalling points ' + points )
             } else break;
         }
         for (let i = 1; i <= 4; i++) {
             if (this.state.board[secondDirection(i)] === usersQuare) {
                 points++;
-                console.log(usersQuare + ' second direction hit at ' + secondDirection(i) + ' totalling points ' + points)
+                // console.log(usersQuare + ' second direction hit at ' + secondDirection(i) + ' totalling points ' + points)
             } else break;
         }
         return points > 4;
