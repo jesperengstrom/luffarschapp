@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from '../../firebase';
+import styled from 'styled-components';
 
 //components
 import SignUp from './SignUp/SignUp';
@@ -64,7 +65,7 @@ class SignIn extends React.Component{
 
     render(){
         const signin = 
-            <form onSubmit={this.handleSubmit} className="flex flex-column quarter-width">
+            (<form onSubmit={this.handleSubmit} className="flex flex-column quarter-width">
                 <p>Logga in</p>
                 <label htmlFor="email">E-mail:</label>
                 <input 
@@ -83,9 +84,12 @@ class SignIn extends React.Component{
                     placeholder="Minst 6 tecken"
                     required/>
                 {this.state.error && <p style={{color:'red'}}>{this.state.error}</p>}
-                <input type="submit" value="Logga in"/>
+                <input 
+                    className="ui massive button"
+                    type="submit" 
+                    value="Logga in"/>
                 <a style={{cursor: 'pointer'}} onClick={this.toggleSignup}>Registrera ett konto</a>
-            </form>
+            </form>)
 
         return(
         <div className="flex flex-column half-width align-center">
@@ -97,6 +101,13 @@ class SignIn extends React.Component{
         )
     }
 }
+
+const Title = styled.h1`
+font-size: 1.5em;
+text-align: center;
+color: palevioletred;
+`;
+
 
 
 export default SignIn;
