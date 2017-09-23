@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from './../../../firebase';
 
-class SignUp extends React.Component{
+class SignUpContainer extends React.Component{
     state = 
     {
         displayName: '',
@@ -122,4 +122,4 @@ class SignUp extends React.Component{
 }
 
 
-export default SignUp;
+export default SignUpContainer;

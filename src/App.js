@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import firebase from './firebase';
 
 //Modules
-import SignIn from './components/SignIn/SignIn';
 import FrontPage from './components/FrontPage/FrontPage';
 import MyPage from './components/MyPage/MyPage';
 
@@ -10,7 +9,10 @@ import MyPage from './components/MyPage/MyPage';
 import './App.css';
 
 class App extends Component {
-  state = {user: null}
+  state = {
+    user: null,
+    showSignup: false
+  }
 
   componentDidMount(){
     this.userAuthListener();
@@ -29,14 +31,16 @@ class App extends Component {
         });
       } else {
         //logged off, set state & online = false
-        firebase.database().ref('users/' + this.state.user.uid + '/online')
-        .set(false)
-        .then(() => {
-          this.setState({user: null})
-        })
-        .catch(error => {
-            console.log(error);
-        });
+        if (this.state.user) {
+          firebase.database().ref('users/' + this.state.user.uid + '/online')
+          .set(false)
+          .then(() => {
+            this.setState({user: null})
+          })
+          .catch(error => {
+              console.log(error);
+          });
+        }
       }
     }, (error => {
       console.log(error);
@@ -58,18 +62,21 @@ class App extends Component {
     };
   }
 
-  render(){
-    const firstPage = this.state.user ? 
-      <MyPage user={this.state.user}/> : 
-      <div className="flex flex-row">
-        <FrontPage/>
-        <SignIn refreshUser={this.refreshUser}/>
-      </div>;
+  toggleSignup = () => {
+    console.log('togglin')
+    this.state.showSignup ? 
+    this.setState({showSignup: false}) :
+    this.setState({showSignup: true})
+}
 
+  render(){
     return (
-      <div className="App flex flex-column">
-        {firstPage}
-      </div>
+      !this.state.user ? 
+      <FrontPage 
+        refreshUser={this.refreshUser}
+        showSignup={this.state.showSignup}
+        toggleSignup={this.toggleSignup} /> :
+      <MyPage user={this.state.user}/>
     );
   }
 }
