@@ -111,7 +111,7 @@ class Board extends React.Component{
             //db rules only allow your own uid as value here
             winBoard['games/' + this.props.game.gameId + '/won'] = this.props.user.uid;
             //db rules only allow this ref to be incremented by 1
-            winBoard['users/' + this.props.user.uid + '/points'] = this.props.myPoints + 1; 
+            winBoard['users/' + this.props.user.uid + '/points'] = this.props.myPoints + 2; 
             firebase.database().ref()
             .update(winBoard)
             .then(() => {

@@ -6,6 +6,7 @@ import firebase from './../../firebase';
 import Board from './../Board/Board';
 import UsersList from './UsersList/UsersList';
 import GamesList from './GamesList/GamesList';
+import Toplist from './Toplist/Toplist';
 
 class MyPage extends React.Component{
 
@@ -17,6 +18,7 @@ class MyPage extends React.Component{
             activeGame: null,
             loadingUsers: true,
             loadingGames: true,
+            toplist: false,
         };
 
     componentDidMount(){
@@ -37,7 +39,7 @@ class MyPage extends React.Component{
         .on('value', (snapshot)=>{
             let userObj = {}
             snapshot.forEach((key)=>{
-                //removing users game from userlist
+                //removing users games from userlist
                 userObj[key.key] = {
                     displayName: snapshot.child(key.key + '/displayName').val(),
                     uid: snapshot.child(key.key + '/uid').val(),
@@ -136,6 +138,12 @@ class MyPage extends React.Component{
         .catch(error => console.log(error));
     }
 
+    toggletoplist = () => {
+        this.state.toplist ? 
+        this.setState({toplist: false}) :
+        this.setState({toplist: true})
+    }
+
     render(){
         return (
             <div className="flex flex-column full-width">
@@ -145,8 +153,14 @@ class MyPage extends React.Component{
                         { this.state.myPoints !== null ? '(' + this.state.myPoints + ' poäng)' : '' }
                     </p>
                     <p onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</p>
+                    <button onClick={this.toggletoplist}>{this.state.toplist ? 'Stäng topplistan':'Visa topplistan'}</button>
                 </div>
-                {this.state.activeGame ? 
+                {this.state.toplist ? 
+                    <Toplist 
+                        users={this.state.users}
+                        user={this.props.user}/>
+                :
+                this.state.activeGame ? 
                     <Board 
                         game={this.state.activeGame}
                         user={this.props.user}
@@ -169,7 +183,7 @@ class MyPage extends React.Component{
                             removeGame={this.removeGame}
                             loadingGames={this.state.loadingGames}/>
                     </div>
-                }
+                }   
             </div>
         )
     }

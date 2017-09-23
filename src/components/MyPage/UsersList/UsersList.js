@@ -20,14 +20,14 @@ function UsersList({user, users, challengePlayer, games, loadingUsers}){
         .map(key=>{
             //don't return myself
             return (users[key].uid === user.uid) ? 
-            '' :
+            null :
             <tr key={'user-tr-' + key}>
                 <td>{users[key].displayName}</td>
-                <td>({users[key].points} poäng)</td>
-                <td>{users[key].online ? '(Online)' : ''}</td>
-                <td>{aldreadyHasGame(users[key].displayName) === false && 
-                    <button onClick={()=>challengePlayer(users[key])}>Utmana
-                    </button>}
+                <td>({users[key].points + ' poäng)'}</td>
+                <td>{users[key].online ? '(Online)' : null}</td>
+                <td>{aldreadyHasGame(users[key].displayName) === false ? 
+                    <button onClick={() => challengePlayer(users[key])}>Utmana</button> :
+                    null}
                 </td>
             </tr>;
         });

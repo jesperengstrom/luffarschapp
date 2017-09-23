@@ -23,7 +23,7 @@ function GamesList({games, removeGame, acceptGame, showGame, loadingGames}){
     }
 
     function makeGameTable(obj){
-        var emptyTable =  <tr><td style={{color: 'lightgrey'}}>Det finns inget här för tillfället</td></tr>;
+        var emptyTable =  <tr key='emptyTable'><td style={{color: 'lightgrey'}}>Det finns inget här för tillfället</td></tr>;
 
         return (<div>
                     <h4>{obj.title}</h4>
