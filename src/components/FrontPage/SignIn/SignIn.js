@@ -25,33 +25,45 @@ function SignIn({email, password, handleSubmit, handleChange, error}) {
                 placeholder="Lösenord"
                 required/>
         </Input>
-        {error && <p style={{color:'red'}}>{error}</p>}
-        <SubmitButton 
-            type="submit" 
-            value="Logga in">Logga in
-        </SubmitButton>
+        {error && 
+        <ErrorMessage><p>{error}</p></ErrorMessage>}
+        <SubmitButton type="submit">Logga in</SubmitButton>
     </Form>
     );
 }
 
-const Form = styled.form.attrs({
+//CSS for signin & signup
+
+export const Form = styled.form.attrs({
     className: 'ui form'
 })`
 display: flex;
 flex-direction: column;
 `;
 
-
-const SubmitButton = styled.button.attrs({
+export const SubmitButton = styled.button.attrs({
     className: 'ui huge inverted button',
 })`
-&&& {margin-bottom: 1rem;
+&&& {
+    margin: 0 0 1rem 0;
 }`;
 
-const Input = styled.div.attrs({
+export const Input = styled.div.attrs({
     className: 'ui left icon huge input'
 })`
 margin-bottom: 1rem;
+`;
+
+export const ErrorMessage = styled.div.attrs({
+    className: 'ui error message'
+})`
+&&&&& {
+    display:flex !important;
+    background-color: rgba(188, 8, 8, 0.61);
+    font-size:16px;
+    margin: 0 0 1rem 0;
+}
+
 `;
 
 

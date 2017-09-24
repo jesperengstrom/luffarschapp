@@ -64,7 +64,7 @@ class SignInContainer extends React.Component{
                     password={this.state.password}
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
-                    error={this.props.error}/>
+                    error={this.state.error}/>
         )
     }
 }

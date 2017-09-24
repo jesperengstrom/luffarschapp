@@ -1,6 +1,10 @@
 import React from 'react';
 import firebase from './../../../firebase';
 
+//components
+import SignUp from './SignUp';
+
+//logic for signup form
 class SignUpContainer extends React.Component{
     state = 
     {
@@ -86,37 +90,15 @@ class SignUpContainer extends React.Component{
     
     render(){
         return(
-            <form onSubmit={this.handleSubmit} className="flex flex-column quarter-width">
-                <p>Registrera dig!</p>
-                <label htmlFor="displayName">Användarnamn</label>
-                <input
-                    type="text"
-                    name="displayName"
-                    onChange={this.handleChange}
-                    value={this.state.displayName}
-                    placeholder="John_Doe"
-                    maxLength="25"
-                    required />
-                <label htmlFor="email">E-mail:</label>
-                <input 
-                    type="email" 
-                    name="email" 
-                    onChange={this.handleChange}
-                    value={this.state.email} 
-                    placeholder="john@doe.com" 
-                    required />
-                <label htmlFor="password">Lösenord:</label>
-                <input 
-                    type="password" 
-                    name="password" 
-                    onChange={this.handleChange}
-                    value={this.state.password} 
-                    placeholder="Minst 6 tecken"
-                    required/>
-                {this.state.error && <p className="error">{this.state.error}</p>}
-                <input type="submit" disabled={this.state.disabledSubmit} value="Registrera" />
-                <input type="button" onClick={this.props.toggleSignup} value="avbryt"/>
-            </form>
+            <SignUp
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+            displayName={this.state.displayName}
+            email={this.state.email}
+            password={this.state.password}
+            error={this.state.error}
+            disabledSubmit={this.state.disabledSubmit}
+            toggleSignup={this.props.toggleSignup} />
         )
     }
 }

@@ -11,7 +11,7 @@ import './App.css';
 class App extends Component {
   state = {
     user: null,
-    showSignup: false
+    showSignup: true
   }
 
   componentDidMount(){
