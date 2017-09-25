@@ -4,7 +4,7 @@ import React from 'react';
 import { SubmitButton, ErrorMessage, Form, Input } from './../SignIn/SignIn';
 
 //render sinup UI
-function SignUp({handleSubmit, handleChange, displayName, email, password, error, disabledSubmit, toggleSignup }) {
+function SignUp({handleSubmit, handleChange, displayName, email, password, error, disabledSubmit }) {
     return (
         <Form onSubmit={handleSubmit}>
             <Input>

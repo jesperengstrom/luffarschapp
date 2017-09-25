@@ -21,10 +21,13 @@ class SignUpContainer extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
+        if (this.state.displayName.length > 16) {
+            this.setState({error: 'Användarnamnet får max vara 16 tecken!'})
+        } else {
         this.setState({disabledSubmit: true}, this.checkDisplayNameAvailability)
-    }
+    }}
 
-    checkDisplayNameAvailability = (fn) =>{
+    checkDisplayNameAvailability = () =>{
         firebase.database().ref('users')
         .orderByChild('displayName').equalTo(this.state.displayName)
         .once('value')
@@ -97,8 +100,7 @@ class SignUpContainer extends React.Component{
             email={this.state.email}
             password={this.state.password}
             error={this.state.error}
-            disabledSubmit={this.state.disabledSubmit}
-            toggleSignup={this.props.toggleSignup} />
+            disabledSubmit={this.state.disabledSubmit}/>
         )
     }
 }

@@ -5,25 +5,25 @@ import styled from 'styled-components';
 import SignInContainer from './SignIn/SignInContainer';
 import SignUpContainer from './SignUp/SignUpContainer';
 
-function FrontPage({refreshUser, toggleSignup, showSignup}){
+function FrontPage({refreshUser, showSignup, hideSignup, signup}){
     return (
         <FrontPageMain>
         <FormContainer>
             <Title>LuffarshApp</Title>
-            {!showSignup ?
+            {!signup ?
             <span>
                 <SignInContainer/>
                 <FrontpageLink>
-                    <a onClick={toggleSignup}>
+                    <a onClick={showSignup}>
                         Skapa ett konto 
                         <i aria-hidden="true" style={{verticalAlign:'middle'}} className="chevron right icon"></i>
                     </a>
                 </FrontpageLink>
             </span> :
             <span>
-                <SignUpContainer toggleSignup={toggleSignup} refreshUser={refreshUser}/>
+                <SignUpContainer refreshUser={refreshUser}/>
                 <FrontpageLink>
-                    <a onClick={toggleSignup}>
+                    <a onClick={hideSignup}>
                         <i aria-hidden="true" style={{verticalAlign:'middle'}} className="chevron left icon"></i>
                         Avbryt
                     </a>

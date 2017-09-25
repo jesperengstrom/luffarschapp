@@ -49,7 +49,8 @@ class MyPage extends React.Component{
                     points: snapshot.child(key.key + '/points').val()
                 }
             })
-            let myPoints = userObj[this.props.user.uid].points;
+            let myPoints = userObj[this.props.user.uid] ?
+            userObj[this.props.user.uid].points : 0; //if we just registered our id is maybe not present in 'users' yet
             this.setState({users: userObj, myPoints: myPoints, loadingUsers: false});
 
         }, (error => {
@@ -76,6 +77,7 @@ class MyPage extends React.Component{
     }
 
     signOut = () => {
+        this.props.hideSignup(); //if we came from signup
         firebase.auth().signOut();
     }
 
@@ -148,6 +150,10 @@ class MyPage extends React.Component{
         !this.state.toplist && this.setState({toplist:true})
     }
 
+    handleUsersearch = (userString) => {
+        console.log('you searched for ' + userString)
+    }
+
     render(){
         return (
             <MyPageMain>
@@ -156,7 +162,8 @@ class MyPage extends React.Component{
                     user={this.props.user} 
                     challengePlayer={this.challengePlayer}
                     games={this.state.games}
-                    loadingUsers={this.state.loadingUsers}/>
+                    loadingUsers={this.state.loadingUsers}
+                    handleUsersearch={this.handleUsersearch}/>
                 <GameSection>
                     <TopBar 
                         user={this.props.user}

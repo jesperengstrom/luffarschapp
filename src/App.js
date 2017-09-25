@@ -11,7 +11,7 @@ import './App.css';
 class App extends Component {
   state = {
     user: null,
-    showSignup: false
+    signup: false
   }
 
   componentDidMount(){
@@ -62,21 +62,31 @@ class App extends Component {
     };
   }
 
-  toggleSignup = () => {
-    console.log('togglin')
-    this.state.showSignup ? 
-    this.setState({showSignup: false}) :
-    this.setState({showSignup: true})
-}
+  // toggleSignup = () => {
+  //   this.state.showSignup ? 
+  //   this.setState({showSignup: false}) :
+  //   this.setState({showSignup: true})
+  // }
+
+  hideSignup = () => {
+    this.setState({signup: false});
+  }
+
+  showSignup = () => {
+    this.setState({signup: true})
+  }
 
   render(){
     return (
       !this.state.user ? 
       <FrontPage 
         refreshUser={this.refreshUser}
-        showSignup={this.state.showSignup}
-        toggleSignup={this.toggleSignup} /> :
-      <MyPage user={this.state.user}/>
+        signup={this.state.signup}
+        hideSignup={this.hideSignup}
+        showSignup={this.showSignup} /> :
+      <MyPage 
+        user={this.state.user}
+        hideSignup={this.hideSignup}/>
     );
   }
 }
