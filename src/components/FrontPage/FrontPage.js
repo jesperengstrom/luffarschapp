@@ -7,7 +7,7 @@ import SignUpContainer from './SignUp/SignUpContainer';
 
 function FrontPage({refreshUser, toggleSignup, showSignup}){
     return (
-        <Main>
+        <FrontPageMain>
         <FormContainer>
             <Title>LuffarshApp</Title>
             {!showSignup ?
@@ -36,14 +36,14 @@ function FrontPage({refreshUser, toggleSignup, showSignup}){
                 <i aria-hidden="true" className="large github icon"></i>
             </a>
         </Github>
-        </Main>
+        </FrontPageMain>
     );
 }
 
 //styles
 
 //general styles for main page
-const Main = styled.main`
+const FrontPageMain = styled.main`
 width: 100%;
 height:100%;
 display:flex;
@@ -73,7 +73,7 @@ width: 300px
 const Title = styled.h1`
 font-size: 48px;
 margin-top: 20% !important;
-margin-bottom: 2rem;
+margin-bottom: 3rem;
 color: rgb(255, 255, 255);
 `; 
 

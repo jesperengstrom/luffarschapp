@@ -13,12 +13,10 @@ class SignInContainer extends React.Component{
     }
 
     handleChange = (e) => {
-        console.log('im changein!')
         this.setState({[e.target.name]: e.target.value})
     }
 
     handleSubmit = (e) => {
-        console.log('im handling submit!')
         e.preventDefault();
         this.signIn();
     }

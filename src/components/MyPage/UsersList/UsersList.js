@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 function UsersList({user, users, challengePlayer, games, loadingUsers}){
 
@@ -35,7 +36,7 @@ function UsersList({user, users, challengePlayer, games, loadingUsers}){
     }
 
     return(
-        <section className="flex flex-column half-width">
+        <UserSidebar>
             <h4>Spelare</h4>
             <table>
                 <tbody>
@@ -44,7 +45,7 @@ function UsersList({user, users, challengePlayer, games, loadingUsers}){
                 sortPlayers()}
                 </tbody>
             </table>
-        </section>
+        </UserSidebar>
     );
 }
 
@@ -55,5 +56,19 @@ UsersList.propTypes = {
     games: PropTypes.array,
     loadingUsers: PropTypes.bool.isRequired
 };
+
+//CSS
+
+const UserSidebar = styled.section`
+height:100%;
+width: 250px;
+background: #404040;
+display:flex;
+flex-direction:column;
+box-shadow: inset -1px 0px 14px 0px rgba(0, 0, 0, 0.27);
+h4, table {
+    color:white;
+}
+`;
 
 export default UsersList;

@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import firebase from './../../firebase';
+import styled from 'styled-components';
 
-//modules
+//components
 import Board from './../Board/Board';
 import UsersList from './UsersList/UsersList';
 import GamesList from './GamesList/GamesList';
 import Toplist from './Toplist/Toplist';
+import TopBar from './TopBar/TopBar';
 
 class MyPage extends React.Component{
 
@@ -138,29 +140,35 @@ class MyPage extends React.Component{
         .catch(error => console.log(error));
     }
 
-    toggletoplist = () => {
-        this.state.toplist ? 
-        this.setState({toplist: false}) :
-        this.setState({toplist: true})
+    closeToplist = () => {
+        this.state.toplist && this.setState({toplist:false})
+    }
+
+    showToplist = () => {
+        !this.state.toplist && this.setState({toplist:true})
     }
 
     render(){
         return (
-            <div className="flex flex-column full-width">
-                <div className="flex flex-row">
-                    <p>Välkommen
-                        { this.props.user.displayName },
-                        { this.state.myPoints !== null ? '(' + this.state.myPoints + ' poäng)' : '' }
-                    </p>
-                    <p onClick={this.signOut} style={{cursor:'pointer'}}>Logga ut</p>
-                    <button onClick={this.toggletoplist}>{this.state.toplist ? 'Stäng topplistan':'Visa topplistan'}</button>
-                </div>
-                {this.state.toplist ? 
+            <MyPageMain>
+                <UsersList 
+                    users={this.state.users} 
+                    user={this.props.user} 
+                    challengePlayer={this.challengePlayer}
+                    games={this.state.games}
+                    loadingUsers={this.state.loadingUsers}/>
+                <GameSection>
+                    <TopBar 
+                        user={this.props.user}
+                        myPoints={this.state.myPoints}
+                        signOut={this.signOut}
+                        showToplist={this.showToplist}/>
+                    {this.state.toplist ? 
                     <Toplist 
                         users={this.state.users}
                         user={this.props.user}/>
-                :
-                this.state.activeGame ? 
+                    :
+                    this.state.activeGame ? 
                     <Board 
                         game={this.state.activeGame}
                         user={this.props.user}
@@ -168,13 +176,6 @@ class MyPage extends React.Component{
                         myPoints={this.state.myPoints}/> 
                         :
                     <div className="flex flex-row full-width">
-                        <UsersList 
-                            users={this.state.users} 
-                            user={this.props.user} 
-                            challengePlayer={this.challengePlayer}
-                            games={this.state.games}
-                            loadingUsers={this.state.loadingUsers}/>
-                            
                         <GamesList 
                             games={this.state.games}
                             user={this.props.user}
@@ -184,11 +185,29 @@ class MyPage extends React.Component{
                             loadingGames={this.state.loadingGames}/>
                     </div>
                 }   
-            </div>
+                </GameSection>
+            </MyPageMain>
         )
     }
 }
 
 MyPage.propTypes = {user: PropTypes.object }
 
+//CSS
+
+const MyPageMain = styled.main`
+width:100%;
+height:100%;
+display:flex;
+flex-direction: row;
+`;
+
+const GameSection = styled.section`
+height:100%;
+display:flex;
+flex-direction:column;
+flex: 1;
+`;
+
 export default MyPage;
+

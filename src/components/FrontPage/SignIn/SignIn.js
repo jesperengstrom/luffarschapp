@@ -28,6 +28,9 @@ function SignIn({email, password, handleSubmit, handleChange, error}) {
         {error && 
         <ErrorMessage><p>{error}</p></ErrorMessage>}
         <SubmitButton type="submit">Logga in</SubmitButton>
+        <SubmitButton type="button" onClick={()=>alert('google')}>
+            <i aria-hidden="true" className="google icon"></i>
+            Logga in med Google</SubmitButton>
     </Form>
     );
 }

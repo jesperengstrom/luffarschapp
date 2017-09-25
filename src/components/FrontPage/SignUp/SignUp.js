@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 //components
 import { SubmitButton, ErrorMessage, Form, Input } from './../SignIn/SignIn';
@@ -30,7 +29,7 @@ function SignUp({handleSubmit, handleChange, displayName, email, password, error
                     required />
             </Input>
             <Input>
-                <i aria-hidden="true" className="at icon"></i>
+                <i aria-hidden="true" className="lock icon"></i>
                 <input 
                     type="password" 
                     name="password" 
