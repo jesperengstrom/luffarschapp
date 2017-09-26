@@ -25,7 +25,7 @@ width:100%;
 height:65px;
 min-height:65px;
 padding: 1rem;
-background: rgb(188, 82, 82);
+background: rgb(49, 97, 133);
 `;
 
 const TransparentSearch = styled.div.attrs({

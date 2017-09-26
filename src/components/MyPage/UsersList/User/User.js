@@ -52,10 +52,10 @@ font-size: 16px;
 font-weight: 700;
 `;
 
-const UserListPoints = styled.div.attrs({
+export const UserListPoints = styled.div.attrs({
     className: 'ui blue horizontal label'
 })` &&&& {
-    background-color: rgba(33, 133, 208, 0.48)!important;
+    background-color: rgb(49,97,133)!important;
     display: flex;
     font-size: 12px;
     i {

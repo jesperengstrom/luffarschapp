@@ -102,7 +102,7 @@ flex-direction: column;
 margin-bottom: 2rem;
 `;
 
-const TableHeader = styled.h3`
+export const TableHeader = styled.h3`
 font-size: 20px;
 padding-bottom: 1rem;
 border-bottom: 1px solid rgba(0, 0, 0, 0.21);

@@ -169,6 +169,7 @@ class MyPage extends React.Component{
                     <GameSectionWrapper>
                         {this.state.toplist ? 
                         <Toplist 
+                            closeToplist={this.closeToplist}
                             users={this.state.users}
                             user={this.props.user}/>
                         :
