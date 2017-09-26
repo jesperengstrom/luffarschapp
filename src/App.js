@@ -62,12 +62,6 @@ class App extends Component {
     };
   }
 
-  // toggleSignup = () => {
-  //   this.state.showSignup ? 
-  //   this.setState({showSignup: false}) :
-  //   this.setState({showSignup: true})
-  // }
-
   hideSignup = () => {
     this.setState({signup: false});
   }

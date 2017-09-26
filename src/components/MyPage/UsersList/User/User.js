@@ -28,19 +28,12 @@ const ListItem = styled.div.attrs({
     className: 'item',
     role: 'listitem'
 })`
-&&&& {min-height:35px !important;
-display: flex;
-align-items: center;
-flex-wrap:nowrap}
-`;
-
-const Content = styled.div.attrs({
-    className: 'middle aligned content'
-})`
-display: flex;
-align-items: center;
-color: white;
-font-size: 18px;
+&&&& {
+    min-height: 35px !important;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    }
 `;
 
 const OnlineDot = styled.div.attrs({
@@ -62,17 +55,17 @@ font-weight: 700;
 const UserListPoints = styled.div.attrs({
     className: 'ui blue horizontal label'
 })` &&&& {
-background-color: rgba(33, 133, 208, 0.48)!important;
-display:flex;
-font-size:12px;
-i {
-    margin-right: 3px;
+    background-color: rgba(33, 133, 208, 0.48)!important;
+    display: flex;
+    font-size: 12px;
+    i {
+        margin-right: 3px;
     }
 }`;
 
 const ChallengeBtn = styled.a.attrs({
     className: 'ui red horizontal label'
 })` 
-display:flex;
-margin-left:auto !important;
+display: flex;
+margin-left: auto !important;
 `;

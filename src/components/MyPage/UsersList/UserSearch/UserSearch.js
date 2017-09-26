@@ -22,8 +22,7 @@ class UserSearch extends React.Component{
                         onChange={this.handleChange}/>
                     <i 
                         aria-hidden="true" 
-                        className="white search circular link icon"
-                        onClick={()=>this.props.handleUsersearch(this.state.search)}>
+                        className="white search circular link icon">
                     </i>
                 </TransparentSearch>
             </UserSearchContainer>

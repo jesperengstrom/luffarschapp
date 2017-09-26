@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import UserSearch from './UserSearch/UserSearch';
 import User from './User/User';
 
-function UsersList({user, users, challengePlayer, games, loadingUsers, handleUsersearch}){
+function UsersList({user, users, challengePlayer, games, loadingUsers}){
 
     function aldreadyHasGame(user){
         let res = false;
@@ -34,26 +34,17 @@ function UsersList({user, users, challengePlayer, games, loadingUsers, handleUse
                 hasGame={aldreadyHasGame(users[key].displayName)}
                 challengePlayer={challengePlayer}
                 opponent={users[key]}/>;
-            // <tr key={'user-tr-' + key}>
-            //     <td>{users[key].displayName}</td>
-            //     <td>({users[key].points + ' poäng)'}</td>
-            //     <td>{users[key].online ? '(Online)' : null}</td>
-            //     <td>{aldreadyHasGame(users[key].displayName) === false ? 
-            //         <button onClick={() => challengePlayer(users[key])}>Utmana</button> :
-            //         null}
-            //     </td>
-            // </tr>;
         });
         return sorted;
     }
 
     return(
         <UserSidebar>
-            <UserSearch handleUsersearch={handleUsersearch}/>
+            <UserSearch/>
             <Users>
                 {loadingUsers ? 
                 <Loading>
-                            <div className="ui active large inverted inline text loader">Laddar användare...</div>
+                    <div className="ui active large inverted inline text loader">Laddar användare...</div>
                 </Loading> :
                 <div className="ui celled inverted relaxed list" role="list">
                     {sortPlayers()}
@@ -69,7 +60,6 @@ UsersList.propTypes = {
     challengePlayer: PropTypes.func.isRequired, 
     games: PropTypes.array,
     loadingUsers: PropTypes.bool.isRequired,
-    handleUsersearch: PropTypes.func.isRequired
 };
 
 //CSS

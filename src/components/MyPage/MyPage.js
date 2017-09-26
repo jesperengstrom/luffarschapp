@@ -150,9 +150,6 @@ class MyPage extends React.Component{
         !this.state.toplist && this.setState({toplist:true})
     }
 
-    handleUsersearch = (userString) => {
-        console.log('you searched for ' + userString)
-    }
 
     render(){
         return (
@@ -162,8 +159,7 @@ class MyPage extends React.Component{
                     user={this.props.user} 
                     challengePlayer={this.challengePlayer}
                     games={this.state.games}
-                    loadingUsers={this.state.loadingUsers}
-                    handleUsersearch={this.handleUsersearch}/>
+                    loadingUsers={this.state.loadingUsers}/>
                 <GameSection>
                     <TopBar 
                         user={this.props.user}

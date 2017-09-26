@@ -6,7 +6,7 @@ function TopBar({user, myPoints, signOut, showToplist }){
         <TopBarContainer>
             <nav>
                 <UserBadge>
-                    <i aria-hidden="true" className="large yellow user icon"></i>
+                    <i aria-hidden="true" className="large user icon"></i>
                     <span>{user.displayName }</span>
                 </UserBadge>
             </nav>
