@@ -1,33 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-class UserSearch extends React.Component{
-    state = {
-        search: ''
-    }
-
-    handleChange = (e) => {
-        this.setState({search: e.target.value})
-    }
-
-    render() {
-        return (
-            <UserSearchContainer>
-                <TransparentSearch>
-                    <input 
-                        type="text" 
-                        placeholder="Sök spelare..." 
-                        name="search"
-                        value={this.state.search}
-                        onChange={this.handleChange}/>
-                    <i 
-                        aria-hidden="true" 
-                        className="white search circular link icon">
-                    </i>
-                </TransparentSearch>
-            </UserSearchContainer>
-        );
-    }
+function UserSearch(props){
+    return (
+        <UserSearchContainer>
+            <TransparentSearch>
+            <i aria-hidden="true" className="white search icon">
+                </i>
+                <input 
+                    type="text" 
+                    placeholder="Sök spelare..." 
+                    name="search"
+                    value={props.search}
+                    onChange={props.handleSearch}/>
+            </TransparentSearch>
+        </UserSearchContainer>
+    );
 }
 
 const UserSearchContainer = styled.div`
@@ -41,7 +29,7 @@ background: rgb(188, 82, 82);
 `;
 
 const TransparentSearch = styled.div.attrs({
-    className: 'ui big transparent input'
+    className: 'ui big transparent left icon input'
 })`&&&&{
     input {
         font-size: 16px;

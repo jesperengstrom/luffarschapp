@@ -6,52 +6,71 @@ import styled from 'styled-components';
 import UserSearch from './UserSearch/UserSearch';
 import User from './User/User';
 
-function UsersList({user, users, challengePlayer, games, loadingUsers}){
+class UsersList extends React.Component{
 
-    function aldreadyHasGame(user){
+    state = {
+        search: ''
+    }
+
+    aldreadyHasGame = (user) => {
         let res = false;
-        games && games.forEach(game =>{
+        this.props.games && this.props.games.forEach(game =>{
             //you can challenge a player if they're not an active opponent
             if (game.opponentName === user && (game.status !== 'won' && game.status !== 'lost')) res = true;
         });
         return res;
     };
 
-    function sortPlayers(){
-        let sorted = users && Object.keys(users)
+    sortOnline = () => {
+        let sorted = this.props.users && Object.keys(this.props.users)
         .sort((a, b) =>{ //sorting online first
-            return (users[a].online === users[b].online)? 0 : a? 1 : -1;
+            return (this.props.users[a].online === this.props.users[b].online)? 0 : a? 1 : -1;
         })
-        .map(key=>{
-            //don't return myself
-            return (users[key].uid === user.uid) ? 
-            null :
-            <User
-                key={'user-tr-' + key}
-                displayName={users[key].displayName}
-                points={users[key].points}
-                online={users[key].online}
-                hasGame={aldreadyHasGame(users[key].displayName)}
-                challengePlayer={challengePlayer}
-                opponent={users[key]}/>;
-        });
         return sorted;
     }
 
-    return(
-        <UserSidebar>
-            <UserSearch/>
-            <Users>
-                {loadingUsers ? 
-                <Loading>
-                    <div className="ui active large inverted inline text loader">Laddar användare...</div>
-                </Loading> :
-                <div className="ui celled inverted relaxed list" role="list">
-                    {sortPlayers()}
-                </div>}
-            </Users>
-        </UserSidebar>
-    );
+    handleSearch = (e) => {
+        this.setState({search: e.target.value})
+
+    } 
+
+    filterSearch = (sorted) => {
+        return sorted.filter((key)=>{
+            return this.props.users[key].displayName.toLowerCase().startsWith(this.state.search.toLowerCase())
+        })
+    }
+
+    render() {
+        return(
+            <UserSidebar>
+                <UserSearch 
+                    search={this.state.search}
+                    handleSearch={this.handleSearch}/>
+                <Users>
+                    {this.props.loadingUsers ? 
+                    <Loading>
+                        <div className="ui active large inverted inline text loader">Laddar användare...</div>
+                    </Loading> :
+                    <div className="ui celled inverted relaxed list" role="list">
+                        {this.filterSearch(this.sortOnline())
+                        .map(key=>{
+                            //don't return myself
+                            return (this.props.users[key].uid === this.props.user.uid) ? 
+                            null :
+                            <User
+                                key={'user-tr-' + key}
+                                displayName={this.props.users[key].displayName}
+                                points={this.props.users[key].points}
+                                online={this.props.users[key].online}
+                                hasGame={this.aldreadyHasGame(this.props.users[key].displayName)}
+                                challengePlayer={this.props.challengePlayer}
+                                opponent={this.props.users[key]}/>;
+                        })}
+                    </div>}
+                </Users>
+            </UserSidebar>
+        );
+    }
 }
 
 UsersList.propTypes = {
