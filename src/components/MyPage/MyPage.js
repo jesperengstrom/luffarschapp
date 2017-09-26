@@ -166,19 +166,19 @@ class MyPage extends React.Component{
                         myPoints={this.state.myPoints}
                         signOut={this.signOut}
                         showToplist={this.showToplist}/>
-                    {this.state.toplist ? 
-                    <Toplist 
-                        users={this.state.users}
-                        user={this.props.user}/>
-                    :
-                    this.state.activeGame ? 
-                    <Board 
-                        game={this.state.activeGame}
-                        user={this.props.user}
-                        hideGame={this.hideGame}
-                        myPoints={this.state.myPoints}/> 
+                    <GameSectionWrapper>
+                        {this.state.toplist ? 
+                        <Toplist 
+                            users={this.state.users}
+                            user={this.props.user}/>
                         :
-                    <div className="flex flex-row full-width">
+                        this.state.activeGame ? 
+                        <Board 
+                            game={this.state.activeGame}
+                            user={this.props.user}
+                            hideGame={this.hideGame}
+                            myPoints={this.state.myPoints}/> 
+                            :
                         <GamesList 
                             games={this.state.games}
                             user={this.props.user}
@@ -186,8 +186,8 @@ class MyPage extends React.Component{
                             showGame={this.showGame}
                             removeGame={this.removeGame}
                             loadingGames={this.state.loadingGames}/>
-                    </div>
-                }   
+                    }   
+                    </GameSectionWrapper>
                 </GameSection>
             </MyPageMain>
         )
@@ -210,6 +210,14 @@ height:100%;
 display:flex;
 flex-direction:column;
 flex: 1;
+`;
+
+const GameSectionWrapper = styled.section`
+background-color: #fff6ae;
+height: 100%;
+display: flex;
+justify-content: center;
+padding: 5% 2rem 2rem 2rem;
 `;
 
 export default MyPage;

@@ -1,71 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+//components
+import GameTable from './GameTable/GameTable';
 
 function GamesList({games, removeGame, acceptGame, showGame, loadingGames}){
 
-    function translateGameStatus(status, name){
-        switch(status){
-            case 'gotReq':
-                return name + ' har utmanat dig';
-            case 'sentReq':
-                return 'Väntar på att ' + name + ' ska acceptera';
-            case 'waiting':
-                return name + ' spelar...';
-            case 'playing':
-                return 'Din tur att spela mot ' + name;
-            case 'won':
-                return 'Du vann mot ' + name + '!';
-            case 'lost':
-                return 'Du förlorade mot ' + name;
-            default: 
-                return 'Oklar status'; 
-        }
-    }
-
-    function makeGameTable(obj){
-        var emptyTable =  <tr key='emptyTable'><td style={{color: 'lightgrey'}}>Det finns inget här för tillfället</td></tr>;
-
-        return (<div>
-                    <h4>{obj.title}</h4>
-                    <table>
-                        <tbody>
-                            {
-                                loadingGames ? 
-                                <tr><td style={{color: 'lightgrey'}}>Laddar...</td></tr> : 
-                                
-                                [inner(obj.case1),
-                                inner(obj.case2), 
-                                emptyTable]
-                            }
-                        </tbody>
-                    </table>
-                </div>);
-
-        function inner(innerobj){
-            let mapped = games && games.map(game => {
-                if (innerobj.condition(game.status)) {
-                    emptyTable = null;
-                    return <tr key={'games-tr-' + game.gameId}>
-                                <td>{translateGameStatus(game.status, game.opponentName)}</td>
-                                <td>
-                                    {innerobj.button1 && 
-                                    <button onClick={() => innerobj.button1.func(game)}>
-                                        {innerobj.button1.title}
-                                    </button>}
-                                    {innerobj.button2 && 
-                                    <button onClick={() => innerobj.button2.func(game)}>
-                                        {innerobj.button2.title}
-                                    </button>}
-                                </td>
-                            </tr>;
-                } return null;
-            });
-            return mapped;
-        }
-    }
-
     //since I have all kinds of game statuses with varying buttons & onclicks and need to sort
-    //them into tables, I pass this object into map function for more flexible rendering.
+    //them into tables, I pass this object into a higher order component that returns a table.
     const gameTableTypes= {
         activeGames: {
             title: 'Aktiva spel',
@@ -130,11 +73,20 @@ function GamesList({games, removeGame, acceptGame, showGame, loadingGames}){
     };
 
     return(        
-        <section className="flex flex-column half-width">
-            {makeGameTable(gameTableTypes.activeGames)}
-            {makeGameTable(gameTableTypes.invitedGames)}
-            {makeGameTable(gameTableTypes.finishedGames)}
-        </section>
+        <GameListWrapper>
+            <GameTable 
+                obj={gameTableTypes.activeGames} 
+                loadingGames={loadingGames} 
+                games={games}/>
+            <GameTable 
+                obj={gameTableTypes.invitedGames} 
+                loadingGames={loadingGames} 
+                games={games}/>
+            <GameTable 
+                obj={gameTableTypes.finishedGames} 
+                loadingGames={loadingGames} 
+                games={games}/>
+        </GameListWrapper>
     );
 }
 
@@ -146,5 +98,11 @@ GamesList.propTypes = {
     loadingGames: PropTypes.bool.isRequired
 };
 
+export const GameListWrapper = styled.div`
+width: 50%;
+height: 100%;
+display: flex;
+flex-direction: column;
+`;
 
 export default GamesList;

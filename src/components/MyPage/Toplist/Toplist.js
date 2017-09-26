@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+//Components
+
+import { GameListWrapper } from './../GamesList/GamesList';
+
 //CSS
 import './Toplist.css';
 
@@ -19,12 +23,12 @@ function Toplist ({user, users}){
     }
 
     return (
-        <div>
+        <GameListWrapper>
             <h4>Topplistan</h4>
             <ol>
                 {renderToplist()}
             </ol>
-        </div>
+        </GameListWrapper>
     );
 
 

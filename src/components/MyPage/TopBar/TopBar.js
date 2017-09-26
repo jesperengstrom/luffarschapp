@@ -44,7 +44,6 @@ flex-direction: row;
 justify-content: flex-end;
 align-items: center;
 padding: 1rem 2rem;
-margin-bottom: 2rem;
 p {
     font-size:20px;
 }
