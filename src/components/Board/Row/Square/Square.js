@@ -36,7 +36,7 @@ justify-content: center;
 align-items: center;
 margin: 0 1% 1% 0;
 background-color: white;
-box-shadow: -2px 2px 0px 0px rgb(235, 228, 168);
+border: 1px solid #f3eba7;
 i {
     font-size: 3vw !important;
     margin: 0 !important;
@@ -47,6 +47,5 @@ i:before {
 }
 
 `;
-
 
 export default Square;

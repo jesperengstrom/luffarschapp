@@ -49,5 +49,4 @@ flex-direction: row;
 justify-content: center;
 `;
 
-
 export default Row;

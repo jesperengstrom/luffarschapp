@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import styled from 'styled-components';
 
 //sign in ui
@@ -35,6 +37,16 @@ function SignIn({email, password, handleSubmit, signInWithGoogle, handleChange, 
     );
 }
 
+SignIn.propTypes = {
+    email: PropTypes.string,
+    password: PropTypes.string,
+    handleSubmit: PropTypes.func.isRequired,
+    signInWithGoogle: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    error: PropTypes.string,
+    disabledSubmit: PropTypes.bool.isRequired
+};
+
 //CSS for signin & signup
 
 export const Form = styled.form.attrs({
@@ -45,14 +57,14 @@ flex-direction: column;
 `;
 
 export const SubmitButton = styled.button.attrs({
-    className: 'ui huge inverted button',
+    className: 'ui big inverted button',
 })`
 &&& {
     margin: 0 0 1rem 0;
 }`;
 
 export const Input = styled.div.attrs({
-    className: 'ui left icon huge input'
+    className: 'ui left icon big input'
 })`
 margin-bottom: 1rem;
 `;

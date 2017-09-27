@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 function UserSearch(props){
@@ -17,6 +18,14 @@ function UserSearch(props){
         </UserSearchContainer>
     );
 }
+
+UserSearch.propTypes = {
+    search: PropTypes.string,
+    handleSearch: PropTypes.func.isRequired
+};
+
+
+//CSS
 
 const UserSearchContainer = styled.div`
 display: flex;

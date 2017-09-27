@@ -110,7 +110,7 @@ p {
     font-size:16px
 }
 .ui.large.loader {
-    font-weight:700;
+    font-size:16px;
 }
 `;
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import styled from 'styled-components';
 
 function GameTable({obj, games, loadingGames}){
@@ -95,6 +97,14 @@ function GameTable({obj, games, loadingGames}){
     );
 }
 
+GameTable.propTypes = {
+    obj: PropTypes.object,
+    games: PropTypes.array,
+    loadingGames: PropTypes.bool.isRequired
+};
+
+//CSS
+
 const GameTableWrapper = styled.div`
 flex: 1;
 display: flex;
@@ -103,7 +113,8 @@ margin-bottom: 1rem;
 `;
 
 export const PageHeader = styled.h3`
-font-size: 20px;
+font-family: 'Bungee Hairline', cursive;
+font-size: 22px;
 border-bottom: 1px solid rgba(0, 0, 0, 0.21);
 white-space: nowrap;
 height: 65px;
@@ -120,7 +131,6 @@ export const Table = styled.table.attrs({
 
 export const Td = styled.td`
 font-size: 16px;
-font-weight: 700;
 line-height: 32px;
 color: ${props => props.grey ? 'rgba(0, 0, 0, 0.33);' : 'black'}
 `;

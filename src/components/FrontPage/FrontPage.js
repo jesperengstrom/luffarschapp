@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 //conponents
@@ -10,7 +11,7 @@ function FrontPage({showSignup, hideSignup, signup, chooseUsername, showChooseUs
     return (
         <FrontPageMain>
         <FormContainer>
-            <Title> </Title>
+            <Title>Luffarsch<span style={{color: 'rgba(255, 255, 255, 0.41)'}}>app</span></Title>
             {chooseUsername ? 
             <ChooseUsernameContainer checkRealtimeDb={checkRealtimeDb} /> : 
             !signup ?
@@ -43,7 +44,16 @@ function FrontPage({showSignup, hideSignup, signup, chooseUsername, showChooseUs
     );
 }
 
-//styles
+FrontPage.propTypes = {
+    showSignup: PropTypes.func.isRequired,
+    hideSignup: PropTypes.func.isRequired,
+    signup: PropTypes.bool,
+    chooseUsername: PropTypes.bool.isRequired, 
+    showChooseUsername: PropTypes.func.isRequired, 
+    checkRealtimeDb: PropTypes.func.isRequired, 
+};
+
+//CSS
 
 // background: linear-gradient(20deg,rgb(212, 89, 89),rgba(218, 163, 87, 0.73));
 //general styles for main page
@@ -76,8 +86,9 @@ width: 300px;
 `;
 
 const Title = styled.h1`
+font-family: 'Bungee Hairline', cursive;
 font-size: 48px;
-margin-top: 20% !important;
+margin-top: 30% !important;
 margin-bottom: 3rem;
 color: rgb(255, 255, 255);
 `; 
@@ -89,6 +100,14 @@ cursor: pointer;
 font-size: 20px;
 margin: 1rem 0;
 `; 
+
+export const FrontpageText = styled.div`
+display: flex;
+justify-content: center;
+font-size: 20px;
+margin: 1rem 0;
+color: white; 
+`;
 
 const Github = FrontpageLink.extend`
 position: absolute;

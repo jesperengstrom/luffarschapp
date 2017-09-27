@@ -46,9 +46,11 @@ Toplist.propTypes = {
     closeToplist: PropTypes.func.isRequired
 };
 
+
+//CSS
+
 export const Close = styled.i.attrs({
     className: 'large icon close',
-    // ariaHidden: 'true'
 })`&&&&{
     vertical-align: top;
     float:right;
