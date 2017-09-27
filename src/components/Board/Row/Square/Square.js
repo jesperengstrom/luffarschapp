@@ -29,14 +29,23 @@ Square.propTypes = {
 };
 
 const OneSquare = styled.div`
-flex: 1;
+height: 3vw;
+width: 3vw;
 display: flex;
 justify-content: center;
 align-items: center;
-width: 100%;
-height: 100%;
-padding:1%;
-border: 1px solid #404040;
+margin: 0 1% 1% 0;
+background-color: white;
+box-shadow: -2px 2px 0px 0px rgb(235, 228, 168);
+i {
+    font-size: 3vw !important;
+    margin: 0 !important;
+}
+i:before {
+        vertical-align: -webkit-baseline-middle !important;
+        vertical-align: text-bottom !important;
+}
+
 `;
 
 

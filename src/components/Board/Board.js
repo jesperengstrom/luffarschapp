@@ -12,7 +12,6 @@ import { PageHeader } from './../MyPage/GamesList/GameTable/GameTable';
 //vars
 export const boardSize = {x: 10, y:10};
 
-
 //All game logic & board main sections
 class Board extends React.Component{
     constructor(props) {
@@ -279,23 +278,13 @@ const BoardContainer = styled.section`
 width: 100%;
 display: flex;
 flex-direction: row;
-justify-content: center;
+justify-content: space-around;
+}
 `;
 
 const OuterSquare = styled.div`
-height: 33vw;
-max-height:100%;
-width:33vw;
 display:flex;
 flex-direction:column;
-border: 1px solid #404040;
 `
-
-// const Square = styled.div`
-// height: 0;
-// padding-bottom: 45%;
-// width: 45%;
-// background-color: white;
-// `
 
 export default Board;
