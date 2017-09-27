@@ -69,7 +69,6 @@ class Board extends React.Component{
      * squareObj = {x: x, y: y}
      */
     handleClick = (squareObj) =>{
-        console.log(squareObj)
         //storing new board obj in constructor for the moment
         //fetching uid from auth to prevent cheating
         this.newBoard = Object.assign({}, this.state.board, {[squareObj.id]: firebase.auth().currentUser.uid})

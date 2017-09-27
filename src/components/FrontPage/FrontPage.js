@@ -4,13 +4,16 @@ import styled from 'styled-components';
 //conponents
 import SignInContainer from './SignIn/SignInContainer';
 import SignUpContainer from './SignUp/SignUpContainer';
+import ChooseUsernameContainer from './ChooseUsername/ChooseUsernameContainer';
 
-function FrontPage({refreshUser, showSignup, hideSignup, signup}){
+function FrontPage({showSignup, hideSignup, signup, chooseUsername, showChooseUsername, checkRealtimeDb}){
     return (
         <FrontPageMain>
         <FormContainer>
             <Title> </Title>
-            {!signup ?
+            {chooseUsername ? 
+            <ChooseUsernameContainer checkRealtimeDb={checkRealtimeDb} /> : 
+            !signup ?
             <span>
                 <SignInContainer/>
                 <FrontpageLink>
@@ -21,7 +24,7 @@ function FrontPage({refreshUser, showSignup, hideSignup, signup}){
                 </FrontpageLink>
             </span> :
             <span>
-                <SignUpContainer refreshUser={refreshUser}/>
+                <SignUpContainer showChooseUsername={showChooseUsername}/>
                 <FrontpageLink>
                     <a onClick={hideSignup}>
                         <i aria-hidden="true" style={{verticalAlign:'middle'}} className="chevron left icon"></i>

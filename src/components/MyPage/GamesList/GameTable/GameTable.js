@@ -38,7 +38,6 @@ function GameTable({obj, games, loadingGames}){
     }
 
     function color(status) {
-        console.log(status);
         switch (status) {
             case 'gotReq':
             case 'playing':

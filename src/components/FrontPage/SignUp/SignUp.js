@@ -8,17 +8,6 @@ function SignUp({handleSubmit, handleChange, displayName, email, password, error
     return (
         <Form onSubmit={handleSubmit}>
             <Input>
-                <i aria-hidden="true" className="user icon"></i>
-                <input
-                    type="text"
-                    name="displayName"
-                    onChange={handleChange}
-                    value={displayName}
-                    placeholder="Användarnamn"
-                    maxLength="25"
-                    required />
-            </Input>
-            <Input>
                 <i aria-hidden="true" className="at icon"></i>
                 <input 
                     type="email" 

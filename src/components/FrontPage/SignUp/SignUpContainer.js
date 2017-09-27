@@ -6,9 +6,7 @@ import SignUp from './SignUp';
 
 //logic for signup form
 class SignUpContainer extends React.Component{
-    state = 
-    {
-        displayName: '',
+    state = {
         email: '', 
         password: '',
         error: '',
@@ -21,35 +19,14 @@ class SignUpContainer extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if (this.state.displayName.length > 16) {
-            this.setState({error: 'Användarnamnet får max vara 16 tecken!'})
-        } else {
-        this.setState({disabledSubmit: true}, this.checkDisplayNameAvailability)
-    }}
-
-    checkDisplayNameAvailability = () =>{
-        firebase.database().ref('users')
-        .orderByChild('displayName').equalTo(this.state.displayName)
-        .once('value')
-        .then(snapshot =>{
-            if (snapshot.val()){
-                this.setState({error: "Användarnamnet är upptaget", disabledSubmit: false})
-            } else this.createUser(); //available --> create user
-        })
+        this.setState({disabledSubmit: true}, this.createUser)
     }
 
     createUser = () =>{
         firebase.auth()     
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then(user =>{
-            console.log('user created', user)
-            user.updateProfile({displayName: this.state.displayName})
-            .then(()=>{
-                let user = firebase.auth().currentUser;
-                this.storeUser(user); 
-            }, error => {
-                this.setState({ error: error, disabledSubmit: false })
-            });
+        .then(()=>{
+            this.props.showChooseUsername()
         })
         .catch(error =>{
             let newErr = this.handleError(error)
@@ -57,21 +34,6 @@ class SignUpContainer extends React.Component{
         })
     }
 
-    //storing user in realtime db
-    storeUser = (user) => {
-        firebase.database().ref('users/' + user.uid)
-        .set({
-            displayName: user.displayName,
-            uid: user.uid,
-            online: true,
-            points: 0
-        })
-        .then(() => {
-            //displayname is added after creation, we need to update state here
-            this.props.refreshUser(user); 
-        })
-        .catch(error => console.log(error))
-    }
 
     handleError = (error) =>{
         let message = '';

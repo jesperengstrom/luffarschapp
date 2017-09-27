@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 //sign in ui
-function SignIn({email, password, handleSubmit, handleChange, error}) {
+function SignIn({email, password, handleSubmit, signInWithGoogle, handleChange, error, disabledSubmit}) {
     return(
     <Form onSubmit={handleSubmit}>
         <Input>
@@ -27,8 +27,8 @@ function SignIn({email, password, handleSubmit, handleChange, error}) {
         </Input>
         {error && 
         <ErrorMessage><p>{error}</p></ErrorMessage>}
-        <SubmitButton type="submit">Logga in</SubmitButton>
-        <SubmitButton type="button" onClick={()=>alert('google')}>
+        <SubmitButton type="submit" disabled={disabledSubmit}>Logga in</SubmitButton>
+        <SubmitButton type="button" disabled={disabledSubmit} onClick={signInWithGoogle}>
             <i aria-hidden="true" className="google icon"></i>
             Logga in med Google</SubmitButton>
     </Form>
@@ -68,6 +68,5 @@ export const ErrorMessage = styled.div.attrs({
 }
 
 `;
-
 
 export default SignIn;

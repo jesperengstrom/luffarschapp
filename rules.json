@@ -12,7 +12,11 @@
                 },
                 //allow setting online=false after logging out
                 "online": {
-                    ".write": "auth == null && newData.val() == false"
+                    ".write": "(auth == null && newData.val() == false) || ($uid === auth.uid && newData.val() == true)"
+                },
+                //only increment points by 1 (equal) or 2 (win) or set to 0 (new user)
+                "points": {
+                    ".write": "$uid === auth.uid && (newData.val() - data.val() <= 2 || newData.val() == 0)"
                 }
             },
             ".indexOn": ["displayName", "online"]

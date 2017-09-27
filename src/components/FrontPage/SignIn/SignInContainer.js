@@ -9,7 +9,8 @@ class SignInContainer extends React.Component{
     state = {
         email: '',
         password: '',
-        error: ''
+        error: '',
+        disabledSubmit: false
     }
 
     handleChange = (e) => {
@@ -18,7 +19,17 @@ class SignInContainer extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.signIn();
+        this.setState({disabledSubmit: true}, this.signIn())
+    }
+
+    signInWithGoogle = () => {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        this.setState({disabledSubmit: true})
+        firebase.auth().signInWithPopup(provider)
+        .catch(error => {
+            var errorMessage = error.message;
+            this.setState({error: errorMessage, disabledSubmit: false});
+        })
     }
 
     signIn = () => {
@@ -32,11 +43,6 @@ class SignInContainer extends React.Component{
             });
         })
         .catch(error => this.handleError(error))
-    }
-
-    signInWithGoogle = () => {
-        var provider = new firebase.auth.GoogleAuthProvider();
-        
     }
 
     handleError = (error) => {
@@ -57,7 +63,7 @@ class SignInContainer extends React.Component{
             default: 
                 message = "Något gick fel, försök igen"
         }
-        this.setState({error : message})
+        this.setState({error : message, disabledSubmit: false})
     }
 
     render(){
@@ -67,7 +73,9 @@ class SignInContainer extends React.Component{
                     password={this.state.password}
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
-                    error={this.state.error}/>
+                    signInWithGoogle={this.signInWithGoogle}
+                    error={this.state.error}
+                    disabledSubmit={this.state.disabledSubmit}/>
         )
     }
 }

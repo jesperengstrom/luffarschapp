@@ -11,7 +11,8 @@ import './App.css';
 class App extends Component {
   state = {
     user: null,
-    signup: false
+    signup: false,
+    chooseUsername: false
   }
 
   componentDidMount(){
@@ -21,25 +22,12 @@ class App extends Component {
   userAuthListener = () => {
     firebase.auth()
     .onAuthStateChanged(user => {
-      if (user) {
-        //logged in, set state & user online
-        let loggedInUser = this.createSmallerUserObject(user);
-        this.setState({user: loggedInUser}, () => {
-            firebase.database().ref('users/' + this.state.user.uid + '/online')
-            .set(true)
-            .catch(error => console.log(error));
-        });
+      if (user) { //if a user is logged in...
+        this.checkRealtimeDb(user) //check if she's in realtime db
       } else {
-        //logged off, set state & online = false
+        // user == null, logged off
         if (this.state.user) {
-          firebase.database().ref('users/' + this.state.user.uid + '/online')
-          .set(false)
-          .then(() => {
-            this.setState({user: null})
-          })
-          .catch(error => {
-              console.log(error);
-          });
+          this.setOffline();
         }
       }
     }, (error => {
@@ -47,10 +35,36 @@ class App extends Component {
     }))
   }
 
-  //needed when we submit username after user is created
-  refreshUser = (user) =>{
-    let newUser = this.createSmallerUserObject(user);
-    this.setState({user : newUser})
+  checkRealtimeDb = (user) => {
+    firebase.database().ref('users/' + user.uid)
+    .once('value', (snapshot)=>{
+      if (!snapshot.exists()) { //signed in for the first time - choose username
+        this.setState({chooseUsername: true, signup: false})
+      } else { //present - set state & user online
+        this.setOnline(user);
+      }
+    })
+
+  } 
+
+  setOnline = (user) => {
+    let loggedInUser = this.createSmallerUserObject(user);
+    this.setState({user: loggedInUser, chooseUsername: false}, () =>{
+      firebase.database().ref('users/' + this.state.user.uid + '/online')
+      .set(true)
+      .catch(error => console.log(error));
+    });
+  }
+
+  setOffline = () => {
+    firebase.database().ref('users/' + this.state.user.uid + '/online')
+    .set(false)
+    .then(() => {
+      this.setState({user: null})
+    })
+    .catch(error => {
+        console.log(error);
+    });
   }
 
   createSmallerUserObject = (user) =>{
@@ -62,6 +76,7 @@ class App extends Component {
     };
   }
 
+
   hideSignup = () => {
     this.setState({signup: false});
   }
@@ -70,14 +85,20 @@ class App extends Component {
     this.setState({signup: true})
   }
 
+  showChooseUsername = () => {
+    this.setState({chooseUsername: true})
+  }
+
   render(){
     return (
       !this.state.user ? 
       <FrontPage 
-        refreshUser={this.refreshUser}
         signup={this.state.signup}
+        chooseUsername={this.state.chooseUsername}
         hideSignup={this.hideSignup}
-        showSignup={this.showSignup} /> :
+        showSignup={this.showSignup} 
+        showChooseUsername={this.showChooseUsername}
+        checkRealtimeDb={this.checkRealtimeDb}/> :
       <MyPage 
         user={this.state.user}
         hideSignup={this.hideSignup}/>
