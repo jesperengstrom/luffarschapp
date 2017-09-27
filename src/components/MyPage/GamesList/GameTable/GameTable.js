@@ -77,10 +77,10 @@ function GameTable({obj, games, loadingGames}){
 
     return (
     <GameTableWrapper>
-        <TableHeader>
+        <PageHeader>
             <i aria-hidden="true" style={{marginRight: '1rem'}} className={'large icon ' + icon(obj.title)}></i>
             {obj.title}
-        </TableHeader>
+        </PageHeader>
         <Table>
             <tbody>
                 {loadingGames ? 
@@ -97,25 +97,32 @@ function GameTable({obj, games, loadingGames}){
 }
 
 const GameTableWrapper = styled.div`
+flex: 1;
 display: flex;
 flex-direction: column;
-margin-bottom: 2rem;
+margin-bottom: 1rem;
 `;
 
-export const TableHeader = styled.h3`
+export const PageHeader = styled.h3`
 font-size: 20px;
-padding-bottom: 1rem;
 border-bottom: 1px solid rgba(0, 0, 0, 0.21);
+white-space: nowrap;
+height: 65px;
+padding-top: 1rem;
+i {
+    margin-right: 1rem !important;
+}
 `;
 
-const Table = styled.table.attrs({
-    className: 'ui basic single line table'
+export const Table = styled.table.attrs({
+    className: 'ui basic single line collapsing table'
 })`
 `;
 
-const Td = styled.td`
+export const Td = styled.td`
 font-size: 16px;
 font-weight: 700;
+line-height: 32px;
 color: ${props => props.grey ? 'rgba(0, 0, 0, 0.33);' : 'black'}
 `;
 

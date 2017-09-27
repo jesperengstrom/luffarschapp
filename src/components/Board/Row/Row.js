@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 //components
 import Square from './Square/Square';
-
-//CSS
-import './Row.css';
 
 //vars
 import { boardSize } from '../Board';
@@ -30,9 +28,9 @@ function Row({board, row, onClick, icon}){
     }
 
     return (
-        <div id={'row-' + row} className="flex flex-row">
+        <OneRow id={'row-' + row}>
             {squares}
-        </div>
+        </OneRow>
     );
 }
 
@@ -42,5 +40,14 @@ Row.propTypes = {
     board: PropTypes.object,
     icon: PropTypes.any.isRequired
 };
+
+const OneRow = styled.div`
+flex: 1;
+display: flex;
+flex-direction: row;
+width:100%;
+height:100%;
+`;
+
 
 export default Row;

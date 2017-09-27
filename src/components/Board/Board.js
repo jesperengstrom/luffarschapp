@@ -1,9 +1,13 @@
 import React from 'react';
 import firebase from '../../firebase';
+import styled from 'styled-components';
 
 //components
 import Row from './Row/Row';
 import BoardInfo from './BoardInfo/BoardInfo';
+import { Close } from './../MyPage/Toplist/Toplist';
+import { Loading } from './../MyPage/UsersList/UsersList';
+import { PageHeader } from './../MyPage/GamesList/GameTable/GameTable';
 
 //CSS
 import './Board.css' 
@@ -25,7 +29,7 @@ class Board extends React.Component{
         loading: true,
         board: {}, 
         icon: '',
-        error: '',
+        error: 'testar ett fel!!',
         won: null
     };
 
@@ -54,7 +58,7 @@ class Board extends React.Component{
                     board: board,
                     loading: false,
                     icon: this.state.icon ? this.state.icon : gameIcons,
-                    error: yourTurn ? '' : this.state.error,
+                    error: yourTurn ? '' : this.state.error, //reset errors when its our turn
                     won: won
                 }
             )
@@ -213,37 +217,89 @@ class Board extends React.Component{
         return points > 4;
     }
 
+    chooseFa = (symbol) => {
+        switch(symbol){
+            case 'x':
+            return 'green lemon';
+            case 'o':
+            return 'blue umbrella'
+            default: 
+            return '';
+        }
+    }
+
     render(){
         let rows = [];
-            for (let i = 1; i <= boardSize.y; i++){
-                rows.push(<Row 
-                            icon={this.state.icon}
-                            board={this.state.board} 
-                            onClick={this.handleClick} 
-                            key={'row' + i} 
-                            row={i}>
-                        </Row>)
-            }
-        return(
-            <div className="flex flex-column align-center">
-                <button onClick={this.props.hideGame}>Tillbaka till menyn</button>    
-                {this.state.error ? <p style={{color:"red"}}>{this.state.error}</p> : null}
-                {this.state.loading ? 
-                <p>Laddar...</p> : 
-                <div>
+        for (let i = 1; i <= boardSize.y; i++){
+            rows.push(<Row 
+                        icon={this.state.icon}
+                        board={this.state.board} 
+                        onClick={this.handleClick} 
+                        key={'row' + i} 
+                        row={i}>
+                    </Row>)
+        }
+        return (
+            this.state.loading ? 
+            <Loading>
+            <div className="ui active large inline text loader">Laddar spelet...</div>
+            </Loading>
+            : 
+            <GameContainer>
+                <PageHeader>
+                    <i aria-hidden="true" className="large red game icon"></i>
+                    {this.props.user.displayName} vs. {this.props.game.opponentName} 
+                    <Close onClick={this.props.hideGame}/>
+                </PageHeader>
+                <BoardContainer>
+                    <Square>
+                        {/* <GameContainer> */}
+                        {rows}
+                        {/* </GameContainer> */}
+                    </Square>
                     <BoardInfo
-                        won={this.state.won === this.props.user.uid}
-                        lost={this.state.won === this.props.game.opponentUid}
-                        yourTurn={this.state.yourTurn}
-                        user={this.props.user}
-                        opponent={{uid: this.props.game.opponentUid, name: this.props.game.opponentName}}
-                        icon={this.state.icon}/>
-                    {rows}
-                </div>
-                }
-            </div>
+                            won={this.state.won === this.props.user.uid}
+                            lost={this.state.won === this.props.game.opponentUid}
+                            yourTurn={this.state.yourTurn}
+                            user={this.props.user}
+                            opponent={{uid: this.props.game.opponentUid, name: this.props.game.opponentName}}
+                            icon={this.state.icon}
+                            chooseFa={this.chooseFa}
+                            error={this.state.error}/>
+                    
+                </BoardContainer>
+            </GameContainer>
         )
     }
 }
+
+const GameContainer = styled.section`
+width: 100%;
+display: flex;
+flex-direction: column;
+`;
+
+const BoardContainer = styled.section`
+width: 100%;
+display: flex;
+flex-direction: row;
+justify-content: center;
+`;
+
+const Square = styled.div`
+height: 33vw;
+max-height:100%;
+width:33vw;
+display:flex;
+flex-direction:column;
+border: 1px solid red;
+`
+
+// const Square = styled.div`
+// height: 0;
+// padding-bottom: 45%;
+// width: 45%;
+// background-color: white;
+// `
 
 export default Board;

@@ -13,7 +13,7 @@ function User({displayName, points, online, hasGame, challengePlayer, opponent})
             </UserListPoints>
             {!hasGame && 
             <ChallengeBtn onClick={() => challengePlayer(opponent)}>
-                <i aria-hidden="true" className="game icon"></i>
+                <i aria-hidden="true" className="arrow right icon"></i>
                 Utmana 
             </ChallengeBtn>}
         </ListItem>
@@ -66,6 +66,8 @@ export const UserListPoints = styled.div.attrs({
 const ChallengeBtn = styled.a.attrs({
     className: 'ui red horizontal label'
 })` 
-display: flex;
-margin-left: auto !important;
+&&& {
+    display: flex;
+    margin-left: auto !important;
+}
 `;

@@ -99,10 +99,11 @@ GamesList.propTypes = {
 };
 
 export const GameListWrapper = styled.div`
-width: 50%;
+width: 100%;
 height: 100%;
 display: flex;
-flex-direction: column;
+flex-direction: row;
+flex-wrap: wrap;
 `;
 
 export default GamesList;

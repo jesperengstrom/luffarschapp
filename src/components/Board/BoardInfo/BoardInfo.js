@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+import { Table, Td } from './../../MyPage/GamesList/GameTable/GameTable';
 
 //CSS
 import './BoardInfo.css';
 
-function BoardInfo({won, lost, icon, opponent, user, yourTurn}) {
-    // var ongoing = false;
+function BoardInfo({won, lost, icon, opponent, user, yourTurn, chooseFa, error}) {
 
     function ongoing() {
         if (won) return 'vann';
@@ -14,17 +16,24 @@ function BoardInfo({won, lost, icon, opponent, user, yourTurn}) {
     };
 
     return (
-        <div className="board-info">
-            <div className="flex flex-row">
-                <div className={`square ${icon[user.uid]}`}></div>
-                <span>= Du</span>
-                <div className={`square ${icon[opponent.uid]}`}></div>
-                <span>= {opponent.name}</span>
-            </div>
-            {ongoing() ? <p>Du {ongoing()} mot {opponent.name}!</p>  :
-            <p>{yourTurn ? 'Din ' : 'Motståndarens '} tur</p>
-            }
-        </div>
+        <BoardInfoContainer>
+            <Table className="structured">
+                <tbody>
+                    <tr>
+                        <Td><i aria-hidden="true" className={`huge ${chooseFa(icon[user.uid])} icon`}></i> = Du
+                        </Td>
+                        <Td><i aria-hidden="true" className={`huge ${chooseFa(icon[opponent.uid])} icon`}></i> = {opponent.name}
+                        </Td>
+                    </tr>
+                    <tr>
+                        <Td colSpan="2">
+                            {ongoing() ? `Du ${ongoing()} mot ${opponent.name}!` : 
+                            yourTurn ? 'Din tur' : 'Motståndarens tur'}
+                        </Td>
+                    </tr>
+                </tbody>
+            </Table>
+        </BoardInfoContainer>
     );
 }
 
@@ -34,7 +43,17 @@ BoardInfo.propTypes = {
     icon: PropTypes.object.isRequired,
     opponent: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    yourTurn: PropTypes.bool.isRequired
+    yourTurn: PropTypes.bool.isRequired,
+    chooseFa: PropTypes.func.isRequired,
+    error: PropTypes.string,
 };
+
+const BoardInfoContainer = styled.aside`
+display: flex;
+flex-direction: column;
+margin-left:2rem;
+padding: 1rem;
+`;
+
 
 export default BoardInfo;

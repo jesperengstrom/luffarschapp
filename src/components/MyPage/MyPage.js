@@ -16,7 +16,7 @@ class MyPage extends React.Component{
             myPoints: null,
             users: null,
             games: null,
-            error: null,
+            // error: null,
             activeGame: null,
             loadingUsers: true,
             loadingGames: true,
@@ -209,7 +209,7 @@ flex-direction: row;
 const GameSection = styled.section`
 height:100%;
 display:flex;
-flex-direction:column;
+flex-direction:column-reverse;
 flex: 1;
 `;
 
@@ -218,7 +218,7 @@ background-color: #fff6ae;
 height: 100%;
 display: flex;
 justify-content: center;
-padding: 5% 2rem 2rem 2rem;
+padding: 0 2rem;
 `;
 
 export default MyPage;

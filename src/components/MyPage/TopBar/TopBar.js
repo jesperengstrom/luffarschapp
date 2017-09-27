@@ -70,10 +70,11 @@ const PointsBadge = styled.div.attrs({
 `;
 
 const ToplistBadge = styled.a.attrs({
-    className: 'ui large violet horizontal label'
+    className: 'ui large horizontal label'
 })`
 &&&& {
     font-size:16px;
+    background-color: #404040!important;
     i {
     margin:0 !important;
     }
@@ -84,5 +85,7 @@ const LogoutBtn = styled.button.attrs({
    className: 'ui small inverted button' 
 })`
 &&&{
-    font-size:16px !important;}
+    font-size:16px !important;
+    white-space: nowrap;
+}
 `;

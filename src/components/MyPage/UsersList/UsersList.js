@@ -98,7 +98,7 @@ background: #404040;
 box-shadow: inset -1px 0px 14px 0px rgba(0, 0, 0, 0.27);
 `;
 
-const Loading = styled.div`
+export const Loading = styled.div`
 width: 100%;
 height: 100%;
 display: flex;

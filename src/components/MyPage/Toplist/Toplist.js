@@ -5,11 +5,7 @@ import styled from 'styled-components';
 //Components
 import { UserListPoints } from './../UsersList/User/User';
 
-import { GameListWrapper } from './../GamesList/GamesList';
-import { TableHeader } from './../GamesList/GameTable/GameTable';
-
-//CSS
-import './Toplist.css';
+import { PageHeader } from './../GamesList/GameTable/GameTable';
 
 function Toplist ({user, users, closeToplist}){
 
@@ -30,16 +26,16 @@ function Toplist ({user, users, closeToplist}){
     }
 
     return (
-        <GameListWrapper>
-            <TableHeader>
-                <i aria-hidden="true" style={{marginRight: '1rem'}} className="large yellow trophy icon"></i>
-                Topplistan
+        <ToplistContainer>
+            <PageHeader>
+                <i aria-hidden="true" className="large yellow trophy icon"></i>
+                Topprankade spelare
                 <Close onClick={closeToplist}/>
-            </TableHeader>
+            </PageHeader>
             <Ol>
                 {renderToplist()}
             </Ol>
-        </GameListWrapper>
+        </ToplistContainer>
     );
 }
 
@@ -49,15 +45,21 @@ Toplist.propTypes = {
     closeToplist: PropTypes.func.isRequired
 };
 
-const Close = styled.i.attrs({
+export const Close = styled.i.attrs({
     className: 'large icon close',
-    ariaHidden: 'true'
+    // ariaHidden: 'true'
 })`&&&&{
     vertical-align: top;
     float:right;
     cursor: pointer;
 
 }`;
+
+const ToplistContainer = styled.section`
+width: 100%;
+display: flex;
+flex-direction: column;
+`;
 
 const Ol = styled.ol.attrs({
     className: 'ui divided relaxed list',
@@ -68,15 +70,16 @@ const Li = styled.li.attrs({
     role: 'listitem'
 })`
 &&&{
-    font-size:  16px;
+    font-size: 15px;
     font-weight: 700;
     margin-bottom: 1rem;
     color: ${props => props.me ? '#2185D0' : 'black' };
-    display:flex;
+    display: flex;
+    margin-left: 2rem;
 }`;
 
 const ToplistName = styled.span`
-margin-right:1rem;
+margin-right: 1rem;
 `;
 
 export default Toplist;
