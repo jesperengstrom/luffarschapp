@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { Table, Td } from './../../MyPage/GamesList/GameTable/GameTable';
+import { ErrorMessage } from './../../FrontPage/SignIn/SignIn';
 
-//CSS
-import './BoardInfo.css';
 
 function BoardInfo({won, lost, icon, opponent, user, yourTurn, chooseFa, error}) {
 
@@ -33,6 +32,11 @@ function BoardInfo({won, lost, icon, opponent, user, yourTurn, chooseFa, error})
                     </tr>
                 </tbody>
             </Table>
+            {error && 
+            <BoardError>
+                <p>{error}</p>
+            </BoardError>}
+
         </BoardInfoContainer>
     );
 }
@@ -48,6 +52,8 @@ BoardInfo.propTypes = {
     error: PropTypes.string,
 };
 
+//CSS
+
 const BoardInfoContainer = styled.aside`
 display: flex;
 flex-direction: column;
@@ -55,5 +61,13 @@ margin-left:2rem;
 padding: 1rem;
 `;
 
+const BoardError = ErrorMessage.extend`
+p {
+    color: white;
+    opacity: 1 !important;
+    font-size: 16px;
+    font-weight: 700;
+}
+`;
 
 export default BoardInfo;

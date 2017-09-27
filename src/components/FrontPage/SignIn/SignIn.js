@@ -62,7 +62,7 @@ export const ErrorMessage = styled.div.attrs({
 })`
 &&&&& {
     display:flex !important;
-    background-color: rgba(188, 8, 8, 0.61);
+    background-color: rgb(219, 40, 40);
     font-size:16px;
     margin: 0 0 1rem 0;
 }

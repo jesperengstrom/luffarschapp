@@ -9,14 +9,11 @@ import { Close } from './../MyPage/Toplist/Toplist';
 import { Loading } from './../MyPage/UsersList/UsersList';
 import { PageHeader } from './../MyPage/GamesList/GameTable/GameTable';
 
-//CSS
-import './Board.css' 
-
 //vars
 export const boardSize = {x: 10, y:10};
 
 
-//class
+//All game logic & board main sections
 class Board extends React.Component{
     constructor(props) {
         super(props)
@@ -29,7 +26,7 @@ class Board extends React.Component{
         loading: true,
         board: {}, 
         icon: '',
-        error: 'testar ett fel!!',
+        error: '',
         won: null
     };
 
@@ -72,6 +69,7 @@ class Board extends React.Component{
      * squareObj = {x: x, y: y}
      */
     handleClick = (squareObj) =>{
+        console.log(squareObj)
         //storing new board obj in constructor for the moment
         //fetching uid from auth to prevent cheating
         this.newBoard = Object.assign({}, this.state.board, {[squareObj.id]: firebase.auth().currentUser.uid})
@@ -234,9 +232,10 @@ class Board extends React.Component{
             rows.push(<Row 
                         icon={this.state.icon}
                         board={this.state.board} 
-                        onClick={this.handleClick} 
+                        handleClick={this.handleClick} 
                         key={'row' + i} 
-                        row={i}>
+                        row={i}
+                        chooseFa={this.chooseFa}>
                     </Row>)
         }
         return (
@@ -252,11 +251,9 @@ class Board extends React.Component{
                     <Close onClick={this.props.hideGame}/>
                 </PageHeader>
                 <BoardContainer>
-                    <Square>
-                        {/* <GameContainer> */}
+                    <OuterSquare>
                         {rows}
-                        {/* </GameContainer> */}
-                    </Square>
+                    </OuterSquare>
                     <BoardInfo
                             won={this.state.won === this.props.user.uid}
                             lost={this.state.won === this.props.game.opponentUid}
@@ -286,13 +283,13 @@ flex-direction: row;
 justify-content: center;
 `;
 
-const Square = styled.div`
+const OuterSquare = styled.div`
 height: 33vw;
 max-height:100%;
 width:33vw;
 display:flex;
 flex-direction:column;
-border: 1px solid red;
+border: 1px solid #404040;
 `
 
 // const Square = styled.div`

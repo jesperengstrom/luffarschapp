@@ -8,7 +8,7 @@ import Square from './Square/Square';
 //vars
 import { boardSize } from '../Board';
 
-function Row({board, row, onClick, icon}){
+function Row({board, row, handleClick, icon, chooseFa}){
     let squares = [];
     
     for (let i = 1; i <= boardSize.x; i++) {
@@ -19,11 +19,12 @@ function Row({board, row, onClick, icon}){
                         };
 
         squares.push(<Square 
-                        onClick={onClick} 
+                        handleClick={handleClick} 
                         key={squareObj.id} 
                         squareObj={squareObj}
                         board={board}
-                        icon={icon}>
+                        icon={icon}
+                        chooseFa={chooseFa}>
                     </Square>);
     }
 
@@ -35,10 +36,11 @@ function Row({board, row, onClick, icon}){
 }
 
 Row.propTypes = {
-    onClick: PropTypes.func.isRequired,
+    handleClick: PropTypes.func.isRequired,
     row: PropTypes.number.isRequired,
     board: PropTypes.object,
-    icon: PropTypes.any.isRequired
+    icon: PropTypes.any.isRequired,
+    chooseFa: PropTypes.func.isRequired
 };
 
 const OneRow = styled.div`

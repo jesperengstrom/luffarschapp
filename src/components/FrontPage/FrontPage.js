@@ -9,7 +9,7 @@ function FrontPage({refreshUser, showSignup, hideSignup, signup}){
     return (
         <FrontPageMain>
         <FormContainer>
-            <Title>LuffarshApp</Title>
+            <Title> </Title>
             {!signup ?
             <span>
                 <SignInContainer/>
@@ -42,20 +42,22 @@ function FrontPage({refreshUser, showSignup, hideSignup, signup}){
 
 //styles
 
+// background: linear-gradient(20deg,rgb(212, 89, 89),rgba(218, 163, 87, 0.73));
 //general styles for main page
 const FrontPageMain = styled.main`
 width: 100%;
-height:100%;
+height: 100%;
 display:flex;
 flex-direction: column;
-justify-content:flex-start;
-align-items:center;
-background: linear-gradient(20deg,rgb(212, 89, 89),rgba(218, 163, 87, 0.73));
+justify-content: flex-start;
+align-items: center;
+background: rgb(212, 89, 89);
 a,
 p, 
 a:visited,
 a:hover {
-    color:white;
+    color: white;
+    font-weight: 700;
 }
 a:hover {
     transform: scale(1.1);
@@ -67,7 +69,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-width: 300px
+width: 300px;
 `;
 
 const Title = styled.h1`
@@ -89,7 +91,7 @@ const Github = FrontpageLink.extend`
 position: absolute;
 bottom: 0;
 a:hover {
-    text-decoration:none;
+    text-decoration: none;
 }
 `; 
 
