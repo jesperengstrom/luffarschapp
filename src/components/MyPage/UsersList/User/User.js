@@ -58,6 +58,7 @@ export const UserListPoints = styled.div.attrs({
     background-color: rgb(49,97,133)!important;
     display: flex;
     font-size: 12px;
+    margin-left: auto !important;
     i {
         margin-right: 3px;
     }
@@ -68,6 +69,5 @@ const ChallengeBtn = styled.a.attrs({
 })` 
 &&& {
     display: flex;
-    margin-left: auto !important;
 }
 `;
