@@ -34,6 +34,11 @@ class SignInContainer extends React.Component{
         .catch(error => this.handleError(error))
     }
 
+    signInWithGoogle = () => {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        
+    }
+
     handleError = (error) => {
         let message = '';
         switch(error.code) {

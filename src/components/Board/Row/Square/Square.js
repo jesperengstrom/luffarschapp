@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 //CSS
-import './Square.css';
 
 function Square({board, handleClick, squareObj, icon, chooseFa}) {
     //icons props are uids and board[square] values are uids. 
