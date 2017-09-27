@@ -11,11 +11,16 @@ function User({displayName, points, online, hasGame, challengePlayer, opponent})
                 <i aria-hidden="true" className="yellow star icon"></i>
                 {points}
             </UserListPoints>
-            {!hasGame && 
+            {!hasGame ? 
             <ChallengeBtn onClick={() => challengePlayer(opponent)}>
                 <i aria-hidden="true" className="arrow right icon"></i>
                 Utmana 
-            </ChallengeBtn>}
+            </ChallengeBtn> :
+            <ChallengeBtn style={{visibility:'hidden'}} onClick={() => alert('this button is hidden!')}>
+                <i aria-hidden="true" className="arrow right icon"></i>
+                Utmana 
+            </ChallengeBtn>
+            }
         </ListItem>
     );
 }

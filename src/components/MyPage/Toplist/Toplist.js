@@ -11,7 +11,8 @@ function Toplist ({user, users, closeToplist}){
 
     function renderToplist(){
         return users && Object.keys(users).sort((a, b)=>{
-            return (users[a].points === users[b].points)? 0 : a? -1 : 1;
+            console.log(users[a].points);
+            return users[b].points - users[a].points;
         })
         .map((key)=>{
             let match = users[key].uid === user.uid;
@@ -64,7 +65,9 @@ flex-direction: column;
 const Ol = styled.ol.attrs({
     className: 'ui divided relaxed list',
     role: 'list'
-})``;
+})`
+width: 30%;
+`;
 
 const Li = styled.li.attrs({
     role: 'listitem'
