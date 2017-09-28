@@ -16,13 +16,15 @@ function Toplist ({user, users, closeToplist}){
         })
         .map((key)=>{
             let match = users[key].uid === user.uid;
-            return <Li me={match && true} key={'toplist-item-' + users[key].uid}>
-                        <ToplistName>{users[key].displayName}</ToplistName>
-                        <UserListPoints>
-                            <i aria-hidden="true" className="yellow star icon"></i>
-                            {users[key].points}
-                        </UserListPoints>
-                    </Li>;
+            if (users[key].points !== null) {
+                return <Li me={match && true} key={'toplist-item-' + users[key].uid}>
+                <ToplistName>{users[key].displayName}</ToplistName>
+                <UserListPoints>
+                    <i aria-hidden="true" className="yellow star icon"></i>
+                    {users[key].points}
+                </UserListPoints>
+            </Li>;
+            } return false;
         });
     }
 

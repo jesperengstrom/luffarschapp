@@ -22,7 +22,6 @@ class App extends Component {
   userAuthListener = () => {
     firebase.auth()
     .onAuthStateChanged(user => {
-      console.log(user)
       if (user) { //if a user is logged in...
         this.checkRealtimeDb(user) //check if she's in realtime db
       } else {

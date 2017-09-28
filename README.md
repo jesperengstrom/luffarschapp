@@ -8,7 +8,7 @@ Challenge your friends to play luffarschack (noughts and crosses) online & in re
 
 ## Features
 
-* Register / Sign in with email or Google account
+* Register / sign in with email or Google account
 * Lets u pick a unique username that is used throughout
 * Live list of online/offline users, their points & ability to challenge them (if there's no ongoing game between you)
 * User search
@@ -28,7 +28,7 @@ Challenge your friends to play luffarschack (noughts and crosses) online & in re
 
 ## Technologies used
 
-React, Firebase, Styled Components, Semantic UI.
+React, Create-React-App, Firebase, Styled Components, Semantic UI.
 
 
 
