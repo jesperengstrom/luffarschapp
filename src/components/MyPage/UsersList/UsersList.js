@@ -88,6 +88,10 @@ height:100%;
 width: 300px;
 display:flex;
 flex-direction:column;
+position: absolute;
+top: 0;
+left: 0;
+bottom: 0;
 `;
 
 const Users = styled.div`

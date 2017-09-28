@@ -16,11 +16,11 @@ class MyPage extends React.Component{
             myPoints: null,
             users: null,
             games: null,
-            // error: null,
             activeGame: null,
             loadingUsers: true,
             loadingGames: true,
             toplist: false,
+            menuVisible: true
         };
 
     componentDidMount(){
@@ -150,6 +150,11 @@ class MyPage extends React.Component{
         !this.state.toplist && this.setState({toplist:true})
     }
 
+    toggleMenu = () => {
+        let newValue = this.state.menuVisible !== true
+        this.setState({menuVisible: newValue})
+    }
+
 
     render(){
         return (
@@ -160,12 +165,13 @@ class MyPage extends React.Component{
                     challengePlayer={this.challengePlayer}
                     games={this.state.games}
                     loadingUsers={this.state.loadingUsers}/>
-                <GameSection>
+                <GameSection menuVisible={this.state.menuVisible}>
                     <TopBar 
                         user={this.props.user}
                         myPoints={this.state.myPoints}
                         signOut={this.signOut}
-                        showToplist={this.showToplist}/>
+                        showToplist={this.showToplist}
+                        toggleMenu={this.toggleMenu}/>
                     <GameSectionWrapper>
                         {this.state.toplist ? 
                         <Toplist 
@@ -211,6 +217,12 @@ height:100%;
 display:flex;
 flex-direction:column-reverse;
 flex: 1;
+position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+left: ${props => props.menuVisible ? '300px' : 0 };
+transition: left 0.5s ease;
 `;
 
 const GameSectionWrapper = styled.section`

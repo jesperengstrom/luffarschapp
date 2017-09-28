@@ -1,9 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import styled from 'styled-components';
 
-function TopBar({user, myPoints, signOut, showToplist }){
+function TopBar({user, myPoints, signOut, showToplist, toggleMenu}){
     return (
         <TopBarContainer>
+            <button style={{marginRight: 'auto'}} onClick={toggleMenu} className="ui button">Toggle Visibility</button>
             <nav>
                 <UserBadge>
                     <i aria-hidden="true" className="large user icon"></i>
@@ -30,6 +33,14 @@ function TopBar({user, myPoints, signOut, showToplist }){
     );
 
 }
+
+TopBar.propTypes = {
+    user: PropTypes.object,
+    myPoints: PropTypes.any, 
+    signOut: PropTypes.func.isRequired,
+    showToplist: PropTypes.func.isRequired, 
+    toggleMenu: PropTypes.func.isRequired
+};
 
 export default TopBar;
 
