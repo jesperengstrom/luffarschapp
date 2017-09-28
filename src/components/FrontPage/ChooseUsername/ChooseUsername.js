@@ -31,7 +31,7 @@ ChooseUsername.propTypes = {
     displayName: PropTypes.string,
     submitUsername: PropTypes.func.isRequired,
     error: PropTypes.string,
-    disabledSubmit: PropTypes.bool.isRequired
+    disabledSubmit: PropTypes.bool
 };
 
 export default ChooseUsername;

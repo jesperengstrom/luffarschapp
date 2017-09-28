@@ -89,7 +89,6 @@ class App extends Component {
   }
 
   render(){
-    console.log(this.state.user);
     return (
       !this.state.user ? 
       <FrontPage 

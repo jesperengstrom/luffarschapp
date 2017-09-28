@@ -13,6 +13,22 @@ class SignInContainer extends React.Component{
         disabledSubmit: false
     }
 
+    componentWillMount() {
+        firebase.auth().getRedirectResult().then(function(result) {
+            if (result.credential) {
+              // This gives you a Google Access Token. You can use it to access the Google API.
+              var token = result.credential.accessToken;
+              // ...
+            }
+            // The signed-in user info.
+            var user = result.user;
+          })
+        .catch(error => {
+            var errorMessage = error.message;
+            this.setState({error: errorMessage, disabledSubmit: false});
+        })
+    }
+
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
     }
@@ -25,11 +41,7 @@ class SignInContainer extends React.Component{
     signInWithGoogle = () => {
         var provider = new firebase.auth.GoogleAuthProvider();
         this.setState({disabledSubmit: true})
-        firebase.auth().signInWithPopup(provider)
-        .catch(error => {
-            var errorMessage = error.message;
-            this.setState({error: errorMessage, disabledSubmit: false});
-        })
+        firebase.auth().signInWithRedirect(provider)
     }
 
     signIn = () => {
