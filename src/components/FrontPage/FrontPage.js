@@ -101,6 +101,11 @@ font-size: 48px;
 margin-top: 30% !important;
 margin-bottom: 3rem;
 color: rgb(255, 255, 255);
+@media screen and (max-width:400px) {
+    font-size: 36px;
+}
+
+
 `; 
 
 const FrontpageLink = styled.div`

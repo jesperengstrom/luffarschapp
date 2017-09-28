@@ -29,8 +29,8 @@ Square.propTypes = {
 //CSS
 
 const OneSquare = styled.div`
-height: 3.5vw;
-width: 3.5vw;
+height: 3.3vw;
+width: 3.3vw;
 display: flex;
 justify-content: center;
 align-items: center;
