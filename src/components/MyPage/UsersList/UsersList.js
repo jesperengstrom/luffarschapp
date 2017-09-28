@@ -91,6 +91,7 @@ height:100%;
 width: 300px;
 display:flex;
 flex-direction:column;
+padding-bottom: 63px; 
 position: absolute;
 top: 0;
 left: 0;
@@ -102,6 +103,7 @@ width:100%;
 flex:1;
 padding: 2rem 1rem;
 background: #404040;
+overflow-y: scroll;
 box-shadow: inset -1px 0px 14px 0px rgba(0, 0, 0, 0.27);
 `;
 

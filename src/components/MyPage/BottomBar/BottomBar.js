@@ -7,7 +7,7 @@ function BottomBar({user, myPoints, signOut, showToplist, toggleMenu, menuVisibl
     return (
         <BottomBarContainer>
             <ToggleMenuBtn onClick={toggleMenu}>
-                <i aria-hidden="true" className={`icon chevron ${menuVisible ? 'left' : 'right'}`}></i>
+                <i aria-hidden="true" className="icon sidebar"></i>
             </ToggleMenuBtn>
             <nav>
                 <UserBadge>
@@ -49,7 +49,11 @@ export default BottomBar;
 
 //CSS
 const BottomBarContainer = styled.section`
-min-height: 65px;
+position: fixed;
+bottom: 0;
+left: 0;
+min-height: 63px;
+max-height: 63px;
 width: 100%;
 background: rgb(255, 142, 86);
 display: flex;
@@ -60,6 +64,10 @@ flex-wrap: wrap-reverse;
 padding: 1rem 2rem;
 p {
     font-size:20px;
+}
+
+@media (max-width: 500px) {
+    max-height: unset;
 }
 `;
 
@@ -80,6 +88,11 @@ const UserBadge = styled.div.attrs({
     align-items: center;
     font-size:16px;
     white-space: nowrap;
+
+    @media screen and (max-width 500px) {
+            display: none !important;
+    
+    }
 }
 `;
 

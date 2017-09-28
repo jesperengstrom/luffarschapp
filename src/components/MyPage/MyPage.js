@@ -10,6 +10,9 @@ import GamesList from './GamesList/GamesList';
 import Toplist from './Toplist/Toplist';
 import BottomBar from './BottomBar/BottomBar';
 
+//More css
+import './MyPage.css';
+
 //logic for main screen when logged in
 class MyPage extends React.Component{
 
@@ -21,7 +24,6 @@ class MyPage extends React.Component{
             loadingUsers: true,
             loadingGames: true,
             toplist: false,
-            menuVisible: true
         };
 
     componentDidMount(){
@@ -166,7 +168,7 @@ class MyPage extends React.Component{
                     challengePlayer={this.challengePlayer}
                     games={this.state.games}
                     loadingUsers={this.state.loadingUsers}/>
-                <GameSection menuVisible={this.state.menuVisible}>
+                <GameSection className={this.state.menuVisible ? 'open' : ''}>
                     <GameSectionWrapper>
                         {this.state.toplist ? 
                         <Toplist 
@@ -223,10 +225,11 @@ position: absolute;
 top: 0;
 right: 0;
 bottom: 0;
-left: ${props => props.menuVisible ? '300px' : 0 };
+left: 300px;
 transition: left 0.5s ease;
 
 @media screen and (max-width: 850px) {
+    left: 0;
 }
 `;
 
@@ -236,6 +239,8 @@ height: 100%;
 display: flex;
 justify-content: center;
 padding: 0 2rem;
+margin-bottom: 63px;
+overflow-y: scroll;
 `;
 
 export default MyPage;
