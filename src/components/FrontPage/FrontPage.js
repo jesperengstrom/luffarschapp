@@ -2,49 +2,61 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { Loading } from '../MyPage/UsersList/UsersList';
+
 //conponents
 import SignInContainer from './SignIn/SignInContainer';
 import SignUpContainer from './SignUp/SignUpContainer';
 import ChooseUsernameContainer from './ChooseUsername/ChooseUsernameContainer';
 
-function FrontPage({showSignup, hideSignup, signup, chooseUsername, showChooseUsername, checkRealtimeDb}){
+//displaying loading, login, signup, choose username depending on state
+function FrontPage({user, showSignup, hideSignup, signup, chooseUsername, showChooseUsername, checkRealtimeDb}){
     return (
         <FrontPageMain>
-        <FormContainer>
-            <Title>Luffarsch<span style={{color: 'rgba(255, 255, 255, 0.41)'}}>app</span></Title>
-            {chooseUsername ? 
-            <ChooseUsernameContainer checkRealtimeDb={checkRealtimeDb} /> : 
-            !signup ?
-            <span>
-                <SignInContainer/>
-                <FrontpageLink>
-                    <a onClick={showSignup}>
-                        Skapa ett konto 
-                        <i aria-hidden="true" style={{verticalAlign:'middle'}} className="chevron right icon"></i>
-                    </a>
-                </FrontpageLink>
-            </span> :
-            <span>
-                <SignUpContainer showChooseUsername={showChooseUsername}/>
-                <FrontpageLink>
-                    <a onClick={hideSignup}>
-                        <i aria-hidden="true" style={{verticalAlign:'middle'}} className="chevron left icon"></i>
-                        Avbryt
-                    </a>
-                </FrontpageLink>
-            </span>
+            {user === undefined ? 
+            <FormContainer>
+                <Title>Luffarsch<span style={{color: 'rgba(255, 255, 255, 0.41)'}}>app</span></Title>
+                <FrontpageLoader>
+                    <div className="ui active large inline text loader"></div>
+                </FrontpageLoader>
+            </FormContainer> : 
+            <FormContainer>
+                <Title>Luffarsch<span style={{color: 'rgba(255, 255, 255, 0.41)'}}>app</span></Title>
+                {chooseUsername ? 
+                    <ChooseUsernameContainer checkRealtimeDb={checkRealtimeDb} /> : 
+                !signup ?
+                <span>
+                    <SignInContainer/>
+                    <FrontpageLink>
+                        <a onClick={showSignup}>
+                            Skapa ett konto 
+                            <i aria-hidden="true" style={{verticalAlign:'middle'}} className="chevron right icon"></i>
+                        </a>
+                    </FrontpageLink>
+                </span> :
+                <span>
+                    <SignUpContainer showChooseUsername={showChooseUsername}/>
+                    <FrontpageLink>
+                        <a onClick={hideSignup}>
+                            <i aria-hidden="true" style={{verticalAlign:'middle'}} className="chevron left icon"></i>
+                            Avbryt
+                        </a>
+                    </FrontpageLink>
+                </span>
+                }
+            </FormContainer>
             }
-        </FormContainer>
-        <Github>
-            <a href="https://github.com/jesperengstrom/luffarschapp">
-                <i aria-hidden="true" className="large github icon"></i>
-            </a>
-        </Github>
+            <Github>
+                <a href="https://github.com/jesperengstrom/luffarschapp">
+                    <i aria-hidden="true" className="large github icon"></i>
+                </a>
+            </Github>
         </FrontPageMain>
     );
 }
 
 FrontPage.propTypes = {
+    user: PropTypes.any,
     showSignup: PropTypes.func.isRequired,
     hideSignup: PropTypes.func.isRequired,
     signup: PropTypes.bool,
@@ -91,6 +103,7 @@ font-size: 48px;
 margin-top: 30% !important;
 margin-bottom: 3rem;
 color: rgb(255, 255, 255);
+visibility:hidden;
 `; 
 
 const FrontpageLink = styled.div`
@@ -116,5 +129,12 @@ a:hover {
     text-decoration: none;
 }
 `; 
+
+const FrontpageLoader = Loading.extend`
+margin-top: 25%;
+.ui.loader:after {
+    border-color: rgba(255, 255, 255, 0.74) transparent transparent
+}
+`;
 
 export default FrontPage;

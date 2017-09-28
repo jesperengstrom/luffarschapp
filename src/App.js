@@ -10,7 +10,7 @@ import './App.css';
 
 class App extends Component {
   state = {
-    user: null,
+    user: undefined,
     signup: false,
     chooseUsername: false
   }
@@ -25,10 +25,10 @@ class App extends Component {
       if (user) { //if a user is logged in...
         this.checkRealtimeDb(user) //check if she's in realtime db
       } else {
-        // user == null, logged off
-        if (this.state.user) {
-          this.setOffline();
-        }
+        //if no user...
+        if (this.state.user) { //...but we still have a user in state...
+          this.setOffline(); //...set ofline
+        } else this.setState({user: user}) //else null = login
       }
     }, (error => {
       console.log(error);
@@ -44,7 +44,6 @@ class App extends Component {
         this.setOnline(user);
       }
     })
-
   } 
 
   setOnline = (user) => {
@@ -90,9 +89,11 @@ class App extends Component {
   }
 
   render(){
+    console.log(this.state.user);
     return (
       !this.state.user ? 
       <FrontPage 
+        user={this.state.user}
         signup={this.state.signup}
         chooseUsername={this.state.chooseUsername}
         hideSignup={this.hideSignup}
