@@ -125,7 +125,7 @@ i {
 `;
 
 export const Table = styled.table.attrs({
-    className: 'ui basic single line collapsing table'
+    className: 'ui basic single line collapsing unstackable table'
 })`
 `;
 

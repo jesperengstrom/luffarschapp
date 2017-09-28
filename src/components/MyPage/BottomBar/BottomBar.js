@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
-function TopBar({user, myPoints, signOut, showToplist, toggleMenu}){
+function BottomBar({user, myPoints, signOut, showToplist, toggleMenu, menuVisible}){
     return (
-        <TopBarContainer>
-            <button style={{marginRight: 'auto'}} onClick={toggleMenu} className="ui button">Toggle Visibility</button>
+        <BottomBarContainer>
+            <ToggleMenuBtn onClick={toggleMenu}>
+                <i aria-hidden="true" className={`icon chevron ${menuVisible ? 'left' : 'right'}`}></i>
+            </ToggleMenuBtn>
             <nav>
                 <UserBadge>
                     <i aria-hidden="true" className="large user icon"></i>
@@ -29,24 +31,24 @@ function TopBar({user, myPoints, signOut, showToplist, toggleMenu}){
             <nav>
                 <LogoutBtn onClick={signOut}>Logga ut</LogoutBtn>
             </nav>
-        </TopBarContainer>
+        </BottomBarContainer>
     );
 
 }
 
-TopBar.propTypes = {
+BottomBar.propTypes = {
     user: PropTypes.object,
     myPoints: PropTypes.any, 
     signOut: PropTypes.func.isRequired,
     showToplist: PropTypes.func.isRequired, 
-    toggleMenu: PropTypes.func.isRequired
+    toggleMenu: PropTypes.func.isRequired,
+    menuVisible: PropTypes.bool
 };
 
-export default TopBar;
+export default BottomBar;
 
 //CSS
-const TopBarContainer = styled.section`
-height: 65px;
+const BottomBarContainer = styled.section`
 min-height: 65px;
 width: 100%;
 background: rgb(255, 142, 86);
@@ -54,11 +56,21 @@ display: flex;
 flex-direction: row;
 justify-content: flex-end;
 align-items: center;
+flex-wrap: wrap-reverse;
 padding: 1rem 2rem;
 p {
     font-size:20px;
 }
 `;
+
+const ToggleMenuBtn = styled.button.attrs({
+    className: 'ui small inverted icon button'
+})`
+&&&{
+    margin-right: auto;
+    font-size:16px !important;
+    white-space: nowrap;
+}`;
 
 const UserBadge = styled.div.attrs({
     className: 'ui large green horizontal label'
@@ -67,6 +79,7 @@ const UserBadge = styled.div.attrs({
     display: flex;
     align-items: center;
     font-size:16px;
+    white-space: nowrap;
 }
 `;
 

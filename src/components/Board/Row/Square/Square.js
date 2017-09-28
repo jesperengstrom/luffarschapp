@@ -29,8 +29,8 @@ Square.propTypes = {
 };
 
 const OneSquare = styled.div`
-height: 3vw;
-width: 3vw;
+height: 3.5vw;
+width: 3.5vw;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -38,7 +38,7 @@ margin: 0 1% 1% 0;
 background-color: white;
 border: 1px solid #f3eba7;
 i {
-    font-size: 3vw !important;
+    font-size: 3.5vw !important;
     margin: 0 !important;
 }
 i:before {
@@ -46,6 +46,21 @@ i:before {
         vertical-align: text-bottom !important;
 }
 
+@media screen and (max-width: 840px) {
+    height: 4.5vw;
+    width: 4.5vw;
+    i {
+        font-size: 4.5vw !important;
+    }
+} 
+
+@media screen and (max-width: 600px) {
+    height: 6.5vw;
+    width: 6.5vw;
+    i {
+        font-size: 6.5vw !important;
+    }
+} 
 `;
 
 export default Square;

@@ -8,7 +8,7 @@ import Board from './../Board/Board';
 import UsersList from './UsersList/UsersList';
 import GamesList from './GamesList/GamesList';
 import Toplist from './Toplist/Toplist';
-import TopBar from './TopBar/TopBar';
+import BottomBar from './BottomBar/BottomBar';
 
 class MyPage extends React.Component{
 
@@ -166,12 +166,6 @@ class MyPage extends React.Component{
                     games={this.state.games}
                     loadingUsers={this.state.loadingUsers}/>
                 <GameSection menuVisible={this.state.menuVisible}>
-                    <TopBar 
-                        user={this.props.user}
-                        myPoints={this.state.myPoints}
-                        signOut={this.signOut}
-                        showToplist={this.showToplist}
-                        toggleMenu={this.toggleMenu}/>
                     <GameSectionWrapper>
                         {this.state.toplist ? 
                         <Toplist 
@@ -195,6 +189,13 @@ class MyPage extends React.Component{
                             loadingGames={this.state.loadingGames}/>
                     }   
                     </GameSectionWrapper>
+                    <BottomBar 
+                        user={this.props.user}
+                        myPoints={this.state.myPoints}
+                        signOut={this.signOut}
+                        showToplist={this.showToplist}
+                        toggleMenu={this.toggleMenu}
+                        menuVisible={this.state.menuVisible}/>
                 </GameSection>
             </MyPageMain>
         )
@@ -215,7 +216,7 @@ flex-direction: row;
 const GameSection = styled.section`
 height:100%;
 display:flex;
-flex-direction:column-reverse;
+flex-direction:column;
 flex: 1;
 position: absolute;
 top: 0;
@@ -223,6 +224,9 @@ right: 0;
 bottom: 0;
 left: ${props => props.menuVisible ? '300px' : 0 };
 transition: left 0.5s ease;
+
+@media screen and (max-width: 850px) {
+}
 `;
 
 const GameSectionWrapper = styled.section`

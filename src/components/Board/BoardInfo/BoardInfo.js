@@ -19,9 +19,15 @@ function BoardInfo({won, lost, icon, opponent, user, yourTurn, chooseFa, error})
             <Table className="structured">
                 <tbody>
                     <tr>
-                        <Td><i aria-hidden="true" className={`huge ${chooseFa(icon[user.uid])} icon`}></i> = Du
+                        <Td>
+                            <ExampleSquare>
+                            <i aria-hidden="true" className={`${chooseFa(icon[user.uid])} icon`}></i>
+                            </ExampleSquare> = Du
                         </Td>
-                        <Td><i aria-hidden="true" className={`huge ${chooseFa(icon[opponent.uid])} icon`}></i> = {opponent.name}
+                        <Td>            
+                            <ExampleSquare>
+                            <i aria-hidden="true" className={`${chooseFa(icon[opponent.uid])} icon`}></i>
+                            </ExampleSquare> = {opponent.name}
                         </Td>
                     </tr>
                     <tr>
@@ -57,8 +63,11 @@ BoardInfo.propTypes = {
 const BoardInfoContainer = styled.aside`
 display: flex;
 flex-direction: column;
-margin-left:2rem;
-padding: 1rem;
+margin-left: 3.5vw;
+
+@media (max-width: 1000px) {
+    margin-left: 0;
+}
 `;
 
 const BoardError = ErrorMessage.extend`
@@ -68,6 +77,41 @@ p {
     font-size: 16px;
     font-weight: 700;
 }
+`;
+
+const ExampleSquare = styled.div`
+height: 3.5vw;
+width: 3.5vw;
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0 1% 1% 0;
+background-color: white;
+border: 1px solid #f3eba7;
+i {
+    font-size: 3.5vw !important;
+    margin: 0 !important;
+}
+i:before {
+        vertical-align: -webkit-baseline-middle !important;
+        vertical-align: text-bottom !important;
+}
+
+@media screen and (max-width: 840px) {
+    height: 4.5vw;
+    width: 4.5vw;
+    i {
+        font-size: 4.5vw !important;
+    }
+} 
+
+@media screen and (max-width: 600px) {
+    height: 6.5vw;
+    width: 6.5vw;
+    i {
+        font-size: 6.5vw !important;
+    }
+} 
 `;
 
 export default BoardInfo;

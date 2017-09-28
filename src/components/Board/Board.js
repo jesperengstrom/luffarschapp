@@ -278,7 +278,10 @@ const BoardContainer = styled.section`
 width: 100%;
 display: flex;
 flex-direction: row;
-justify-content: space-around;
+justify-content: flex-start;
+
+@media (max-width: 1000px) {
+    flex-direction: column;
 }
 `;
 

@@ -46,7 +46,7 @@ Row.propTypes = {
 const OneRow = styled.div`
 display: flex;
 flex-direction: row;
-justify-content: center;
+justify-content: flex-start;
 `;
 
 export default Row;
