@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 //components
 import { SubmitButton, ErrorMessage, Form, Input } from './../SignIn/SignIn';
 
 //render sinup UI
-function SignUp({handleSubmit, handleChange, displayName, email, password, error, disabledSubmit }) {
+function SignUp({handleSubmit, handleChange, displayName, email, password, error, disabledSubmit}) {
     return (
         <Form onSubmit={handleSubmit}>
             <Input>
@@ -34,5 +35,15 @@ function SignUp({handleSubmit, handleChange, displayName, email, password, error
     );
 
 }
+
+SignUp.propTypes = {
+    handleSubmit: PropTypes.func.isRequired, 
+    handleChange: PropTypes.func.isRequired, 
+    displayName: PropTypes.string, 
+    email: PropTypes.string,
+    password: PropTypes.string,
+    error: PropTypes.string,
+    disabledSubmit: PropTypes.bool
+};
 
 export default SignUp;

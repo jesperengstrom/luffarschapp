@@ -5,6 +5,7 @@ import styled from 'styled-components';
 //components
 import GameTable from './GameTable/GameTable';
 
+//Logic for sorting your games into different tables
 function GamesList({games, removeGame, acceptGame, showGame, loadingGames}){
 
     //since I have all kinds of game statuses with varying buttons & onclicks and need to sort
@@ -98,6 +99,7 @@ GamesList.propTypes = {
     loadingGames: PropTypes.bool.isRequired
 };
 
+//CSS
 export const GameListWrapper = styled.div`
 width: 100%;
 height: 100%;

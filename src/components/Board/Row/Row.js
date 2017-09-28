@@ -8,6 +8,7 @@ import Square from './Square/Square';
 //vars
 import { boardSize } from '../Board';
 
+//rendering a game row
 function Row({board, row, handleClick, icon, chooseFa}){
     let squares = [];
     
@@ -42,6 +43,8 @@ Row.propTypes = {
     icon: PropTypes.any.isRequired,
     chooseFa: PropTypes.func.isRequired
 };
+
+//CSS
 
 const OneRow = styled.div`
 display: flex;

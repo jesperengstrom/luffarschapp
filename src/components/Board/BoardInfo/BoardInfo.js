@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Table, Td } from './../../MyPage/GamesList/GameTable/GameTable';
 import { ErrorMessage } from './../../FrontPage/SignIn/SignIn';
 
-
+//displaying info on gameboard screen
 function BoardInfo({won, lost, icon, opponent, user, yourTurn, chooseFa, error}) {
 
     function ongoing() {

@@ -3,6 +3,7 @@ import firebase from './../../../firebase';
 
 import ChooseUsername from './ChooseUsername';
 
+//logic for choose username screen
 class ChooseUsernameContainer extends React.Component {
 
     state = {
@@ -17,8 +18,8 @@ class ChooseUsernameContainer extends React.Component {
 
     submitUsername = (e) => {
         e.preventDefault();
-        if (this.state.displayName.length > 16) {
-            this.setState({error: 'Användarnamnet får max vara 16 tecken!'})
+        if (this.state.displayName.length > 10) {
+            this.setState({error: 'Användarnamnet får vara max 10 tecken!'})
         } else {
             this.checkDisplayNameAvailability()
             this.setState({disabledSubmit: true})
@@ -58,7 +59,6 @@ class ChooseUsernameContainer extends React.Component {
         })
         .then(() => {
             //displayname is added after creation, we need to update state here
-            // this.props.refreshUser(user); 
             this.props.checkRealtimeDb(user)
         })
         .catch(error => console.log(error))

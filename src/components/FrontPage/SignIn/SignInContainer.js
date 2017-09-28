@@ -37,7 +37,7 @@ class SignInContainer extends React.Component{
     }
 
     signIn = () => {
-        //setting to session = logout on browser close. NOT WORKING UNLESS i CAN SET ONLINE TO FALSE
+        //setting to session = logout on browser close.
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         .then(() => {
             return firebase.auth()

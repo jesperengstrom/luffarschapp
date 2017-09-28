@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-//CSS
-
 function Square({board, handleClick, squareObj, icon, chooseFa}) {
-    //icons props are uids and board[square] values are uids. 
-    //icon values are classes -> which are applied when a square is taken
+    //props 'icons' are uids and board[square] values are uids. 
+    //sent to chooseFa function that retorns an icon classname
     let squareIcon = icon[board[squareObj.id]] ? 
         icon[board[squareObj.id]] : 
         '';
@@ -27,6 +25,8 @@ Square.propTypes = {
     icon: PropTypes.any.isRequired,
     chooseFa: PropTypes.func.isRequired
 };
+
+//CSS
 
 const OneSquare = styled.div`
 height: 3.5vw;

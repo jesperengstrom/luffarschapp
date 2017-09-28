@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
 
+//renders a certain type of game table
 function GameTable({obj, games, loadingGames}){
 
     var emptyTable =  <tr key='emptyTable'><Td grey>Det finns inget här för tillfället</Td></tr>;
@@ -86,7 +87,7 @@ function GameTable({obj, games, loadingGames}){
             <tbody>
                 {loadingGames ? 
                 <tr>
-                    <Td grey >Laddar...</Td>
+                    <Td grey>Laddar...</Td>
                 </tr> : 
                 [tableBody(obj.case1),
                 tableBody(obj.case2), 

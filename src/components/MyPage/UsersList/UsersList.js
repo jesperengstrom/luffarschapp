@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import UserSearch from './UserSearch/UserSearch';
 import User from './User/User';
 
+//logic for sidebar with users
 class UsersList extends React.Component{
 
     state = {
@@ -36,7 +37,9 @@ class UsersList extends React.Component{
 
     filterSearch = (sorted) => {
         return sorted.filter((key)=>{
-            return this.props.users[key].displayName.toLowerCase().startsWith(this.state.search.toLowerCase())
+            if (this.props.users[key].displayName) {
+                return this.props.users[key].displayName.toLowerCase().startsWith(this.state.search.toLowerCase())
+            } return false;
         })
     }
 

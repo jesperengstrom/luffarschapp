@@ -7,11 +7,11 @@ import { UserListPoints } from './../UsersList/User/User';
 
 import { PageHeader } from './../GamesList/GameTable/GameTable';
 
+//renders the highscore list
 function Toplist ({user, users, closeToplist}){
 
     function renderToplist(){
         return users && Object.keys(users).sort((a, b)=>{
-            console.log(users[a].points);
             return users[b].points - users[a].points;
         })
         .map((key)=>{

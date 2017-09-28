@@ -10,6 +10,7 @@ import GamesList from './GamesList/GamesList';
 import Toplist from './Toplist/Toplist';
 import BottomBar from './BottomBar/BottomBar';
 
+//logic for main screen when logged in
 class MyPage extends React.Component{
 
     state = {

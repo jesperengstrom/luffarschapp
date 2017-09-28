@@ -2,8 +2,9 @@
 
 Challenge your friends to play luffarschack (noughts and crosses) online & in real time.
 
-## Live deploy
-TBA
+[Repo](https://github.com/jesperengstrom/luffarschapp)
+
+[Deploy](http://jesperengstrom.se/luffarschapp/)
 
 ## Features
 

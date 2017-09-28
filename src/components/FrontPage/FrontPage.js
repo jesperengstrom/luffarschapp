@@ -67,8 +67,6 @@ FrontPage.propTypes = {
 
 //CSS
 
-// background: linear-gradient(20deg,rgb(212, 89, 89),rgba(218, 163, 87, 0.73));
-//general styles for main page
 const FrontPageMain = styled.main`
 width: 100%;
 height: 100%;

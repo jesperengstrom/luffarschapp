@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 //renders a single user in user list
@@ -24,6 +25,15 @@ function User({displayName, points, online, hasGame, challengePlayer, opponent})
         </ListItem>
     );
 }
+
+User.propTypes = {
+    displayName: PropTypes.string,
+    points: PropTypes.number, 
+    online: PropTypes.bool, 
+    hasGame: PropTypes.bool,
+    challengePlayer: PropTypes.func.isRequired, 
+    opponent: PropTypes.object
+};
 
 export default User;
 

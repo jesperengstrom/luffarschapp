@@ -89,7 +89,6 @@ class Board extends React.Component{
                     if  (snapshot.val()) {
                         //yes... 
                         //rendering new board to this user before db, to prevent lagging feeling.
-                        //MOVE???!
                         this.setState({board: this.newBoard})
                         //then lock game to prevent multiclicking
                         this.isActive.set(false)
@@ -267,6 +266,8 @@ class Board extends React.Component{
         )
     }
 }
+
+//CSS
 
 const GameContainer = styled.section`
 width: 100%;
