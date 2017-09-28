@@ -22,6 +22,7 @@ class App extends Component {
   userAuthListener = () => {
     firebase.auth()
     .onAuthStateChanged(user => {
+      console.log(user)
       if (user) { //if a user is logged in...
         this.checkRealtimeDb(user) //check if she's in realtime db
       } else {
@@ -39,7 +40,8 @@ class App extends Component {
     firebase.database().ref('users/' + user.uid)
     .once('value', (snapshot)=>{
       if (!snapshot.exists()) { //signed in for the first time - choose username
-        this.setState({chooseUsername: true, signup: false})
+        //set user user to null here even though its not, just to display choose username screen
+        this.setState({chooseUsername: true, signup: false, user: null}) 
       } else { //present - set state & user online
         this.setOnline(user);
       }
