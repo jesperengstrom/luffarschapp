@@ -289,6 +289,7 @@ justify-content: flex-start;
 const OuterSquare = styled.div`
 display:flex;
 flex-direction:column;
+margin-bottom: 1rem;
 `
 
 export default Board;

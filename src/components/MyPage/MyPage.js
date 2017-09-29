@@ -217,15 +217,18 @@ flex-direction: row;
 `;
 
 const GameSection = styled.section`
+background-color: #fff6ae;
 height:100%;
 display:flex;
 flex-direction:column;
 flex: 1;
 position: absolute;
-top: 0;
+top: -63px;
 right: 0;
 bottom: 0;
 left: 300px;
+padding-top: 63px;
+overflow-y: scroll;
 transition: left 0.5s ease;
 
 @media screen and (max-width: 850px) {
@@ -234,13 +237,10 @@ transition: left 0.5s ease;
 `;
 
 const GameSectionWrapper = styled.section`
-background-color: #fff6ae;
 height: 100%;
 display: flex;
 justify-content: center;
 padding: 0 2rem;
-margin-bottom: 63px;
-overflow-y: scroll;
 `;
 
 export default MyPage;

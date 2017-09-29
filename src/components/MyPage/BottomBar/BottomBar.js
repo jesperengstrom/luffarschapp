@@ -7,7 +7,7 @@ function BottomBar({user, myPoints, signOut, showToplist, toggleMenu, menuVisibl
     return (
         <BottomBarContainer>
             <ToggleMenuBtn onClick={toggleMenu}>
-                <i aria-hidden="true" className="icon sidebar"></i>
+                <i aria-hidden="true" className="icon resize horizontal"></i>
             </ToggleMenuBtn>
             <nav>
                 <UserBadge>
@@ -78,18 +78,26 @@ const ToggleMenuBtn = styled.button.attrs({
     margin-right: auto;
     font-size:16px !important;
     white-space: nowrap;
+    display: flex;
+
+    @media screen and (min-width: 850px) {
+        display: none;
+    }
 }`;
 
 const UserBadge = styled.div.attrs({
     className: 'ui large green horizontal label'
 })`
-&&&&{
+&&&&{    
     display: flex;
     align-items: center;
-    font-size:16px;
+    font-size: 16px;
     white-space: nowrap;
+    i {
+        margin-right: 7px !important;
+    }
 
-    @media screen and (max-width 500px) {
+    @media screen and (max-width: 500px) {
             display: none !important;
     
     }
@@ -103,6 +111,13 @@ const PointsBadge = styled.div.attrs({
     display: flex;
     align-items: center;
     font-size:16px;
+    i {
+        margin-right: 5px !important;
+    }
+
+    @media screen and (max-width: 320px) {
+        display: none;
+    }
 }
 `;
 
@@ -124,5 +139,10 @@ const LogoutBtn = styled.button.attrs({
 &&&{
     font-size:16px !important;
     white-space: nowrap;
+
+    @media screen and (max-width: 350px) {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }
 `;
