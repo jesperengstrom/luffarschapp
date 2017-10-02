@@ -15,10 +15,7 @@ class SignInContainer extends React.Component{
 
     componentWillMount() {
         firebase.auth().getRedirectResult()
-        .catch(error => {
-            var errorMessage = error.message;
-            this.setState({error: errorMessage, disabledSubmit: false});
-        })
+        .catch(error => this.handleError(error.message))
     }
 
     handleChange = (e) => {

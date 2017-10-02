@@ -106,6 +106,10 @@ height: 100%;
 display: flex;
 flex-direction: row;
 flex-wrap: wrap;
+
+@media screen and (max-width: 530px) {
+    flex-direction: column;
+}
 `;
 
 export default GamesList;
